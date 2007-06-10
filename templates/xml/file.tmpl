@@ -1,0 +1,18 @@
+	<file name="{+data.name+}">
+		<if test="data.overview"><overview>
+			<description>{+data.overview.get("description")+}</description>
+		</overview></if>
+		<if test="data.symbols"><symbols><for each="symbol" in="data.symbols">
+			<symbol type="{+symbol.type+}" name="{+symbol.name+}">
+				<description>{+(symbol.getDescription()||"")+}</description>
+				<if test="(!symbol.is('OBJECT'))">
+				<params><for each="p" in="symbol.get('param')">
+					<param type="{+(p.type||'')+}" name="{+p.name+}">{+(p.desc||"")+}</param></for>
+				</params>
+				<if test="(!symbol.is('CONSTRUCTOR'))">
+				<for each="r" in="symbol.get('return')"><return type="{+(r.type||"")+}">{+(r.desc||"")+}</return></for>
+				</if></if>
+			</symbol>
+		</for>
+		</symbols></if>
+	</file>

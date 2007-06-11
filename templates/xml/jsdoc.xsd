@@ -1,0 +1,40 @@
+﻿<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.jsdoctoolkit.org"
+	xmlns="http://www.jsdoctoolkit.org"
+	elementFormDefault="qualified">
+
+<xs:element name="file">
+	<xs:complexType>
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:element name="symbol" maxOccurs="unbounded">
+			<xs:complexType>
+				<xs:attribute name="type" use="required">
+					<xs:simpleType>
+						<xs:restriction base="xsd:string">
+							<xs:enumeration value="OBJECT"/>
+							<xs:enumeration value="FUNCTION"/>
+							<xs:enumeration value="CONSTRUCTOR"/>
+							<xs:enumeration value="METHOD"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:sequence>
+					<xs:element name="name" type="xs:string"/>
+					<xs:element name="desc" type="xs:string"/>
+					<xs:element name="params" use="optional">
+						<xs:complexType>
+							<xs:all>
+								<xs:element name="type" type="xs:string"/>
+								<xs:element name="name" type="xs:string"/>
+								<xs:element name="desc" type="xs:string"/>
+							</xs:all>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

@@ -1,5 +1,6 @@
 /** 
- * @projectDescription	This library contains a lot of classes and functions.
+ * My library what I wrote.
+ * @fileOverview This library contains a lot of classes and functions.
  *
  * @author 	Joe Smith jsmith@company.com
  * @version 	0.1 
@@ -13,7 +14,8 @@
 function getFoo(fooID){
 }
 /**
- * @overview This is a library of geometry-related functions.
+ * @description This is a library of geometry-related functions.
+ * 
  */
  Shape2D /*constructor*/
  = {
@@ -27,16 +29,21 @@ function getFoo(fooID){
 		}
 	}),
 	Triangle: { /* this is wicked };-) */
-		/** A triangle with a 90 degree angle. */
+		/** A triangle with a 90 degree angle.
+			@constructor
+			@property {number} angles The angles.
+		*/
 		Right: function(a, b, c)	{}
 	},
+	/** The constant PI*/
 	PI: 3.14, 
 	Polygon:function(sides) //how many sides
 	{
 	
 	}
 };
-/**A shape in the third dimension.*/
+/**A shape in the third dimension.
+@constructor*/
 var Shape3D = function (v) {
 /**
  *	Rotate the shape.
@@ -44,7 +51,7 @@ var Shape3D = function (v) {
 	this.rotate = function(degrees) {
 		alert("rotate");
 }}
-	/**@ignore*/Shape3D.prototype.shrink = function(ratio) {}
+	Shape3D.prototype.shrink = function(ratio) {}
 /**
  * @alias Shape3D.Combine
  *
@@ -61,3 +68,9 @@ Geo = <!-- ignore me
 		}
 
 }
+
+/**The e constant.*/
+var E = 12345;
+
+/** meaning of life? */
+var life = function(n) {return n}(42);

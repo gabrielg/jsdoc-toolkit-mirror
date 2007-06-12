@@ -10,14 +10,14 @@ source code into published output, such as HTML, XML or RTF.
 
 For more information, to report a bug or to browse the technical
 documentation for this tool please visit the official JsDoc Toolkit
-project homepage: http://code.google.com/p/jsdoc-2/
+project homepage: http://code.google.com/p/jsdoc-toolkit/
 
 This project is based on the JSDoc.pm tool, created by Michael 
 Mathews, maintained by Gabriel Reid. More information on JsDoc can
 be found on the JSDoc.pm homepage: http://jsdoc.sourceforge.net/
 
 Complete documentation on JsDoc Toolkit can be found on the project
-wiki at http://code.google.com/p/jsdoc-2/w/list
+wiki at http://code.google.com/p/jsdoc-toolkit/w/list
 
 =====================================================================
 
@@ -25,27 +25,27 @@ USAGE:
 
 Running JsDoc Toolkit on your desktop requires you to have Java
 installed and the Mozilla Rhino JavaScript jar file (named "js.jar")
-available. Go to http://www.mozilla.org/rhino/download.html to get
-js.jar.
+available. A copy of this jar file is included with the JsDoc Toolkit
+distribution. To download Rhino yourself or to find out more go to 
+the official Rhino web page: http://www.mozilla.org/rhino/
 
 On a computer running Windows a valid command line to run JsDoc
 Toolkit might look like this:
 
- > java -jar c:\Java\js.jar lib\JsDoc.js -t=templates\sunny tests\data\
+> java -jar lib\js.jar lib\JsDoc.js -t=templates\xml tests\data\test.js
 
 This assumes your current working directory contains the lib, tests
 and templates subdirectories from the standard JsDoc Toolkit 
 distribution. If you have the js.jar file saved to a place in your
-Java CLASSPATH, it can safely be omitted from the command line.
+system's Java CLASSPATH, it can safely be omitted from the command.
 
 The output documentation files will be saved to a new directory named
 "js_docs_out" (by default) in the current directory, or if you specify
-a -d=somewhere/else option, the output files will be saved to
-the somewhere/else directory instead.
+a -d=somewhere/else option if you prefer.
 
 For usage notes enter this:
 
- > java -jar c:\Java\js.jar lib\JsDoc.js -h
+ > java -jar lib\js.jar lib\JsDoc.js -h
 
 =====================================================================
 
@@ -60,6 +60,19 @@ Developers who have contributed code to this project include:
 
 LICENSE:
 
+Rhino (JavaScript in Java) is open source and licensed by Mozilla
+under the MPL 1.1 or later/GPL 2.0 or later licenses, the text of which
+is available at http://www.mozilla.org/MPL/
+
+You can obtain the source code for Rhino via the Mozilla web site at
+http://www.mozilla.org/rhino/download.html
+
+JsDoc Toolkit is a larger work that uses Rhino without modification
+and without any claims whatsoever. The portions of code specific to
+JsDoc Toolkit are open source and licensed under the X11/MIT License.
+
+JsDoc Toolkit is subject to the following provisions...
+
 Copyright (c) 2007 Michael Mathews <micmath@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
@@ -69,7 +82,7 @@ without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
 the following conditions: The above copyright notice and this
-permission notice shall be included in all copies or substantial
+permission notice must be included in all copies or substantial
 portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,

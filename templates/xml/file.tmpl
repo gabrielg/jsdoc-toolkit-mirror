@@ -1,30 +1,59 @@
-	<file>
-		<overview>
-			<name>{+data.name+}</name>
-			<if test="data.overview"><desc>{+data.overview.getDescription()+}</desc>
-		</if></overview>
-		<if test="data.symbols"><symbols><for each="symbol" in="data.symbols">
-			<symbol type="{+symbol.type+}">
-				<name>{+symbol.name+}</name>
-				<desc>{+(symbol.getDescription()||"")+}</desc>
-				<if test="(!symbol.is('OBJECT'))">
-				<params><for each="p" in="symbol.get('param')">
-					<param type="{+(p.type||'')+}">
-						<name>{+p.name+}</name>
-						<desc>{+(p.desc||"")+}</desc>
-					</param></for>
-				</params>
-				<if test="(symbol.is('CONSTRUCTOR')||symbol.is('OBJECT'))">
-				<properties><for each="y" in="symbol.get('property')">
-					<property type="{+(y.type||'')+}">
-						<name>{+y.name+}</name>
-						<desc>{+(y.desc||"")+}</desc>
-					</property></for>
-				</properties></if>
-				<if test="(!symbol.is('CONSTRUCTOR'))">
-				<for each="r" in="symbol.get('return')"><return type="{+(r.type||"")+}">{+(r.desc||"")+}</return></for>
-				</if></if>
-			</symbol>
-		</for>
-		</symbols></if>
-	</file>
+<file>
+	<overview>
+		<name>
+			{+data.overview.getName()+} 
+		</name>
+		<desc>
+			{+(data.overview.getDescription()||"")+} 
+		</desc>
+	</overview>
+	<if test="data.symbols">
+		<symbols>
+			<for each="symbol" in="data.symbols">
+				<symbol type="{+symbol.type+}">
+					<name>
+						{+symbol.name+} 
+					</name>
+					<desc>
+						{+(symbol.getDescription()||"")+} 
+					</desc>
+					<if test="(!symbol.is('OBJECT'))">
+						<params>
+							<for each="p" in="symbol.get('param')">
+								<param type="{+(p.type||'')+}">
+									<name>
+										{+p.name+} 
+									</name>
+									<desc>
+										{+(p.desc||"")+} 
+									</desc>
+								</param>
+							</for>
+						</params>
+					</if>
+					<if test="(symbol.is('CONSTRUCTOR')||symbol.is('OBJECT'))">
+						<properties>
+							<for each="y" in="symbol.get('property')">
+								<property type="{+(y.type||'')+}">
+									<name>
+										{+y.name+} 
+									</name>
+									<desc>
+										{+(y.desc||"")+} 
+									</desc>
+								</property>
+							</for>
+						</properties>
+					</if>
+					<if test="(!symbol.is('CONSTRUCTOR'))">
+						<for each="r" in="symbol.get('return')">
+							<return type="{+(r.type||" ")+}">
+								{+(r.desc||"")+} 
+							</return>
+						</for>
+					</if>
+				</symbol>
+			</for>
+		</symbols>
+	</if>
+</file>

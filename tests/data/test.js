@@ -1,7 +1,6 @@
-/** 
- * My library what I wrote.
+/**
  * @fileOverview This library contains a lot of classes and functions.
- *
+ * @name My Cool Library
  * @author 	Joe Smith jsmith@company.com
  * @version 	0.1 
  */
@@ -42,15 +41,7 @@ function getFoo(fooID){
 	
 	}
 };
-/**A shape in the third dimension.
-@constructor*/
-var Shape3D = function (v) {
-/**
- *	Rotate the shape.
- */
-	this.rotate = function(degrees) {
-		alert("rotate");
-}}
+
 	Shape3D.prototype.shrink = function(ratio) {}
 /**
  * @alias Shape3D.Combine
@@ -74,3 +65,14 @@ var E = 12345;
 
 /** meaning of life? */
 var life = function(n) {return n}(42);
+
+
+/**A shape in the third dimension.
+@constructor*/
+function Shape3D(x, y, z, a, b, c) {
+/**
+ *	Rotate the shape.
+ */
+	this.rotate = function(degrees) {
+		alert("rotate");
+}}

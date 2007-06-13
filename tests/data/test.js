@@ -36,9 +36,10 @@ function getFoo(fooID){
 	},
 	/** The constant PI*/
 	PI: 3.14, 
-	Polygon:function(sides) //how many sides
+	Polygon: function(sides) //how many sides
 	{
-	
+		this.addSide = function(newSide) {
+		}
 	}
 };
 
@@ -70,6 +71,12 @@ var life = function(n) {return n}(42);
 /**A shape in the third dimension.
 @constructor*/
 function Shape3D(x, y, z, a, b, c) {
+	this.axis = {
+		/** transfer the axis. */
+		transfer: function(from, to) {
+		
+		}
+	}
 /**
  *	Rotate the shape.
  */

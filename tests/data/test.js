@@ -67,19 +67,18 @@ var E = 12345;
 /** meaning of life? */
 var life = function(n) {return n}(42);
 
+// nested constructors
+/** @constructor */
+function ShapeFactory() {
+	/** @constructor */
+    this.SquareMaker = function(size) {
+    	/** @constructor */
+        this.Square = function(s) {
+            this.size = s;
+            this.display = function() {
+                alert("square: "+s);
+            }
+        }
+    }
+}
 
-/**A shape in the third dimension.
-@constructor*/
-function Shape3D(x, y, z, a, b, c) {
-	this.axis = {
-		/** transfer the axis. */
-		transfer: function(from, to) {
-		
-		}
-	}
-/**
- *	Rotate the shape.
- */
-	this.rotate = function(degrees) {
-		alert("rotate");
-}}

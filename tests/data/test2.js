@@ -1,13 +1,13 @@
-// nested objects and nested functions
+// nested objects and nested constructors
 
 var yipee = {
 	Project: {
 		/** @constructor */
 		PageFactory: function() {
 			/**
-				@constructor 
-				@property {array} Elements
-			*/
+			 *	@constructor 
+			 *	@property {array} Elements
+			 */
 			this.Page = function(elements) {
 				this.getElement = function(elName, maxEls) {
 				}

@@ -35,7 +35,8 @@ function getFoo(fooID){
 		Right: function(a, b, c)	{}
 	},
 	/** The constant PI*/
-	PI: 3.14, 
+	PI: 3.14,
+	/** @constructor */
 	Polygon: function(sides) //how many sides
 	{
 		this.addSide = function(newSide) {
@@ -43,6 +44,7 @@ function getFoo(fooID){
 	}
 };
 
+function Shape3D(){}
 	Shape3D.prototype.shrink = function(ratio) {}
 /**
  * @alias Shape3D.Combine

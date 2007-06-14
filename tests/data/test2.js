@@ -1,23 +1,18 @@
-// nested objects and nested constructors
+// nested functions
 
-var yipee = {
-	Project: {
-		/** @constructor */
-		PageFactory: function() {
-			/**
-			 *	@constructor 
-			 *	@property {array} Elements
-			 */
-			this.Page = function(elements) {
-				this.getElement = function(elName, maxEls) {
-				}
-				this.Elements = [];
-			}
-		}
-	},
+function Layout(){
+	this.init = function() {}
 	
-	url: {
-		/** Project home page */
-		homepage: "http://example.com/"
+	/** an element of the layout */
+	this.Element = function(elName) {
+		this.expand = function() {
+			
+		};
+	};
+	this.Canvas = function(top, left, width, height) {
+		this.initiated = true;
+	}
+	function rotate() {
+	
 	}
 }

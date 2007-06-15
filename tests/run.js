@@ -5,16 +5,16 @@ try {fail();} catch(e) {
 	__DIR__ += (__DIR__)? "/" : "";
 }
 
-load(__DIR__+"../lib/JsDoc.js");
-load(__DIR__+"../lib/Util.js");
-load(__DIR__+"../lib/JsIO.js");
-load(__DIR__+"../lib/Symbol.js");
-load(__DIR__+"../lib/JsToke.js");
-load(__DIR__+"../lib/JsParse.js");
-load(__DIR__+"../lib/DocTag.js");
-load(__DIR__+"../lib/Doclet.js");
-load(__DIR__+"../lib/JsPlate.js");
-load(__DIR__+"../lib/JsTestrun.js");
+load(__DIR__+"../app/JsDoc.js");
+load(__DIR__+"../app/Util.js");
+load(__DIR__+"../app/JsIO.js");
+load(__DIR__+"../app/Symbol.js");
+load(__DIR__+"../app/JsToke.js");
+load(__DIR__+"../app/JsParse.js");
+load(__DIR__+"../app/DocTag.js");
+load(__DIR__+"../app/Doclet.js");
+load(__DIR__+"../app/JsPlate.js");
+load(__DIR__+"../app/JsTestrun.js");
 
 Main = function(options) {
 	JsDoc.opt = options;

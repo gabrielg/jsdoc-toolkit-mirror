@@ -1,0 +1,42 @@
+{!
+	var unsafe = {'\b':'\\b', '\t':'\\t', '\n':'\\n', '\f':'\\f', '\r':'\\r', '"':'\\"', '\\':'\\\\'};
+	var escJson = function(str) {
+		return (str)?
+			str.replace(
+				/([\x00-\x1f\\"])/g,
+				function(a, b) {
+					var ch = unsafe[b];
+					if (ch) return ch;
+					ch = b.charCodeAt();
+					return '\\u00'+Math.floor(ch/16).toString(16)+(ch%16).toString(16);
+				}
+			) : "";
+	}
+!}
+var jsdoc = {
+	files: [
+		{
+			"path": "{+escJson(data.path)+}",
+			"overview": {
+				"name": "{+data.overview.getName()+}",
+				"desc": "{+escJson(data.overview.getDescription())+}"
+			},
+			"symbols": [<for each="symbol" in="data.symbols">
+				{
+					"type": "{+(symbol.type||'')+}",
+					"name": "{+symbol.name+}",
+					"desc": "{+escJson(symbol.getDescription())+}"
+					<if test="(!symbol.is('OBJECT'))">,
+					"params": [
+						<for each="p" in="symbol.get('param')">{
+							"type": "{+(p.type||'')+}",
+							"name": "{+p.name+}", 
+							"desc": "{+escJson(p.desc)+} "
+						}<if test="!$p_last">,
+						</if></for>
+					]</if>
+				}<if test="!$symbol_last">,</if></for>
+			]
+		}
+	]
+};

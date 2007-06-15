@@ -5,20 +5,28 @@ try {fail();} catch(e) {
 	__DIR__ += (__DIR__)? "/" : "";
 }
 
-load(__DIR__+"../lib/JsDoc.js");
-load(__DIR__+"../lib/Util.js");
-load(__DIR__+"../lib/JsIO.js");
-load(__DIR__+"../lib/Symbol.js");
-load(__DIR__+"../lib/JsToke.js");
-load(__DIR__+"../lib/JsParse.js");
-load(__DIR__+"../lib/DocTag.js");
-load(__DIR__+"../lib/Doclet.js");
-load(__DIR__+"../lib/JsPlate.js");
-load(__DIR__+"../lib/JsTestrun.js");
+load(__DIR__+"../app/JsDoc.js");
+load(__DIR__+"../app/Util.js");
+load(__DIR__+"../app/JsIO.js");
+load(__DIR__+"../app/Symbol.js");
+load(__DIR__+"../app/JsToke.js");
+load(__DIR__+"../app/JsParse.js");
+load(__DIR__+"../app/DocTag.js");
+load(__DIR__+"../app/Doclet.js");
+load(__DIR__+"../app/JsPlate.js");
+load(__DIR__+"../app/JsTestrun.js");
 
-Main = function(options) {
-	JsDoc.opt = options;
-	
+JsDoc.opt = {v:true, t: __DIR__+"../templates/json"};
+var output;
+var jsdoc;
+
+function testFile(path) {
+	JsDoc.opt._ = path;
+	output = Main();
+	eval(output);
+}
+
+Main = function() {
 	var srcFiles = JsDoc.opt._;
 	
 	JsDoc.parse(srcFiles);
@@ -26,20 +34,29 @@ Main = function(options) {
 	return(JsDoc.opt.output)
 }
 
-var output = Main({t: __DIR__+"../templates/json", _: __DIR__+"../tests/data/test.js"});
-//print(output);
-eval(output);
+/*
+	Tests Cases
+*/
 
 var testCases = [
 	function() {
+		testFile(__DIR__+"data/test2.js");
 		ok('output != null', 'Output must not be null.');
 		ok('typeof jsdoc != "undefined"', 'jsdoc must be undefined.');
+		ok('jsdoc.files[0].symbols[0].name == "{Layout}.Element"', 'Nested commented method name can be found.');
 	},
 	function() {
-		ok('jsdoc.files[0].symbols[0].name == "getFoo"', 'Symbol "getFoo" must exist.');
+		testFile(__DIR__+"data/test3.js");
+		ok('jsdoc.files[0].symbols[0].name == "Document"', 'Nested commented object literal name can be found.');
+	},
+	function() {
+		testFile(__DIR__+"data/test4.js");
+		ok('jsdoc.files[0].symbols[0].name == "Site"', 'Mixed object literal name can be found.');
+	},
+	function() {
+		testFile(__DIR__+"data/test5.js");
+		ok('jsdoc.files[0].symbols[0].name == "{Article}.getTitle"', 'Prototype method name can be found.');
 	}
 ];
 
-var result = testrun(testCases);
-print(result);
-//print("jsdoc.files[0].symbols[0].name "+jsdoc.files[0].symbols[0].name);
+print(testrun(testCases));

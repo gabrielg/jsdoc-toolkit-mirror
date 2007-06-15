@@ -16,3 +16,33 @@ function Layout(){
 	
 	}
 }
+
+/*
+var jsdoc = {
+	files: [
+		{
+			"path": "test/../test/data/test2.js",
+			"overview": {
+				"name": "test2.js",
+				"desc": ""
+			},
+			"symbols": [
+				{
+					"type": "METHOD",
+					"name": "{Layout}.Element",
+					"desc": "an element of the layout"
+					,
+					"params": [
+						{
+							"type": "",
+							"name": "elName", 
+							"desc": " "
+						}
+					]
+				}
+			]
+		}
+	]
+};
+
+*/

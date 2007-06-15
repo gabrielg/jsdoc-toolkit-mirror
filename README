@@ -6,7 +6,7 @@ JsDoc Toolkit is an automatic documentation generation tool for
 JavaScript. It is written in JavaScript and can run either in a web
 browser or on the command line (using Mozilla Rhino). Using this tool
 you can automatically turn JavaDoc-like comments in your JavaScript
-source code into published output, such as HTML, XML or RTF.
+source code into published output, such as HTML, XML or JSON.
 
 For more information, to report a bug or to browse the technical
 documentation for this tool please visit the official JsDoc Toolkit
@@ -32,7 +32,7 @@ the official Rhino web page: http://www.mozilla.org/rhino/
 On a computer running Windows a valid command line to run JsDoc
 Toolkit might look like this:
 
-> java -jar lib\js.jar lib\JsDoc.js -t=templates\xml tests\data\test.js
+> java -jar lib\js.jar lib\run.js -t=templates\xml tests\data\test.js
 
 This assumes your current working directory contains the lib, tests
 and templates subdirectories from the standard JsDoc Toolkit 
@@ -41,11 +41,11 @@ system's Java CLASSPATH, it can safely be omitted from the command.
 
 The output documentation files will be saved to a new directory named
 "js_docs_out" (by default) in the current directory, or if you specify
-a -d=somewhere/else option if you prefer.
+a -d=somewhere/else option, to somewhere else.
 
-For usage notes enter this:
+For help (usage notes) enter this:
 
- > java -jar lib\js.jar lib\JsDoc.js -h
+ > java -jar lib\js.jar lib\run.js -h
 
 =====================================================================
 
@@ -71,7 +71,7 @@ JsDoc Toolkit is a larger work that uses Rhino without modification
 and without any claims whatsoever. The portions of code specific to
 JsDoc Toolkit are open source and licensed under the X11/MIT License.
 
-JsDoc Toolkit is subject to the following provisions...
+Specifically, JsDoc Toolkit is subject to the following provisions...
 
 Copyright (c) 2007 Michael Mathews <micmath@gmail.com>
 

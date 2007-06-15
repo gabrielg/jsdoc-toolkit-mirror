@@ -1,5 +1,9 @@
 /**
- * @fileOverview This library contains a lot of classes and functions.
+ * @fileOverview This "library" contains "a 
+ *               lot of classes and functions.
+ EXAMPLE: <code>
+	alert("This 'is' \"code\"");
+ </code>
  * @name My Cool Library
  * @author 	Joe Smith jsmith@company.com
  * @version 	0.1 

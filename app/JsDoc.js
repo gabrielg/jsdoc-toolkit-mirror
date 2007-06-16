@@ -21,8 +21,6 @@ LOG = {
 
 JsDoc = {};
 
-JsDoc.files = [];
-
 /** @constructor */
 JsDoc.File = function(path) {
 	this.path = path;
@@ -51,17 +49,18 @@ JsDoc.File.prototype.addSymbol = function(s) {
 	this.symbols.push(s);
 }
 
-function deploy_begin(context) {}
-function deploy_each(source, context) {}
-function deploy_finish(context) {}
+//function deploy_begin(context) {}
+//function deploy_each(source, context) {}
+//function deploy_finish(context) {}
 function publish_begin(allFiles, context) {}
 function publish_each(file, context) {}
 function publish_finish(allFiles, context) {}
 
 JsDoc.parse = function(srcFiles) {
-	if (typeof srcFiles == "string") srcFiles = [srcFiles];
+	JsDoc.files = [];
 	
-	deploy_begin(JsDoc.opt);
+	if (typeof srcFiles == "string") srcFiles = [srcFiles];	
+	//deploy_begin(JsDoc.opt);
 	
 	for (var i = 0; i < srcFiles.length; i++) {
 		var srcFile = srcFiles[i];
@@ -97,10 +96,10 @@ JsDoc.parse = function(srcFiles) {
 		JsDoc.files.push(file);
 	}
 	
-	deploy_finish(JsDoc.opt);	
+	//deploy_finish(JsDoc.opt);	
 }
 
-JsDoc.publish = function(srcFiles) {
+JsDoc.publish = function() {
 	if (JsDoc.opt.t === undefined) {
 		LOG.warn("No template provided.");
 		JsDoc.usage();

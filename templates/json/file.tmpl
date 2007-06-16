@@ -1,20 +1,4 @@
-{!
-	var unsafe = {'\b':'\\b', '\t':'\\t', '\n':'\\n', '\f':'\\f', '\r':'\\r', '"':'\\"', '\\':'\\\\'};
-	var escJson = function(str) {
-		return (str)?
-			str.replace(
-				/([\x00-\x1f\\"])/g,
-				function(a, b) {
-					var ch = unsafe[b];
-					if (ch) return ch;
-					ch = b.charCodeAt();
-					return '\\u00'+Math.floor(ch/16).toString(16)+(ch%16).toString(16);
-				}
-			) : "";
-	}
-!}
-jsdoc = {
-	files: [
+
 		{
 			"path": "{+escJson(data.path)+}",
 			"overview": {
@@ -39,4 +23,3 @@ jsdoc = {
 			]
 		}
 	]
-};

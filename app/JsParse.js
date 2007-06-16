@@ -73,14 +73,17 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			paramTokens = ts.balance("LEFT_PAREN");
 			body = ts.balance("LEFT_CURLY");
 			
-//TODO like foo = function(n) {return n}(42)
+			// like foo = function(n) {return n}(42)
 			if (ts.look(1).is("LEFT_PAREN")) { // false alarm, it's not really a named function definition
-				//type = SYM.OBJECT;
-				//paramTokens = [];
-				//body = "";
-				//ts.balance("LEFT_PAREN");
-				if (!doc) return true; // we don't keep these unless they are documented
-				else return false;     // let findVariable have it
+				type = SYM.OBJECT;
+				ts.balance("LEFT_PAREN");
+				if (doc) { // we only grab these if they are documented
+					this.symbols.push(
+						new Symbol(name, [], "", type, null, doc)
+					);
+					return true
+				}
+				return false;     // let findVariable have it
 			}
 		}
 		
@@ -238,15 +241,18 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 					
 					body = fs.balance("LEFT_CURLY");
 
-//TODO					// like this.foo = function(n) {return n}(42)
-/*					if (fs.look(1).is("LEFT_PAREN")) { // false alarm, it's not really a named function definition
-						type = SYM.OBJECT;
-						paramTokens = [];
-						body = "";
+					// like this.foo = function(n) {return n}(42)
+					if (fs.look(1).is("LEFT_PAREN")) { // false alarm, it's not really a named function definition
+						type = SYM.PROPERTY;
 						fs.balance("LEFT_PAREN");
-						if (!doc) break; // we don't keep these unless they are documented
+						if (doc) { // we only grab these if they are documented
+							this.symbols.push(
+								new Symbol(name, [], "", type, null, doc)
+							);
+						}
+						break;
 					}
-*/
+
 					this.symbols.push(
 						new Symbol(name, params, body, type, null, doc)
 					);

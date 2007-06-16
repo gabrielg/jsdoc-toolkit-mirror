@@ -22,21 +22,24 @@ var jsdoc;
 
 function testFile(path) {
 	JsDoc.opt._ = path;
+	JsDoc.opt.output = ""; //reset
+	output = "";
+	
 	output = Main();
 	eval(output);
 }
 
 Main = function() {
 	var srcFiles = JsDoc.opt._;
-	
+
 	JsDoc.parse(srcFiles);
 	JsDoc.publish();
 	return(JsDoc.opt.output)
 }
 
-/*
-	Tests Cases
-*/
+/*-----------------------------------------------------------------
+  Tests Cases
+  -----------------------------------------------------------------*/
 
 var testCases = [
 	function() {
@@ -56,6 +59,15 @@ var testCases = [
 	function() {
 		testFile(__DIR__+"data/test5.js");
 		ok('jsdoc.files[0].symbols[0].name == "{Article}.getTitle"', 'Prototype method name can be found.');
+	},
+	function() {
+		testFile(__DIR__+"data/test6.js");
+		is('jsdoc.files[0].symbols[0].name', "{Item}.name", 'Anonymous function call assigned to property can be found.');
+		is('jsdoc.files[0].symbols[1].name', "Item.Price", 'Anonymous function call assigned to variable can be found.');
+		is('jsdoc.files[0].symbols[2].name', "Product", 'Anonymous constructor call assigned to variable can be found.');
+		is('jsdoc.files[0].symbols[3].type', "PROPERTY", 'Anonymous constructor property type must be "PROPERTY".');
+		is('jsdoc.files[0].symbols[3].name', "{Product}.seller", 'Anonymous constructor property name can be found.');
+
 	}
 ];
 

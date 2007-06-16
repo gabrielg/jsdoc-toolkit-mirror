@@ -87,7 +87,8 @@ is = function(test, expected, message) {
 	catch(e) {
 		testrun.fails++
 		testrun.report("NOT OK "+testrun.count+" - "+((message != null)? message : ""));
-	}
+		testrun.report("expected: "+expected);
+		testrun.report("     got: "+result);}
 }
 
 /**

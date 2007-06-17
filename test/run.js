@@ -43,32 +43,37 @@ Main = function() {
 
 var testCases = [
 	function() {
-		testFile(__DIR__+"data/test2.js");
+		testFile(__DIR__+"data/functions.js");
 		ok('output != null', 'Output must not be null.');
 		ok('typeof jsdoc != "undefined"', 'jsdoc must be undefined.');
-		ok('jsdoc.files[0].symbols[0].name == "{Layout}.Element"', 'Nested commented method name can be found.');
+		is('jsdoc.files[0].symbols[0].name', "{Layout}.Element", 'Nested commented method name can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/test3.js");
-		ok('jsdoc.files[0].symbols[0].name == "Document"', 'Nested commented object literal name can be found.');
+		testFile(__DIR__+"data/obliterals.js");
+		is('jsdoc.files[0].symbols[0].name', "Document", 'Nested commented object literal name can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/test4.js");
-		ok('jsdoc.files[0].symbols[0].name == "Site"', 'Mixed object literal name can be found.');
+		testFile(__DIR__+"data/oblit_func.js");
+		is('jsdoc.files[0].symbols[0].name', "Site", 'Mixed object literal name can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/test5.js");
-		ok('jsdoc.files[0].symbols[0].name == "{Article}.getTitle"', 'Prototype method name can be found.');
+		testFile(__DIR__+"data/prototypes.js");
+		is('jsdoc.files[0].symbols[0].name', "{Article}.getTitle", 'Prototype method name can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/test6.js");
+		testFile(__DIR__+"data/anonfuncs.js");
 		is('jsdoc.files[0].symbols[0].name', "{Item}.name", 'Anonymous function call assigned to property can be found.');
 		is('jsdoc.files[0].symbols[1].name', "Item.Price", 'Anonymous function call assigned to variable can be found.');
 		is('jsdoc.files[0].symbols[2].name', "Product", 'Anonymous constructor call assigned to variable can be found.');
 		is('jsdoc.files[0].symbols[3].type', "PROPERTY", 'Anonymous constructor property type must be "PROPERTY".');
 		is('jsdoc.files[0].symbols[3].name', "{Product}.seller", 'Anonymous constructor property name can be found.');
 
-	}
+	},
+	function() {
+		testFile(__DIR__+"data/overview.js");
+		is('jsdoc.files[0].overview.tags[1].title', "author", 'Author tag in overview can be found.');
+
+	},
 ];
 
 print(testrun(testCases));

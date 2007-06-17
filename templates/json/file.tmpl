@@ -3,7 +3,14 @@
 			"path": "{+escJson(data.path)+}",
 			"overview": {
 				"name": "{+data.overview.getName()+}",
-				"desc": "{+escJson(data.overview.getDescription())+}"
+				"desc": "{+escJson(data.overview.getDescription())+}",
+				"tags": [
+					<for each="u" in="data.overview.getEtc()">{
+						"title": "{+u.title+}",
+						"desc": "{+escJson(u.desc)+}"
+					}<if test="!$u_last">,
+					</if></for>
+				]
 			},
 			"symbols": [<for each="symbol" in="data.symbols">
 				{

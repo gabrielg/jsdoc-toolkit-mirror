@@ -44,6 +44,10 @@ Symbol.prototype.getDescription = function() {
 	}
 }
 
+Symbol.prototype.getEtc = function() {
+	return this.doc.getEtc();
+}
+
 Symbol.prototype.getName = function() {
 	var names = this.doc.getTag("name");
 	if (names.length) return names[0].desc;

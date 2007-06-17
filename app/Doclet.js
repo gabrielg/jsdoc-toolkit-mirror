@@ -27,3 +27,14 @@ Doclet.prototype.getTag = function(tagTitle) {
 	}
 	return result;
 }
+
+Doclet.prototype.getEtc = function() {
+	var result = [];
+	for (var i = 0; i < this.tags.length; i++) {
+		var title = this.tags[i].title;
+		if (title != "name" && title != "description" && title != "param" && title != "return" && title != "property" && title != "overview") {
+			result.push(this.tags[i]);
+		}
+	}
+	return result;
+}

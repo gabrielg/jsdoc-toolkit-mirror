@@ -1,39 +1,37 @@
-
-		{
-			"path": "{+escJson(data.path)+}",
-			"overview": {
-				"name": "{+data.overview.getName()+}",
-				"desc": "{+escJson(data.overview.getDesc())+}",
-				"tags": [
-					<for each="t" in="data.overview.get()">{
-						"title": "{+t.title+}",
-						"desc": "{+escJson(t.desc)+}"
-					}<if test="!$t_last">,
-					</if></for>
-				]
-			},
-			"symbols": [<for each="symbol" in="data.symbols">
-				{
-					"type": "{+(symbol.type||'')+}",
-					"name": "{+symbol.name+}",
-					"desc": "{+escJson(symbol.getDesc())+}",
-					<if test="(!symbol.is('OBJECT') && !symbol.is('PROPERTY'))">
-					"params": [
-						<for each="p" in="symbol.get('param')">{
-							"type": "{+(p.type||'')+}",
-							"name": "{+p.name+}", 
-							"desc": "{+escJson(p.desc)+} "
-						}<if test="!$p_last">,
-						</if></for>
-					],</if>
-					"tags": [
-						<for each="t" in="symbol.get()">{
+			{
+				"path": "{+escJson(data.path)+}",
+				"overview": {
+					"name": "{+data.overview.getName()+}",
+					"desc": "{+escJson(data.overview.getDesc())+}",
+					"tag": [
+						<for each="t" in="data.overview.get()">{
 							"title": "{+t.title+}",
 							"desc": "{+escJson(t.desc)+}"
 						}<if test="!$t_last">,
 						</if></for>
 					]
-				}<if test="!$symbol_last">,</if></for>
-			]
-		}
-	]
+				},
+				"symbol": [<for each="symbol" in="data.symbols">
+					{
+						"type": "{+(symbol.type||'')+}",
+						"name": "{+symbol.name+}",
+						"desc": "{+escJson(symbol.getDesc())+}",
+						<if test="(!symbol.is('OBJECT') && !symbol.is('PROPERTY'))">
+						"param": [
+							<for each="p" in="symbol.get('param')">{
+								"type": "{+(p.type||'')+}",
+								"name": "{+p.name+}", 
+								"desc": "{+escJson(p.desc)+} "
+							}<if test="!$p_last">,
+							</if></for>
+						],</if>
+						"tag": [
+							<for each="t" in="symbol.get()">{
+								"title": "{+t.title+}",
+								"desc": "{+escJson(t.desc)+}"
+							}<if test="!$t_last">,
+							</if></for>
+						]
+					}<if test="!$symbol_last">,</if></for>
+				]
+			}

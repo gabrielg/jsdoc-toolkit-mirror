@@ -14,7 +14,7 @@ var escJson = function(str) {
 
 function publish_begin(allFiles, context) {
 	context.template = new JsPlate(context.t+"file.tmpl");
-	context.output = "jsdoc = {\n	files: [\n";
+	context.output = "jsdoc = {\n	files:{\n		file: [\n";
 }
 
 function publish_each(file, context) {
@@ -22,7 +22,7 @@ function publish_each(file, context) {
 }
 
 function publish_finish(allFiles, context) {
-	context.output += "};\n";
+	context.output += "		]\n	}\n};\n";
 
 	if (context.d) {
 		IO.saveFile(context.d, "jsdoc.js", context.output);

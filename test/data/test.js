@@ -1,9 +1,5 @@
 /**
- * @fileOverview This "library" contains "a 
- *               lot of classes and functions.
- EXAMPLE: <code>
-	alert("This 'is' \"code\"");
- </code>
+ * @fileOverview This library contains a lot of classes and functions.
  * @name My Cool Library
  * @author 	Joe Smith jsmith@company.com
  * @version 	0.1 
@@ -17,7 +13,7 @@
 function getFoo(fooID){
 }
 /**
- * @description This is a library of geometry-related functions.
+ * @desc This is a library of geometry-related functions.
  * 
  */
  Shape2D /*constructor*/

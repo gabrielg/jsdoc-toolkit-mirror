@@ -1,59 +1,46 @@
-<file path="{+data.path+}">
+<file>
+	<path>{+data.path+}</path>
 	<overview>
 		<name>
 			{+data.overview.getName()+} 
 		</name>
 		<desc>
-			{+(data.overview.getDescription()||"")+} 
+			{+data.overview.getDesc()+} 
 		</desc>
+		<for each="t" in="data.overview.get()"><tag>
+			<title>{+t.title+}</title>
+			<desc>{+t.desc+}</desc>
+		</tag>
+		</for>
 	</overview>
-	<if test="data.symbols">
-		<symbols>
-			<for each="symbol" in="data.symbols">
-				<symbol type="{+symbol.type+}">
-					<name>
-						{+symbol.name+} 
-					</name>
-					<desc>
-						{+(symbol.getDescription()||"")+} 
-					</desc>
-					<if test="(!symbol.is('OBJECT'))">
-						<params>
-							<for each="p" in="symbol.get('param')">
-								<param type="{+(p.type||'')+}">
-									<name>
-										{+p.name+} 
-									</name>
-									<desc>
-										{+(p.desc||"")+} 
-									</desc>
-								</param>
-							</for>
-						</params>
-					</if>
-					<if test="(symbol.is('CONSTRUCTOR')||symbol.is('OBJECT'))">
-						<properties>
-							<for each="y" in="symbol.get('property')">
-								<property type="{+(y.type||'')+}">
-									<name>
-										{+y.name+} 
-									</name>
-									<desc>
-										{+(y.desc||"")+} 
-									</desc>
-								</property>
-							</for>
-						</properties>
-					</if>
-					<if test="(!symbol.is('CONSTRUCTOR'))">
-						<for each="r" in="symbol.get('return')">
-							<return type="{+(r.type||" ")+}">
-								{+(r.desc||"")+} 
-							</return>
-						</for>
-					</if>
-				</symbol>
-			</for>
-		</symbols>
-	</if>
+	<for each="symbol" in="data.symbols">
+	<symbol>
+		<type>{+(symbol.type||'')+}</type>
+		<name>
+			{+symbol.name+} 
+		</name>
+		<desc>
+			{+(symbol.getDesc()||"")+} 
+		</desc>
+		<if test="(!symbol.is('OBJECT') && !symbol.is('PROPERTY'))">
+		<for each="p" in="symbol.get('param')">
+		<param type="{+(p.type||'')+}">
+			<type>
+				{+(p.type||'')+}
+			</type>
+			<name>
+				{+p.name+} 
+			</name>
+			<desc>
+				{+(p.desc||"")+} 
+			</desc>
+		</param>
+		</for></if>
+		<for each="t" in="symbol.get()"><tag>
+			<title>{+t.title+}</title>
+			<desc>{+t.desc+}</desc>
+		</tag>
+		</for>
+	</symbol>
+	</for>
 </file>

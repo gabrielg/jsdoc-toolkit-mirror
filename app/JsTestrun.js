@@ -17,7 +17,7 @@ function testrun(testCases) {
 		ran++;
 	}
 	
-	return(testrun.reportOut+".....................\n"+((testrun.fails>0)? ":( Failed "+testrun.fails+"/" : ":) Passed all ")+testrun.count+" test"+((testrun.count == 1)? "":"s")+".\n");
+	return testrun.reportOut+"\033[31 -------------------------------\n"+((testrun.fails>0)? ":( Failed "+testrun.fails+"/" : ":) Passed all ")+testrun.count+" test"+((testrun.count == 1)? "":"s")+".\n";
 }
 
 testrun.count = 0;

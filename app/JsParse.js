@@ -26,7 +26,7 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 		var doc = ts.look().data;
 		if (/@alias\s+(.+)\s*/i.test(doc)) {
 			this.symbols.push(
-				new Symbol(RegExp.$1, [], "", SYM.VIRTUAL, null, doc)
+				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);
 			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
 			return true;
@@ -79,7 +79,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 				ts.balance("LEFT_PAREN");
 				if (doc) { // we only grab these if they are documented
 					this.symbols.push(
-						new Symbol(name, [], "", type, null, doc)
+						new Symbol(name, [], type, doc)
 					);
 					return true
 				}
@@ -117,7 +117,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			}
 			
 			this.symbols.push(
-				new Symbol(name, params, body, type, null, doc)
+				new Symbol(name, params, type, doc)
 			);
 			
 			if (body) {
@@ -144,7 +144,7 @@ JsParse.prototype.findVariable = function(ts) { /*dbg*///print("findVariable  "+
 
 		if (doc) { // we only grab these if they are documented
 			this.symbols.push(
-				new Symbol(name, [], "", SYM.OBJECT, null, doc)
+				new Symbol(name, [], SYM.OBJECT, doc)
 			);
 		}
 		
@@ -180,7 +180,7 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 				var body = ts.balance("LEFT_CURLY");
 
 				this.symbols.push(
-					new Symbol(name, params, body, type, null, doc)
+					new Symbol(name, params, type, doc)
 				);
 				
 				// find methods in the body of this function
@@ -193,7 +193,7 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 					var doc = ts.look(-1).data;
 
 					this.symbols.push(
-						new Symbol(name, [], "", type, null, doc)
+						new Symbol(name, [], type, doc)
 					);
 				}
 				
@@ -205,7 +205,7 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 					var doc = ts.look(-1).data;
 					
 					this.symbols.push(
-						new Symbol(name, [], "", type, null, doc)
+						new Symbol(name, [], type, doc)
 					);
 				}
 				
@@ -247,14 +247,14 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 						fs.balance("LEFT_PAREN");
 						if (doc) { // we only grab these if they are documented
 							this.symbols.push(
-								new Symbol(name, [], "", type, null, doc)
+								new Symbol(name, [], type, doc)
 							);
 						}
 						break;
 					}
 
 					this.symbols.push(
-						new Symbol(name, params, body, type, null, doc)
+						new Symbol(name, params, type, doc)
 					);
 					
 					if (body) {
@@ -268,7 +268,7 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 						
 					if (doc) {
 						this.symbols.push(
-							new Symbol(name, [], "", type, null, doc)
+							new Symbol(name, [], type, doc)
 						);
 					}
 						

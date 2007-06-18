@@ -1,6 +1,6 @@
 /** @constructor */
 DocTag = function(src) {
-	// like @title {type} name/description
+	// like @title {type} name/desc
 	var parts = src.match(/^(\S+)(?:\s+\{\s*([\S\s]+?)\s*\})?\s*([\S\s]*\S)?/);
 	
 	this.title = parts[1].toLowerCase();

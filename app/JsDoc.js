@@ -25,7 +25,7 @@ JsDoc = {};
 JsDoc.File = function(path) {
 	this.path = path;
 	this.name = Util.fileName(path);
-	this.overview = new Symbol(this.name, [], "", "FILE", null, new Doclet(""));;
+	this.overview = new Symbol(this.name, [], "FILE", new Doclet(""));;
 	this.symbols = [];
 }
 
@@ -38,10 +38,6 @@ JsDoc.File.prototype.addSymbol = function(s) {
 		if (s.doc.getTag("function").length) s.type = SYM.FUNCTION;
 		else if (s.doc.getTag("method").length) s.type = SYM.METHOD;
 		else s.type = SYM.OBJECT;
-		
-		// TODO use Scope class
-		//var parents = s.doc.getTag("memberof");
-		//if (parents.length) s.name = "{"+parents[0].desc+"}."+s.name;
 	}
 	
 	if (s.doc.getTag("constructor").length || s.doc.getTag("class").length) s.type = SYM.CONSTRUCTOR
@@ -83,7 +79,7 @@ JsDoc.parse = function(srcFiles) {
 		for (var s = 0; s < parser.symbols.length; s++) {
 			if (parser.symbols[s].doc.indexOf("@ignore") > -1)
 				continue;
-			if (parser.symbols[s].doc.indexOf("@undocumented") > -1 && !(JsDoc.opt.a||JsDoc.opt.A))
+			if (parser.symbols[s].doc.indexOf("@undocumented") > -1 && !JsDoc.opt.a)
 				continue;
 			if (parser.symbols[s].name.indexOf("_") == 0 && !JsDoc.opt.A)
 				continue;
@@ -91,7 +87,7 @@ JsDoc.parse = function(srcFiles) {
 			parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
 			file.addSymbol(parser.symbols[s]);
 		}
-		if (parser.overview) file.overview = new Symbol(srcFile, [], "", "FILE", null, new Doclet(parser.overview));
+		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", new Doclet(parser.overview));
 		
 		JsDoc.files.push(file);
 	}

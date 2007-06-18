@@ -3,12 +3,12 @@
 			"path": "{+escJson(data.path)+}",
 			"overview": {
 				"name": "{+data.overview.getName()+}",
-				"desc": "{+escJson(data.overview.getDescription())+}",
+				"desc": "{+escJson(data.overview.getDesc())+}",
 				"tags": [
-					<for each="u" in="data.overview.getEtc()">{
-						"title": "{+u.title+}",
-						"desc": "{+escJson(u.desc)+}"
-					}<if test="!$u_last">,
+					<for each="t" in="data.overview.get()">{
+						"title": "{+t.title+}",
+						"desc": "{+escJson(t.desc)+}"
+					}<if test="!$t_last">,
 					</if></for>
 				]
 			},
@@ -16,8 +16,8 @@
 				{
 					"type": "{+(symbol.type||'')+}",
 					"name": "{+symbol.name+}",
-					"desc": "{+escJson(symbol.getDescription())+}"
-					<if test="(!symbol.is('OBJECT'))">,
+					"desc": "{+escJson(symbol.getDesc())+}",
+					<if test="(!symbol.is('OBJECT') && !symbol.is('PROPERTY'))">
 					"params": [
 						<for each="p" in="symbol.get('param')">{
 							"type": "{+(p.type||'')+}",
@@ -25,7 +25,14 @@
 							"desc": "{+escJson(p.desc)+} "
 						}<if test="!$p_last">,
 						</if></for>
-					]</if>
+					],</if>
+					"tags": [
+						<for each="t" in="symbol.get()">{
+							"title": "{+t.title+}",
+							"desc": "{+escJson(t.desc)+}"
+						}<if test="!$t_last">,
+						</if></for>
+					]
 				}<if test="!$symbol_last">,</if></for>
 			]
 		}

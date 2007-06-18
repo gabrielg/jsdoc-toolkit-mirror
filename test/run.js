@@ -1,3 +1,5 @@
+//// load required libraries
+
 var __DIR__;
 try {fail();} catch(e) {
 	var nameStart = Math.max(e.fileName.lastIndexOf("/")+1, e.fileName.lastIndexOf("\\")+1, 0);
@@ -29,6 +31,8 @@ function testFile(path) {
 	eval(output);
 }
 
+//// mock main
+
 Main = function() {
 	var srcFiles = JsDoc.opt._;
 
@@ -37,15 +41,13 @@ Main = function() {
 	return(JsDoc.opt.output)
 }
 
-/*-----------------------------------------------------------------
-  Tests Cases
-  -----------------------------------------------------------------*/
+//// set up some tests cases, order matters
 
 var testCases = [
 	function() {
 		testFile(__DIR__+"data/functions.js");
 		ok('output != null', 'Output must not be null.');
-		ok('typeof jsdoc != "undefined"', 'jsdoc must be undefined.');
+		ok('typeof jsdoc != "undefined"', 'jsdoc must be defined.');
 		is('jsdoc.files[0].symbols[0].name', "{Layout}.Element", 'Nested commented method name can be found.');
 	},
 	function() {
@@ -67,13 +69,36 @@ var testCases = [
 		is('jsdoc.files[0].symbols[2].name', "Product", 'Anonymous constructor call assigned to variable can be found.');
 		is('jsdoc.files[0].symbols[3].type', "PROPERTY", 'Anonymous constructor property type must be "PROPERTY".');
 		is('jsdoc.files[0].symbols[3].name', "{Product}.seller", 'Anonymous constructor property name can be found.');
-
 	},
 	function() {
 		testFile(__DIR__+"data/overview.js");
 		is('jsdoc.files[0].overview.tags[1].title', "author", 'Author tag in overview can be found.');
-
 	},
+	function() {
+		testFile(__DIR__+"data/tags.js");
+		is('jsdoc.files[0].symbols[0].tags[0].title', "status", 'User-defined tag title can be found.');
+		is('jsdoc.files[0].symbols[0].tags[0].desc', "experimental", 'User-defined tag with desc, desc can be found.');
+		is('jsdoc.files[0].symbols[0].tags[1].title', "deprecated", 'User-defined tag with no desc, title can be found.');
+		is('jsdoc.files[0].symbols[0].tags[1].desc', "", 'User-defined tag with no desc, desc can be found and is empty.');
+	},
+	function() {
+		JsDoc.opt.a = true; // grab ALL functions from now on
+		
+		testFile(__DIR__+"data/alias.js");
+		is('jsdoc.files[0].symbols[0].name', "{twiddle}.flick", 'Aliased doclet name can be found.');
+		is('jsdoc.files[0].symbols[0].type', "OBJECT", 'Aliased doclet type can be found.');
+		is('jsdoc.files[0].symbols[0].desc', "Twiddle the given flick.", 'Aliased doclet desc can be found.');
+		is('jsdoc.files[0].symbols[0].tags.length', 0, 'Aliased doclet should have no tags.');
+		
+		is('jsdoc.files[0].symbols[1].name', "zipZap", 'Undocumented function following aliased doclet name can be found.');
+		
+		is('jsdoc.files[0].symbols[2].name', "Concat", 'Aliased function doclet name can be found.');
+		is('jsdoc.files[0].symbols[2].type', "FUNCTION", 'Aliased function doclet type can be found.');
+		is('jsdoc.files[0].symbols[2].tags.length', 0, 'Aliased function doclet should have no tags.');
+		is('jsdoc.files[0].symbols[2].params[0].name', "strX", 'Aliased function parameter name can be found.');
+	}
 ];
+
+//// run and print
 
 print(testrun(testCases));

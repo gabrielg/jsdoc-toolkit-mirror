@@ -73,7 +73,7 @@ var testCases = [
 	function() {
 		testFile(__DIR__+"data/overview.js");
 		is('jsdoc.files.file[0].overview.tag[1].title', "author", 'Author tag in overview can be found.');
-	}/*,
+	},
 	function() {
 		testFile(__DIR__+"data/tags.js");
 		is('jsdoc.files.file[0].symbol[0].tag[0].title', "status", 'User-defined tag title can be found.');
@@ -88,15 +88,15 @@ var testCases = [
 		is('jsdoc.files.file[0].symbol[0].name', "{twiddle}.flick", 'Aliased doclet name can be found.');
 		is('jsdoc.files.file[0].symbol[0].type', "OBJECT", 'Aliased doclet type can be found.');
 		is('jsdoc.files.file[0].symbol[0].desc', "Twiddle the given flick.", 'Aliased doclet desc can be found.');
-		is('jsdoc.files.file[0].symbol[0].tags.length', 0, 'Aliased doclet should have no tags.');
+		is('jsdoc.files.file[0].symbol[0].tag.length', 0, 'Aliased doclet should have no tags.');
 		
 		is('jsdoc.files.file[0].symbol[1].name', "zipZap", 'Undocumented function following aliased doclet name can be found.');
 		
 		is('jsdoc.files.file[0].symbol[2].name', "Concat", 'Aliased function doclet name can be found.');
 		is('jsdoc.files.file[0].symbol[2].type', "FUNCTION", 'Aliased function doclet type can be found.');
-		is('jsdoc.files.file[0].symbol[2].tags.length', 0, 'Aliased function doclet should have no tags.');
-		is('jsdoc.files.file[0].symbol[2].params[0].name', "strX", 'Aliased function parameter name can be found.');
-	}*/
+		is('jsdoc.files.file[0].symbol[2].tag.length', 0, 'Aliased function doclet should have no tags.');
+		is('jsdoc.files.file[0].symbol[2].param[0].name', "strX", 'Aliased function parameter name can be found.');
+	}
 ];
 
 //// run and print

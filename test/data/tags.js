@@ -4,7 +4,7 @@
  * @example <code>
 	alert("This 'is' \"code\"");
  </code>
- * @name My Cool Library
+ * @library My Cool Library
  * @author 	Joe Smith jsmith@company.com
  * @version 	0.1 
  */

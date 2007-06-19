@@ -14,9 +14,9 @@
 				"symbol": [<for each="symbol" in="data.symbols">
 					{
 						"type": "{+(symbol.type||'')+}",
-						"name": "{+symbol.name+}",
-						"desc": "{+escJson(symbol.getDesc())+}",
-						<if test="(!symbol.is('OBJECT') && !symbol.is('PROPERTY'))">
+						"name": "{+symbol.name+}",<if test="(symbol.is('PROPERTY')||symbol.is('METHOD'))">
+						"memberof": "{+symbol.memberof+}",</if>
+						"desc": "{+escJson(symbol.getDesc())+}",<if test="(!symbol.is('OBJECT') && !symbol.is('PROPERTY'))">
 						"param": [
 							<for each="p" in="symbol.get('param')">{
 								"type": "{+(p.type||'')+}",
@@ -25,6 +25,18 @@
 							}<if test="!$p_last">,
 							</if></for>
 						],</if>
+						"property": [
+							<for each="p" in="symbol.properties">{
+								"name": "{+p+}",
+							}<if test="!$p_last">,
+							</if></for>
+						],
+						"method": [
+							<for each="m" in="symbol.methods">{
+								"name": "{+m+}",
+							}<if test="!$m_last">,
+							</if></for>
+						],
 						"tag": [
 							<for each="t" in="symbol.get()">{
 								"title": "{+t.title+}",

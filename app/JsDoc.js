@@ -83,9 +83,34 @@ JsDoc.parse = function(srcFiles) {
 				continue;
 			if (parser.symbols[s].name.indexOf("_") == 0 && !JsDoc.opt.A)
 				continue;
+
 			
-			parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
-			file.addSymbol(parser.symbols[s]);
+			
+			if (parser.symbols[s].is("PROPERTY") || parser.symbols[s].is("METHOD")) {
+				var parts = parser.symbols[s].name.match(/\{(.+)\}\.([^{]+)$/);
+				var parent;
+				var parentName = parts[1];
+				var childName = parts[2];
+				
+				// is the parent defined?
+				for (var i = 0; i < file.symbols.length; i++) {
+					if (file.symbols[i].name == parentName) {
+						parent = file.symbols[i];
+						break;
+					}
+				}
+				if (!parent) LOG.warn("Property '"+childName+"' documented but no documentation exists for parent '"+parentName+"'.");
+				else {
+					if (parser.symbols[s].is("PROPERTY")) parent.properties.push(childName);
+					if (parser.symbols[s].is("METHOD")) parent.methods.push(childName);
+					parser.symbols[s].name = childName;
+					parser.symbols[s].memberof = parentName;
+				}
+			}
+			
+				parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
+				file.addSymbol(parser.symbols[s]);
+			
 		}
 		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", new Doclet(parser.overview));
 		

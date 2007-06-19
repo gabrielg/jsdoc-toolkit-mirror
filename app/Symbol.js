@@ -17,6 +17,9 @@ function Symbol(name, params, type, doc, other) {
 
 	this.name = name;
 	this.params = params;
+	this.memberof = "";
+	this.properties = [];
+	this.methods = [];
 	this.type = type;
 	this.doc = doc || "/** @undocumented */";
 }

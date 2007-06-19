@@ -32,7 +32,8 @@ SYSTAG = {
 	"function": true,
 	"method": true,
 	"undocumented": true,
-	"private": true
+	"private": true,
+	"library": true
 };
 
 Doclet.prototype.getTag = function(tagTitle) {

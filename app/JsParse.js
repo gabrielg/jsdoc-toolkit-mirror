@@ -24,7 +24,7 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 	// like /** @alias foo.bar */
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
-		if (/@alias\s+(.+)\s*/i.test(doc)) {
+		if (/@name\s+(.+)\s*/i.test(doc)) {
 			this.symbols.push(
 				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);
@@ -44,14 +44,14 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 	if (ts.look().is("NAME")) {
 		var name = ts.look().data;
 		var doc = "";
-		var type = null;
+		var isa = null;
 		var body = "";
 		var paramTokens = [];
 		var params = [];
 		
 		// like function foo()
 		if (ts.look(-1).is("FUNCTION")) {
-			type = SYM.FUNCTION;
+			isa = SYM.FUNCTION;
 			
 			if (ts.look(-2).is("JSDOC")) {
 				doc = ts.look(-2).data;
@@ -62,7 +62,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 		
 		// like var foo = function()
 		else if (ts.look(1).is("ASSIGN") && ts.look(2).is("FUNCTION")) {
-			type = SYM.FUNCTION;
+			isa = SYM.FUNCTION;
 			
 			if (ts.look(-1).is("VAR") && ts.look(-2).is("JSDOC")) {
 				doc = ts.look(-2).data;
@@ -75,11 +75,11 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			
 			// like foo = function(n) {return n}(42)
 			if (ts.look(1).is("LEFT_PAREN")) { // false alarm, it's not really a named function definition
-				type = SYM.OBJECT;
+				isa = SYM.OBJECT;
 				ts.balance("LEFT_PAREN");
 				if (doc) { // we only grab these if they are documented
 					this.symbols.push(
-						new Symbol(name, [], type, doc)
+						new Symbol(name, [], isa, doc)
 					);
 					return true
 				}
@@ -89,7 +89,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 		
 		// like var foo = new function()
 		else if (ts.look(1).is("ASSIGN") && ts.look(2).is("NEW") && ts.look(3).is("FUNCTION")) {
-			type = SYM.OBJECT;
+			isa = SYM.OBJECT;
 			
 			if (ts.look(-1).is("VAR") && ts.look(-2).is("JSDOC")) {
 				doc = ts.look(-2).data;
@@ -102,8 +102,8 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			body = ts.balance("LEFT_CURLY");
 		}
 		
-		if (type && name) {
-			if (type == SYM.FUNCTION) {
+		if (isa && name) {
+			if (isa == SYM.FUNCTION) {
 				for (var i = 0; i < paramTokens.length; i++) {
 					if (paramTokens[i].is("NAME"))
 						params.push(paramTokens[i].data);
@@ -112,12 +112,12 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			
 			// like Foo.bar.prototype.baz = function() {}
 			if (name.indexOf(".prototype") > 0) {
-				type = SYM.METHOD;
+				isa = SYM.METHOD;
 				name = name.replace(/\.prototype\.?/, "/");
 			}
 			
 			this.symbols.push(
-				new Symbol(name, params, type, doc)
+				new Symbol(name, params, isa, doc)
 			);
 			
 			if (body) {
@@ -165,7 +165,7 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 			
 			// like foo: function
 			if (ts.look(2).is("FUNCTION")) {
-				var type = SYM.FUNCTION;
+				var isa = SYM.FUNCTION;
 				var doc = "";
 				
 				if (ts.look(-1).is("JSDOC")) doc = ts.look(-1).data;
@@ -180,7 +180,7 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 				var body = ts.balance("LEFT_CURLY");
 
 				this.symbols.push(
-					new Symbol(name, params, type, doc)
+					new Symbol(name, params, isa, doc)
 				);
 				
 				// find methods in the body of this function
@@ -189,11 +189,11 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 			// like foo: {...}
 			else if (ts.look(2).is("LEFT_CURLY")) { // another nested object literal
 				if (ts.look(-1).is("JSDOC")) {
-					var type = SYM.OBJECT;
+					var isa = SYM.OBJECT;
 					var doc = ts.look(-1).data;
 
 					this.symbols.push(
-						new Symbol(name, [], type, doc)
+						new Symbol(name, [], isa, doc)
 					);
 				}
 				
@@ -201,11 +201,11 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 			}
 			else { // like foo: 1, or foo: "one"
 				if (ts.look(-1).is("JSDOC")) { // we only grab these if they are documented
-					var type = SYM.OBJECT;
+					var isa = SYM.OBJECT;
 					var doc = ts.look(-1).data;
 					
 					this.symbols.push(
-						new Symbol(name, [], type, doc)
+						new Symbol(name, [], isa, doc)
 					);
 				}
 				
@@ -228,7 +228,7 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 			if (name.indexOf("this.") == 0) {
 				// like this.foo = function
 				if (fs.look(2).is("FUNCTION")) {
-					var type = SYM.METHOD;
+					var isa = SYM.METHOD;
 					
 					name = name.replace(/^this\./, nspace+"/")
 					var doc = (fs.look(-1).is("JSDOC"))? fs.look(-1).data : "";
@@ -243,18 +243,18 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 
 					// like this.foo = function(n) {return n}(42)
 					if (fs.look(1).is("LEFT_PAREN")) { // false alarm, it's not really a named function definition
-						type = SYM.PROPERTY;
+						isa = SYM.OBJECT;
 						fs.balance("LEFT_PAREN");
 						if (doc) { // we only grab these if they are documented
 							this.symbols.push(
-								new Symbol(name, [], type, doc)
+								new Symbol(name, [], isa, doc)
 							);
 						}
 						break;
 					}
 
 					this.symbols.push(
-						new Symbol(name, params, type, doc)
+						new Symbol(name, params, isa, doc)
 					);
 					
 					if (body) {
@@ -262,13 +262,13 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 					}
 				}
 				else {
-					var type = SYM.PROPERTY;
+					var isa = SYM.OBJECT;
 					name = name.replace(/^this\./, nspace+"/")
 					var doc = (fs.look(-1).is("JSDOC"))? fs.look(-1).data : "";
 						
 					if (doc) {
 						this.symbols.push(
-							new Symbol(name, [], type, doc)
+							new Symbol(name, [], isa, doc)
 						);
 					}
 						

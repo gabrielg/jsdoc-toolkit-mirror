@@ -34,13 +34,14 @@ JsDoc.File.prototype.toString = function() {
 }
 
 JsDoc.File.prototype.addSymbol = function(s) {
-	if (s.type == SYM.VIRTUAL) {
-		if (s.doc.getTag("function").length) s.type = SYM.FUNCTION;
-		else if (s.doc.getTag("method").length) s.type = SYM.METHOD;
-		else s.type = SYM.OBJECT;
+	if (s.is(SYM.VIRTUAL)) {
+		if (s.doc.getTag("function").length) s.isa = SYM.FUNCTION;
+		else if (s.doc.getTag("method").length) s.isa = SYM.METHOD;
+		else if (s.doc.getTag("constructor").length) s.isa = SYM.CONSTRUCTOR;
+		else s.isa = SYM.OBJECT;
 	}
 	
-	if (s.doc.getTag("constructor").length || s.doc.getTag("class").length) s.type = SYM.CONSTRUCTOR
+	if (s.doc.getTag("constructor").length || s.doc.getTag("class").length) s.isa = SYM.CONSTRUCTOR
 	
 	this.symbols.push(s);
 }
@@ -85,31 +86,32 @@ JsDoc.parse = function(srcFiles) {
 				continue;
 
 			
-			
-			if (parser.symbols[s].is("PROPERTY") || parser.symbols[s].is("METHOD")) {
-				var parts = parser.symbols[s].name.match(/\{(.+)\}\.([^{]+)$/);
-				var parent;
-				var parentName = parts[1];
+			// is this a member of another object?
+			if (parser.symbols[s].name.indexOf("/") > -1) {
+				var parts = parser.symbols[s].name.match(/^(.+)\/([^\/]+)$/);
+				var parentName = parts[1].replace(/\//g, ".");
 				var childName = parts[2];
+				var parent;
 				
 				// is the parent defined?
 				for (var i = 0; i < file.symbols.length; i++) {
-					if (file.symbols[i].name == parentName) {
+					if (file.symbols[i].alias == parentName) {
 						parent = file.symbols[i];
 						break;
 					}
 				}
 				if (!parent) LOG.warn("Property '"+childName+"' documented but no documentation exists for parent '"+parentName+"'.");
 				else {
-					if (parser.symbols[s].is("PROPERTY")) parent.properties.push(childName);
+					if (parser.symbols[s].is("OBJECT")) parent.properties.push(childName);
 					if (parser.symbols[s].is("METHOD")) parent.methods.push(childName);
-					parser.symbols[s].name = childName;
-					parser.symbols[s].memberof = parentName;
 				}
+				parser.symbols[s].alias = parser.symbols[s].name.replace(/\//g, ".");
+				parser.symbols[s].name = childName;
+				parser.symbols[s].memberof = parentName;
 			}
 			
-				parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
-				file.addSymbol(parser.symbols[s]);
+			parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
+			file.addSymbol(parser.symbols[s]);
 			
 		}
 		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", new Doclet(parser.overview));

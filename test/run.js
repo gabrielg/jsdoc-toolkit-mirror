@@ -48,7 +48,7 @@ var testCases = [
 		testFile(__DIR__+"data/functions.js");
 		ok('output != null', 'Output must not be null.');
 		ok('typeof jsdoc != "undefined"', 'jsdoc must be defined.');
-		is('jsdoc.files.file[0].symbol[0].name', "{Layout}.Element", 'Nested commented method name can be found.');
+		is('jsdoc.files.file[0].symbol[0].alias', "Layout.Element", 'Nested commented method name can be found.');
 	},
 	function() {
 		testFile(__DIR__+"data/obliterals.js");
@@ -60,15 +60,15 @@ var testCases = [
 	},
 	function() {
 		testFile(__DIR__+"data/prototypes.js");
-		is('jsdoc.files.file[0].symbol[0].name', "{Article}.getTitle", 'Prototype method name can be found.');
+		is('jsdoc.files.file[0].symbol[0].alias', "Article.getTitle", 'Prototype method name can be found.');
 	},
 	function() {
 		testFile(__DIR__+"data/anonfuncs.js");
-		//is('jsdoc.files.file[0].symbol[0].name', "{Item}.name", 'Anonymous function call assigned to property can be found.');
+		is('jsdoc.files.file[0].symbol[0].alias', "Item.name", 'Anonymous function call assigned to property can be found.');
 		is('jsdoc.files.file[0].symbol[1].name', "Item.Price", 'Anonymous function call assigned to variable can be found.');
 		is('jsdoc.files.file[0].symbol[2].name', "Product", 'Anonymous constructor call assigned to variable can be found.');
-		//is('jsdoc.files.file[0].symbol[3].type', "PROPERTY", 'Anonymous constructor property type must be "PROPERTY".');
-		//is('jsdoc.files.file[0].symbol[3].name', "{Product}.seller", 'Anonymous constructor property name can be found.');
+		is('jsdoc.files.file[0].symbol[3].isa', "OBJECT", 'Anonymous constructor property isa must be "PROPERTY".');
+		is('jsdoc.files.file[0].symbol[3].alias', "Product.seller", 'Anonymous constructor property name can be found.');
 	},
 	function() {
 		testFile(__DIR__+"data/overview.js");
@@ -84,22 +84,30 @@ var testCases = [
 	function() {
 		JsDoc.opt.a = true; // grab ALL functions from now on
 		
-		testFile(__DIR__+"data/alias.js");
-		is('jsdoc.files.file[0].symbol[0].name', "{twiddle}.flick", 'Aliased doclet name can be found.');
-		is('jsdoc.files.file[0].symbol[0].type', "OBJECT", 'Aliased doclet type can be found.');
-		is('jsdoc.files.file[0].symbol[0].desc', "Twiddle the given flick.", 'Aliased doclet desc can be found.');
-		is('jsdoc.files.file[0].symbol[0].tag.length', 0, 'Aliased doclet should have no tags.');
+		testFile(__DIR__+"data/virtual.js");
+		is('jsdoc.files.file[0].symbol[0].name', "twiddle.flick", 'Virtual doclet name can be found.');
+		is('jsdoc.files.file[0].symbol[0].isa', "FUNCTION", 'Virtual doclet isa can be found.');
+		is('jsdoc.files.file[0].symbol[0].desc', "Twiddle the given flick.", 'Virtual doclet desc can be found.');
+		is('jsdoc.files.file[0].symbol[0].tag.length', 0, 'Virtual doclet should have no tags.');
 		
-		is('jsdoc.files.file[0].symbol[1].name', "zipZap", 'Undocumented function following aliased doclet name can be found.');
+		is('jsdoc.files.file[0].symbol[1].name', "zipZap", 'Undocumented function following virtual doclet name can be found.');
 		
-		is('jsdoc.files.file[0].symbol[2].name', "Concat", 'Aliased function doclet name can be found.');
-		is('jsdoc.files.file[0].symbol[2].type', "FUNCTION", 'Aliased function doclet type can be found.');
-		is('jsdoc.files.file[0].symbol[2].tag.length', 0, 'Aliased function doclet should have no tags.');
-		is('jsdoc.files.file[0].symbol[2].param[0].name', "strX", 'Aliased function parameter name can be found.');
+		is('jsdoc.files.file[0].symbol[2].name', "Concat", 'Virtual function doclet name can be found.');
+		is('jsdoc.files.file[0].symbol[2].isa', "CONSTRUCTOR", 'Virtual function doclet isa can be found.');
+		is('jsdoc.files.file[0].symbol[2].tag.length', 0, 'Virtual function doclet should have no tags.');
+		is('jsdoc.files.file[0].symbol[2].param[0].name', "strX", 'Virtual function parameter name can be found.');
 	},
 	function() {
 		testFile(__DIR__+"data/properties.js");
 		is('jsdoc.files.file[0].symbol[1].property[0].name', "_associated_with", 'Property in code body is added to parent.');
+	},
+	function() {
+		testFile(__DIR__+"data/memberof.js");
+		is('jsdoc.files.file[0].symbol[1].name', "SquareMaker", 'Constructor member name can be found.');
+		is('jsdoc.files.file[0].symbol[1].memberof', "ShapeFactory", 'Constructor which is a member of another constructor identified.');
+		is('jsdoc.files.file[0].symbol[2].name', "Square", 'Nested constructor member name can be found.');
+		is('jsdoc.files.file[0].symbol[2].memberof', "ShapeFactory.SquareMaker", 'Nested constructor which is a member of another constructor identified.');
+
 	}
 ];
 

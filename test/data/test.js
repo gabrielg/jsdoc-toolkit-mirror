@@ -1,8 +1,12 @@
 /**
  * @fileOverview This library contains a lot of classes and functions.
- * @name My Cool Library
- * @author 	Joe Smith jsmith@company.com
- * @version 	0.1 
+ * @library My Cool Library
+ * @author 	Joe Smith <jsmith@company.com>
+ * @version 	0.1
+ @example
+ <code>
+ 	new Shape2D.Rect(1, 2, 3);
+ </code>
  */
  
 /** 

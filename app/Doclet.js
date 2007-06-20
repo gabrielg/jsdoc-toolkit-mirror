@@ -26,7 +26,7 @@ SYSTAG = {
 	"property": true,
 	"overview": true,
 	"memberof": true,
-	"type": true,
+	//"type": true,
 	"constructor": true,
 	"alias": true,
 	"function": true,

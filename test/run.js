@@ -60,12 +60,14 @@ var testCases = [
 	},
 	function() {
 		testFile(__DIR__+"data/prototypes.js");
-		is('jsdoc.files.file[0].symbol[0].alias', "Article.getTitle", 'Prototype method name assigned from oblit can be found.');
-		is('jsdoc.files.file[0].symbol[0].memberof', "Article", 'Prototype method memberof assigned from oblit can be found.');
-		is('jsdoc.files.file[0].symbol[2].alias', "Paragraph.lines", 'Prototype property name can be found.');
-		is('jsdoc.files.file[0].symbol[2].isa', "OBJECT", 'Prototype property isa can be found.');
-		is('jsdoc.files.file[0].symbol[3].alias', "Paragraph.getLines", 'Prototype method name can be found.');
-		is('jsdoc.files.file[0].symbol[3].isa', "METHOD", 'Prototype method isa can be found.');
+		is('jsdoc.files.file[0].symbol[1].alias', "Article.getTitle", 'Prototype method name assigned from oblit can be found.');
+		is('jsdoc.files.file[0].symbol[1].memberof', "Article", 'Prototype method memberof assigned from oblit can be found.');
+		is('jsdoc.files.file[0].symbol[0].method[0].name', "getTitle", 'Prototype method is registered with parent object.');
+	
+		is('jsdoc.files.file[0].symbol[3].alias', "Paragraph.lines", 'Prototype property name can be found.');
+		is('jsdoc.files.file[0].symbol[3].isa', "OBJECT", 'Prototype property isa can be found.');
+		is('jsdoc.files.file[0].symbol[4].alias', "Paragraph.getLines", 'Prototype method name can be found.');
+		is('jsdoc.files.file[0].symbol[4].isa', "FUNCTION", 'Prototype method isa can be found.');
 	},
 	function() {
 		testFile(__DIR__+"data/anonfuncs.js");
@@ -101,10 +103,21 @@ var testCases = [
 		is('jsdoc.files.file[0].symbol[2].isa', "CONSTRUCTOR", 'Virtual function doclet isa can be found.');
 		is('jsdoc.files.file[0].symbol[2].tag.length', 0, 'Virtual function doclet should have no tags.');
 		is('jsdoc.files.file[0].symbol[2].param[0].name', "strX", 'Virtual function parameter name can be found.');
+		
+		is('jsdoc.files.file[0].symbol[3].memberof', "Concat", 'Virtual function can define memberOf.');
+		is('jsdoc.files.file[0].symbol[3].alias', "Concat.join", 'Virtual function alias reflects memberOf tag.');
+		is('jsdoc.files.file[0].symbol[2].method[0].name', "join", 'Virtual function appears as method in parent object.');
+		
 	},
 	function() {
 		testFile(__DIR__+"data/properties.js");
 		is('jsdoc.files.file[0].symbol[1].property[0].name', "_associated_with", 'Property in code body is added to parent.');
+		is('jsdoc.files.file[0].symbol[1].property.length', 4, 'All properties in code body are added to parent.');
+		is('jsdoc.files.file[0].symbol[1].method[0].name', "associated_with", 'Method in code body is added to parent.');
+		is('jsdoc.files.file[0].symbol[2].alias', "Codework.Method._associated_with", 'Property appears as own symbol.');
+		is('jsdoc.files.file[0].symbol[2].isa', "OBJECT", 'Property symbol is a object.');
+		is('jsdoc.files.file[0].symbol[6].alias', "Codework.Method.associated_with", 'Method appears as own symbol.');
+		is('jsdoc.files.file[0].symbol[6].isa', "FUNCTION", 'Method symbol is a function.');
 	},
 	function() {
 		testFile(__DIR__+"data/memberof.js");

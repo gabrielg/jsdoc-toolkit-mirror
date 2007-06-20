@@ -4,7 +4,7 @@
  * @function
  * @param {flick} f
  */
-function zipZap(zID) { // <-- this is NOT the named object above!
+function zipZap(zID) { // <-- NOTICE: this is NOT the named object cited above!
 }
 
 /** 
@@ -14,4 +14,12 @@ function zipZap(zID) { // <-- this is NOT the named object above!
  * @param {String} strX The first string.
  * @param {String} strY The other string.
  */
-Autotype.make({construct: "Concat", params: ['strX', 'strY']});
+Builder.make({construct: "Concat", params: ['strX', 'strY']}); // <-- this won't be recognized.
+
+/** 
+ * Join two str together with a separator string. 
+ * @name join
+ * @function
+ * @memberOf Concat
+ * @param {String} separator.
+ */

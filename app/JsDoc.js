@@ -11,7 +11,7 @@
 LOG = {
 	warn: function(msg, e) {
 		if (e) msg = e.fileName+", line "+e.lineNumber+": "+msg;
-		print(" > WARNING: "+msg);
+		print(">> WARNING: "+msg);
 	},
 
 	inform: function(msg) {
@@ -34,15 +34,6 @@ JsDoc.File.prototype.toString = function() {
 }
 
 JsDoc.File.prototype.addSymbol = function(s) {
-	if (s.is(SYM.VIRTUAL)) {
-		if (s.doc.getTag("function").length) s.isa = SYM.FUNCTION;
-		else if (s.doc.getTag("method").length) s.isa = SYM.METHOD;
-		else if (s.doc.getTag("constructor").length) s.isa = SYM.CONSTRUCTOR;
-		else s.isa = SYM.OBJECT;
-	}
-	
-	if (s.doc.getTag("constructor").length || s.doc.getTag("class").length) s.isa = SYM.CONSTRUCTOR
-	
 	this.symbols.push(s);
 }
 
@@ -78,13 +69,26 @@ JsDoc.parse = function(srcFiles) {
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");
 		
 		for (var s = 0; s < parser.symbols.length; s++) {
-			if (parser.symbols[s].doc.indexOf("@ignore") > -1)
+			parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
+			if (parser.symbols[s].is(SYM.VIRTUAL)) {
+				if (parser.symbols[s].doc.getTag("function").length)
+					parser.symbols[s].isa = SYM.FUNCTION;
+				else if (parser.symbols[s].doc.getTag("constructor").length)
+					parser.symbols[s].isa = SYM.CONSTRUCTOR;
+				else parser.symbols[s].isa = SYM.OBJECT;
+			}
+			
+			if (parser.symbols[s].doc.getTag("constructor").length || parser.symbols[s].doc.getTag("class").length)
+				parser.symbols[s].isa = SYM.CONSTRUCTOR
+	
+	
+			if (parser.symbols[s].doc.getTag("ignore").length)
 				continue;
-			if (parser.symbols[s].doc.indexOf("@undocumented") > -1 && !JsDoc.opt.a)
+			if (parser.symbols[s].doc.getTag("undocumented").length && !JsDoc.opt.a)
 				continue;
-			if (parser.symbols[s].name.indexOf("_") == 0 && !JsDoc.opt.A)
-				continue;
-
+			
+			if (parser.symbols[s].doc.getTag("memberof").length)
+				parser.symbols[s].name = parser.symbols[s].doc.getTag("memberof")[0].desc+"/"+parser.symbols[s].name;
 			
 			// is this a member of another object?
 			if (parser.symbols[s].name.indexOf("/") > -1) {
@@ -100,17 +104,17 @@ JsDoc.parse = function(srcFiles) {
 						break;
 					}
 				}
-				if (!parent) LOG.warn("Property '"+childName+"' documented but no documentation exists for parent '"+parentName+"'.");
+print(parser.symbols[s].name+" isa "+parser.symbols[s].isa);
+				if (!parent) LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
 				else {
 					if (parser.symbols[s].is("OBJECT")) parent.properties.push(childName);
-					if (parser.symbols[s].is("METHOD")) parent.methods.push(childName);
+					if (parser.symbols[s].is("FUNCTION")) parent.methods.push(childName);
 				}
 				parser.symbols[s].alias = parser.symbols[s].name.replace(/\//g, ".");
 				parser.symbols[s].name = childName;
 				parser.symbols[s].memberof = parentName;
 			}
 			
-			parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
 			file.addSymbol(parser.symbols[s]);
 			
 		}

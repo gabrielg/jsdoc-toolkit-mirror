@@ -72,11 +72,17 @@ Util = {
 /*	This work is licensed under Creative Commons GNU LGPL License.
 
 	License: http://creativecommons.org/licenses/LGPL/2.1/
-   Version: 0.9
+	Version: 0.9
 	Author:  Stefan Goessner/2006
-	Web:     http://goessner.net/ 
+	Web:     http://goessner.net/
+	
+	Modified by: Michael Mathews
 */
 function json2xml(o, tab) {
+   var escXml = function(str) {
+       return str.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+   }
+   
    var toXml = function(v, name, ind) {
       var xml = "";
       if (v instanceof Array) {
@@ -106,7 +112,7 @@ function json2xml(o, tab) {
          }
       }
       else {
-         xml += ind + "<" + name + ">" + v.toString() +  "</" + name + ">";
+         xml += ind + "<" + name + ">" + escXml(v.toString()) +  "</" + name + ">";
       }
       return xml;
    }, xml="";

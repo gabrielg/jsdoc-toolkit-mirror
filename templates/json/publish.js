@@ -26,5 +26,6 @@ function publish_finish(allFiles, context) {
 
 	if (context.d) {
 		IO.saveFile(context.d, "jsdoc.js", context.output);
+		//IO.saveFile(context.d, "jsdoc.xml", json2xml(eval(context.output), "  "));
 	}
 }

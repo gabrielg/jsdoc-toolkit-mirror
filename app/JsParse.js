@@ -112,7 +112,8 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			
 			// like Foo.bar.prototype.baz = function() {}
 			if (name.indexOf(".prototype") > 0) {
-				isa = SYM.METHOD;
+				//isa = SYM.METHOD;
+				isa = SYM.FUNCTION;
 				name = name.replace(/\.prototype\.?/, "/");
 			}
 			
@@ -228,7 +229,8 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 			if (name.indexOf("this.") == 0) {
 				// like this.foo = function
 				if (fs.look(2).is("FUNCTION")) {
-					var isa = SYM.METHOD;
+					//var isa = SYM.METHOD;
+					var isa = SYM.FUNCTION;
 					
 					name = name.replace(/^this\./, nspace+"/")
 					var doc = (fs.look(-1).is("JSDOC"))? fs.look(-1).data : "";

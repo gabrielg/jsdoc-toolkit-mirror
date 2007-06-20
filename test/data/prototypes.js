@@ -15,9 +15,11 @@ Word.prototype = String.prototype;
 
 /** @constructor */
 function Paragraph(text){
-	/** lines of text */
-	this.lines = []
+	
 }
+/** The lines of text. */
+Paragraph.prototype.lines = []
+/** Get the lines. */
 Paragraph.prototype.getLines = function() {
 	
 }

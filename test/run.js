@@ -60,7 +60,12 @@ var testCases = [
 	},
 	function() {
 		testFile(__DIR__+"data/prototypes.js");
-		is('jsdoc.files.file[0].symbol[0].alias', "Article.getTitle", 'Prototype method name can be found.');
+		is('jsdoc.files.file[0].symbol[0].alias', "Article.getTitle", 'Prototype method name assigned from oblit can be found.');
+		is('jsdoc.files.file[0].symbol[0].memberof', "Article", 'Prototype method memberof assigned from oblit can be found.');
+		is('jsdoc.files.file[0].symbol[2].alias', "Paragraph.lines", 'Prototype property name can be found.');
+		is('jsdoc.files.file[0].symbol[2].isa', "OBJECT", 'Prototype property isa can be found.');
+		is('jsdoc.files.file[0].symbol[3].alias', "Paragraph.getLines", 'Prototype method name can be found.');
+		is('jsdoc.files.file[0].symbol[3].isa', "METHOD", 'Prototype method isa can be found.');
 	},
 	function() {
 		testFile(__DIR__+"data/anonfuncs.js");

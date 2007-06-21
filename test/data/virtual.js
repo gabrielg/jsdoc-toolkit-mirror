@@ -23,3 +23,11 @@ Builder.make({construct: "Concat", params: ['strX', 'strY']}); // <-- this won't
  * @memberOf Concat
  * @param {String} separator.
  */
+ 
+/** 
+ * The separator character. 
+ * @name separator
+ * @type String
+ * @type Array
+ * @memberOf Concat
+ */

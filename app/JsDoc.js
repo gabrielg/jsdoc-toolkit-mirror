@@ -81,14 +81,15 @@ JsDoc.parse = function(srcFiles) {
 			if (parser.symbols[s].doc.getTag("constructor").length || parser.symbols[s].doc.getTag("class").length)
 				parser.symbols[s].isa = SYM.CONSTRUCTOR
 	
-	
 			if (parser.symbols[s].doc.getTag("ignore").length)
 				continue;
 			if (parser.symbols[s].doc.getTag("undocumented").length && !JsDoc.opt.a)
 				continue;
 			
 			if (parser.symbols[s].doc.getTag("memberof").length)
-				parser.symbols[s].name = parser.symbols[s].doc.getTag("memberof")[0].desc+"/"+parser.symbols[s].name;
+				parser.symbols[s].name = parser.symbols[s].doc.getTag("memberof")[0]+"/"+parser.symbols[s].name;
+			if (parser.symbols[s].doc.getTag("type").length)
+				parser.symbols[s].type = parser.symbols[s].doc.getTag("type").join(", ");
 			
 			// is this a member of another object?
 			if (parser.symbols[s].name.indexOf("/") > -1) {
@@ -104,7 +105,7 @@ JsDoc.parse = function(srcFiles) {
 						break;
 					}
 				}
-print(parser.symbols[s].name+" isa "+parser.symbols[s].isa);
+
 				if (!parent) LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
 				else {
 					if (parser.symbols[s].is("OBJECT")) parent.properties.push(childName);

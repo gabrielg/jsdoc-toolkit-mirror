@@ -1,8 +1,8 @@
 			{
 				"path": "{+escJson(data.path)+}",
 				"overview": {
-					"name": "{+data.overview.getName()+}",
-					"desc": "{+escJson(data.overview.getDesc())+}",
+					<if test="(library = data.overview.getName())">"library": "{+library+}",
+					</if>"desc": "{+escJson(data.overview.getDesc())+}",
 					"tag": [
 						<for each="t" in="data.overview.get()">{
 							"title": "{+t.title+}",
@@ -16,7 +16,8 @@
 						"isa": "{+(symbol.isa||'')+}",
 						"name": "{+symbol.name+}",<if test="symbol.memberof">
 						"memberof": "{+symbol.memberof+}",</if><if test="symbol.alias">
-						"alias": "{+symbol.alias+}",</if>
+						"alias": "{+symbol.alias+}",</if><if test="symbol.type">
+						"type": "{+symbol.type+}",</if>
 						"desc": "{+escJson(symbol.getDesc())+}",<if test="(!symbol.is('OBJECT'))">
 						"param": [
 							<for each="p" in="symbol.get('param')">{
@@ -25,7 +26,7 @@
 								"desc": "{+escJson(p.desc)+} "
 							}<if test="!$p_last">,
 							</if></for>
-						],</if>
+						],</if><if test="(!symbol.is('OBJECT'))">
 						"property": [
 							<for each="p" in="symbol.properties">{
 								"name": "{+p+}"
@@ -37,7 +38,7 @@
 								"name": "{+m+}"
 							}<if test="!$m_last">,
 							</if></for>
-						],
+						],</if>
 						"tag": [
 							<for each="t" in="symbol.get()">{
 								"title": "{+t.title+}",

@@ -32,9 +32,9 @@ the official Rhino web page: http://www.mozilla.org/rhino/
 On a computer running Windows a valid command line to run JsDoc
 Toolkit might look like this:
 
-> java -jar lib\js.jar lib\run.js -t=templates\xml tests\data\test.js
+> java -jar app\js.jar app\run.js -t=templates\xml tests\data\test.js
 
-This assumes your current working directory contains the lib, tests
+This assumes your current working directory contains the app, test
 and templates subdirectories from the standard JsDoc Toolkit 
 distribution. If you have the js.jar file saved to a place in your
 system's Java CLASSPATH, it can safely be omitted from the command.
@@ -45,21 +45,13 @@ a -d=somewhere/else option, to somewhere else.
 
 For help (usage notes) enter this:
 
- > java -jar lib\js.jar lib\run.js -h
-
-=====================================================================
-
-CREDITS:
-
-Developers who have contributed code to this project include:
-  Michael Mathews
-  Ryan Zielke
-  eleith
+ > java -jar app\js.jar app\run.js -h
 
 =====================================================================
 
 LICENSE:
 
+1.
 Rhino (JavaScript in Java) is open source and licensed by Mozilla
 under the MPL 1.1 or later/GPL 2.0 or later licenses, the text of which
 is available at http://www.mozilla.org/MPL/
@@ -67,11 +59,17 @@ is available at http://www.mozilla.org/MPL/
 You can obtain the source code for Rhino via the Mozilla web site at
 http://www.mozilla.org/rhino/download.html
 
-JsDoc Toolkit is a larger work that uses Rhino without modification
-and without any claims whatsoever. The portions of code specific to
-JsDoc Toolkit are open source and licensed under the X11/MIT License.
+2.
+Serializer.js, SerializerJS.js and SerializerXML.js are copyright
+Nico Westerdale, distributed with the author's permission. The latest
+source code for the Serializer libraries are available at
+http://www.iconico.com/
 
-Specifically, JsDoc Toolkit is subject to the following provisions...
+3.
+JsDoc Toolkit is a larger work that uses Rhino and Serializer.js
+without modification and without any claims whatsoever. The portions of
+code specific to JsDoc Toolkit are open source and licensed under the
+X11/MIT License.
 
 Copyright (c) 2007 Michael Mathews <micmath@gmail.com>
 

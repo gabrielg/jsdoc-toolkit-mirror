@@ -1,9 +1,11 @@
 /**
  * @fileOverview This "library" contains "a 
  *               lot of classes and functions.
- * @example <code>
+ * @example
+ <pre>
+	var x (x < 1);
 	alert("This 'is' \"code\"");
- </code>
+ </pre>
  * @library My Cool Library
  * @author 	Joe Smith jsmith@company.com
  * @version 	0.1 

@@ -1,7 +1,5 @@
 /** @constructor */
 function Doclet(comment) {
-	this.comment = comment;
-	
 	var src = comment.replace(/(^\/\*\*|\*\/$)/g, "").replace(/^\s*\* ?/gm, "");
 	if (src.match(/^\s*[^@\s]/)) src = "@desc "+src;
 	

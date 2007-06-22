@@ -13,8 +13,13 @@ load(__DIR__+"JsToke.js");
 load(__DIR__+"JsParse.js");
 load(__DIR__+"DocTag.js");
 load(__DIR__+"Doclet.js");
-load(__DIR__+"JsPlate.js");
-load(__DIR__+"JsTestrun.js");
+//load(__DIR__+"JsPlate.js");
+//load(__DIR__+"JsTestrun.js");
+
+load(__DIR__+"Serializer.js");
+load(__DIR__+"SerializerJS.js");
+load(__DIR__+"SerializerXML.js");
+load(__DIR__+"Transformer.js");
 
 Main = function(options) {
 	JsDoc.opt = options;
@@ -58,7 +63,47 @@ Main = function(options) {
 	IO.makeDir(JsDoc.opt.d);
 
 	JsDoc.parse(srcFiles);
-	JsDoc.publish();
+	
+	var objSerializer = new JSSerializer();
+	//Prefs
+	objSerializer.Types.UseFunction =	false;
+	objSerializer.Prefs.SmartIndent =	true;
+	objSerializer.Prefs.ShowLineBreaks =true;
+	
+	/*objSerializer.Prefs.SmartIndent =	true;
+	objSerializer.Prefs.ShowLineBreaks =true;
+	objSerializer.Prefs.ShowTypes =		true;
+	//Types
+	objSerializer.Types.UseNull =		true;
+	objSerializer.Types.UseUndefined =	true;
+	objSerializer.Types.UseArray =		true;
+	objSerializer.Types.UseObject =		true;
+	objSerializer.Types.UseBoolean =	true;
+	objSerializer.Types.UseDate =		true;
+	objSerializer.Types.UseError =		true;
+	objSerializer.Types.UseFunction =	true;
+	objSerializer.Types.UseNumber =		true;
+	objSerializer.Types.UseRegExp =		true;
+	objSerializer.Types.UseString =		true;
+	objSerializer.Types.UseUserDefined =true;
+	//Rules
+	objSerializer.CheckInfiniteLoops =	true;
+	objSerializer.MaxDepth =			true;
+	*/
+	objSerializer.Serialize(JsDoc.files);
+	
+	if (JsDoc.opt.d) {
+		IO.saveFile(JsDoc.opt.d, "jsdoc.xml", objSerializer.GetXMLString('JsDoc'));
+	}
+	
+	var t = new Transformer(JsDoc.opt.t);
+	t.transform(JsDoc.opt.d+"/jsdoc.xml", JsDoc.opt.d+"/jsdoc.html");
+	//frm.txaOut2.value = objSerializer.GetXMLString('MyMonkey');
+	//print(myDocument);
+	
+	
+	//print(JsDoc.files.toJSONString());
+	//JsDoc.publish();
 }
 
 var options = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", v:"verbose", h:"help", p:"private", a:"allfunctions", l:"load"});

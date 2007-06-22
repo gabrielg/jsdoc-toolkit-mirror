@@ -23,9 +23,10 @@ JsDoc = {};
 
 /** @constructor */
 JsDoc.File = function(path) {
-	this.path = path;
-	this.name = Util.fileName(path);
+	//this.name = Util.fileName(path);
 	this.overview = new Symbol(this.name, [], "FILE", new Doclet(""));;
+	this.overview.alias = path
+	
 	this.symbols = [];
 }
 

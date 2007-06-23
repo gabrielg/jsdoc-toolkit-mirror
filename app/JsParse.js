@@ -31,7 +31,7 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
 			return true;
 		}
-		else if (/@(projectdescription|fileoverview)\b/i.test(doc)) {
+		else if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
 			this.overview = doc.replace(RegExp.$1, "overview"); // synonym
 			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
 			return true;

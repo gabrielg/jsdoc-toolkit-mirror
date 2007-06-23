@@ -37,7 +37,7 @@ IO.saveFile = function(outDir, fileName, content) {
 IO.copyFile = function(inFile, outDir, fileName) {
 	if (fileName == null) fileName = Util.fileName(inFile);
 	var out = new FileWriter(outDir+FileSeparator+fileName);
-	out.write(ReadFile(inFile));
+	out.write(IO.readFile(inFile));
 	out.flush();
 	out.close();
 }

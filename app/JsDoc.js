@@ -15,7 +15,7 @@ LOG = {
 	},
 
 	inform: function(msg) {
-		if (JsDoc.opt.v) print(" > "+msg);
+		print(" > "+msg);
 	}
 };
 
@@ -23,8 +23,7 @@ JsDoc = {};
 
 /** @constructor */
 JsDoc.File = function(path) {
-	//this.name = Util.fileName(path);
-	this.overview = new Symbol(this.name, [], "FILE", new Doclet(""));;
+	this.overview = new Symbol(this.name, [], "FILE", "");;
 	this.overview.alias = path
 	
 	this.symbols = [];
@@ -38,39 +37,30 @@ JsDoc.File.prototype.addSymbol = function(s) {
 	this.symbols.push(s);
 }
 
-//function deploy_begin(context) {}
-//function deploy_each(source, context) {}
-//function deploy_finish(context) {}
-function publish_begin(allFiles, context) {}
-function publish_each(file, context) {}
-function publish_finish(allFiles, context) {}
+function publish(allFiles, opt) {}
 
-JsDoc.parse = function(srcFiles) {
-	JsDoc.files = [];
+JsDoc.parse = function(srcFiles, opt) {
+	var files = [];
 	
 	if (typeof srcFiles == "string") srcFiles = [srcFiles];	
-	//deploy_begin(JsDoc.opt);
 	
-	for (var i = 0; i < srcFiles.length; i++) {
-		var srcFile = srcFiles[i];
+	for (var f = 0; f < srcFiles.length; f++) {
+		var srcFile = srcFiles[f];
 		
-		LOG.inform("Tokenizing: "+srcFile);
+		LOG.inform("Tokenizing: "+(f+1)+" "+srcFile);
 		var src = IO.readFile(srcFile);
-		
 		
 		var tokens = new TokenReader(src).tokenize();
 		LOG.inform("\t"+tokens.length+" tokens found.");
 		var ts = new TokenStream(tokens);
 		
 		var file = new JsDoc.File(srcFile);
-		
-		LOG.inform("Parsing: "+srcFile);
 		var parser = new JsParse();
 		parser.parse(ts);
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");
 		
 		for (var s = 0; s < parser.symbols.length; s++) {
-			parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
+			//parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
 			if (parser.symbols[s].is(SYM.VIRTUAL)) {
 				if (parser.symbols[s].doc.getTag("function").length)
 					parser.symbols[s].isa = SYM.FUNCTION;
@@ -84,7 +74,7 @@ JsDoc.parse = function(srcFiles) {
 	
 			if (parser.symbols[s].doc.getTag("ignore").length)
 				continue;
-			if (parser.symbols[s].doc.getTag("undocumented").length && !JsDoc.opt.a)
+			if (parser.symbols[s].doc.getTag("undocumented").length && !opt.a)
 				continue;
 			
 			if (parser.symbols[s].doc.getTag("memberof").length)
@@ -97,9 +87,14 @@ JsDoc.parse = function(srcFiles) {
 				var parts = parser.symbols[s].name.match(/^(.+)\/([^\/]+)$/);
 				var parentName = parts[1].replace(/\//g, ".");
 				var childName = parts[2];
-				var parent;
+				
+				
+				parser.symbols[s].alias = parser.symbols[s].name.replace(/\//g, ".");
+				parser.symbols[s].name = childName;
+				parser.symbols[s].memberof = parentName;
 				
 				// is the parent defined?
+				var parent;
 				for (var i = 0; i < file.symbols.length; i++) {
 					if (file.symbols[i].alias == parentName) {
 						parent = file.symbols[i];
@@ -109,40 +104,22 @@ JsDoc.parse = function(srcFiles) {
 
 				if (!parent) LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
 				else {
-					if (parser.symbols[s].is("OBJECT")) parent.properties.push(childName);
-					if (parser.symbols[s].is("FUNCTION")) parent.methods.push(childName);
+					if (parser.symbols[s].is("OBJECT")) parent.properties.push({name: parser.symbols[s].name, alias: parser.symbols[s].alias});
+					if (parser.symbols[s].is("FUNCTION")) parent.methods.push({name: parser.symbols[s].name, alias: parser.symbols[s].alias});
 				}
-				parser.symbols[s].alias = parser.symbols[s].name.replace(/\//g, ".");
-				parser.symbols[s].name = childName;
-				parser.symbols[s].memberof = parentName;
+				
 			}
 			
 			file.addSymbol(parser.symbols[s]);
 			
 		}
-		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", new Doclet(parser.overview));
 		
-		JsDoc.files.push(file);
+		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", parser.overview);
+		else file.overview = new Symbol(srcFile, [], "FILE", "/** No overview. */");
+		
+		files.push(file);
 	}
-	
-	//deploy_finish(JsDoc.opt);	
-}
-
-JsDoc.publish = function() {
-	if (JsDoc.opt.t === undefined) {
-		LOG.warn("No template provided.");
-		JsDoc.usage();
-	}
-	JsDoc.opt.t += "/";
-	load(JsDoc.opt.t+"publish.js");
-	
-	publish_begin(JsDoc.files, JsDoc.opt);
-	
-	for (var i = 0; i < JsDoc.files.length; i++) {
-		publish_each(JsDoc.files[i], JsDoc.opt);
-	}
-	
-	publish_finish(JsDoc.files, JsDoc.opt);
+	return files;
 }
 
 /**

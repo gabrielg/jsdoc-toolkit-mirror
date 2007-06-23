@@ -7,13 +7,7 @@ SYM = {
 };
 
 /** @constructor */
-function Symbol(name, params, isa, doc, other) {
-	/*if (name.indexOf("/") > -1) {
-		var n = name.split("/");
-		var last = n.pop();
-		name = "{"+n.join("}.{")+"}."+last
-	}*/
-
+function Symbol(name, params, isa, comment) {
 	this.name = name;
 	this.alias = name;
 	this.params = params;
@@ -21,7 +15,13 @@ function Symbol(name, params, isa, doc, other) {
 	this.properties = [];
 	this.methods = [];
 	this.isa = isa;
-	this.doc = doc || "/** @undocumented */";
+	
+	this.doc = new Doclet((comment || "/** @undocumented */"));
+	
+	var library;
+	if (this.doc.getTag("overview").length && (library = this.doc.getTag("library")) && library.length) {
+		this.name = library[0].desc;
+	}
 }
 
 Symbol.prototype.toString = function() {

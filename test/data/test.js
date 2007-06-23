@@ -1,12 +1,14 @@
 /**
- * @fileOverview This library contains a lot of classes and functions.
- * @library My Cool Library
- * @author 	Joe Smith <jsmith@company.com>
+ * @overview This library contains a lot of classes and functions.
+ * @library Test Library
+ * @author <a href="mailto:jsmith@company.com">Joe Smith</a>
  * @version 	0.1
  @example
- <pre>
- 	new Shape2D.Rect(1, 2, 3);
- </pre>
+<pre class="code">
+var s = new Shape2D.Rect(1, 2, 3);
+s.rotate(90);
+</pre>
+ 
  */
  
 /** 

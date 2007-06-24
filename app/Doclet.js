@@ -54,3 +54,13 @@ Doclet.prototype.getTag = function(tagTitle) {
 	
 	return result;
 }
+
+Doclet.prototype.dropTag = function(tagTitle) {
+	var keep = [];
+	for (var i = 0; i < this.tags.length; i++) {
+		if (this.tags[i].title != tagTitle) {
+			keep.push(this.tags[i]);
+		}
+	}
+	this.tags = keep;
+}

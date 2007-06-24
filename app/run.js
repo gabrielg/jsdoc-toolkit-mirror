@@ -18,34 +18,34 @@ load(__DIR__+"SerializerJS.js");
 load(__DIR__+"SerializerXML.js");
 load(__DIR__+"Transformer.js");
 
-function Main(opt) {
-	if (opt.h || opt._.length == 0 || opt.t == "") JsDoc.usage();
+function Main() {
+	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
 
-	var recurse = (opt.r === true)? 10 : 1;
-	if (!isNaN(parseInt(opt.r))) recurse = parseInt(opt.r);
+	var recurse = (JsDoc.opt.r === true)? 10 : 1;
+	if (!isNaN(parseInt(JsDoc.opt.r))) recurse = parseInt(JsDoc.opt.r);
 	
-	if (opt.d === true) { // like when user enters: -d mydir
-		LOG.warn("-d option malformed.");
+	if (JsDoc.opt.d === true) { // like when user enters: -d mydir
+		LOG.warn("-d JsDoc.option malformed.");
 		JsDoc.usage();
 	}
-	else if (!opt.d) {
-		opt.d = "js_docs_out";
+	else if (!JsDoc.opt.d) {
+		JsDoc.opt.d = "js_docs_out";
 	}
-	LOG.inform("Creating output directory: "+opt.d);
-	IO.makeDir(opt.d);
+	LOG.inform("Creating output directory: "+JsDoc.opt.d);
+	IO.makeDir(JsDoc.opt.d);
 	
 	function isJs(element, index, array) {
 		return /\.js$/i.test(element); // we're only interested in js files
 	}
 	var srcFiles = [];
-	for (var d = 0; d < opt._.length; d++) {
+	for (var d = 0; d < JsDoc.opt._.length; d++) {
 		srcFiles = srcFiles.concat(
-			IO.ls(opt._[d], recurse).filter(isJs)
+			IO.ls(JsDoc.opt._[d], recurse).filter(isJs)
 		);
 	}
 	
 	LOG.inform("Source files found:\n\t"+srcFiles.join("\n\t"));
-	var files = JsDoc.parse(srcFiles, opt);
+	var files = JsDoc.parse(srcFiles, JsDoc.opt);
 	
 	var serializer = new JSSerializer();
 	serializer.Types.UseFunction	= false;
@@ -53,14 +53,28 @@ function Main(opt) {
 	serializer.Prefs.ShowLineBreaks	= true;
 	serializer.Serialize(files);
 	
-	var xmlout = "jsdoc.xml";
-	IO.saveFile(opt.d, xmlout, serializer.GetXMLString('JsDoc'));
+	var outfile;
+	if (JsDoc.opt.s) {
+		outfile = "_jsdoc.js";
+		LOG.inform("Serializing to JavaScript source...");
+		IO.saveFile(JsDoc.opt.d, outfile, serializer.GetJSString('JsDoc'));
+	}
+	else if (JsDoc.opt.j) {
+		outfile = "_jsdoc_json.js";
+		load(__DIR__+"JSON.js");
+		LOG.inform("Serializing to JSON...");
+		IO.saveFile(JsDoc.opt.d, outfile, files.toJSONString());
+	}
+	else {
+		outfile = "_jsdoc.xml";
+		LOG.inform("Serializing to XML...");
+		IO.saveFile(JsDoc.opt.d, outfile, serializer.GetXMLString('JsDoc'));
+	}
 	delete serializer;
 	
-	load(opt.t+"/publish.js");
-	publish(opt.d+"/"+xmlout, opt);
+	load(JsDoc.opt.t+"/publish.js");
+	publish(JsDoc.opt.d+"/"+outfile);
 }
 
-Main(
-	Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", v:"verbose", h:"help", a:"allfunctions"})
-);
+JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", v:"verbose", h:"help", a:"allfunctions"});
+Main();

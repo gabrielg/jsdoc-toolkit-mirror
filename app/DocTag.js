@@ -8,7 +8,7 @@ DocTag = function(src) {
 	if (this.type) {
 		this.type = this.type.replace(/\s*(,|\|)\s*/g, "|");
 	}
-	this.name = "";
+	this.name = undefined;
 	this.desc = parts[3];
 	
 	if (this.desc) {

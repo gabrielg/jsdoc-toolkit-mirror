@@ -2,7 +2,6 @@ SYM = {
 	OBJECT:			"OBJECT",
 	FUNCTION:		"FUNCTION",
 	CONSTRUCTOR:	"CONSTRUCTOR",
-	METHOD:			"METHOD",
 	VIRTUAL:		"VIRTUAL",
 };
 
@@ -10,17 +9,50 @@ SYM = {
 function Symbol(name, params, isa, comment) {
 	this.name = name;
 	this.alias = name;
+	this.desc = "";
 	this.params = params;
 	this.memberof = "";
 	this.properties = [];
 	this.methods = [];
 	this.isa = isa;
 	
-	this.doc = new Doclet((comment || "/** @undocumented */"));
+	this.doc = new Doclet((comment || "/** @desc undocumented */"));
 	
-	var library;
-	if (this.doc.getTag("overview").length && (library = this.doc.getTag("library")) && library.length) {
-		this.name = library[0].desc;
+	// move certain data out of the tags and into the Symbol
+	if (this.doc.getTag("overview").length) {
+		var libraries;
+		if ((libraries = this.doc.getTag("library")) && libraries.length) {
+			this.name = libraries[0].desc;
+			this.doc.dropTag("library");
+		}
+		
+		var overviews = this.doc.getTag("overview");
+		this.desc = overviews[0].desc;
+		this.doc.dropTag("overview");
+	}
+	else {
+		var descs = this.doc.getTag("desc");
+		if (descs.length) {
+			this.desc = descs[0].desc;
+			this.doc.dropTag("desc");
+		}
+		
+		var params = this.doc.getTag("param");
+		if (params.length) { // user defined params override those defined by parser
+			this.params = params;
+			this.doc.dropTag("param");
+		}
+		else { // promote parser params into DocTag objects
+			for (var i = 0; i < this.params.length; i++) {
+				this.params[i] = new DocTag("param "+this.params[i]);
+			}
+		}
+		
+		var constructors = this.doc.getTag("constructor");
+		if (constructors.length) {
+			this.isa = SYM.CONSTRUCTOR;
+			this.doc.dropTag("constructor");
+		}
 	}
 }
 
@@ -30,42 +62,4 @@ Symbol.prototype.toString = function() {
 
 Symbol.prototype.is = function(what) {
     return this.isa === SYM[what];
-}
-
-Symbol.prototype.getName = function() {
-	var names;
-	if (this.doc.getTag("overview")) {
-		names = this.doc.getTag("library");
-	}
-	else {
-		names = this.doc.getTag("name");
-	}
-	
-	if (names.length) return names[0].desc;
-	else if (this.name) return this.name;
-}
-
-Symbol.prototype.getDesc = function() {
-	var descs = this.doc.getTag("desc");
-	if (descs.length) {
-		return descs[0].desc
-	}
-	else {
-		var overviews = this.doc.getTag("overview");
-		if (overviews.length) return overviews[0].desc
-	}
-}
-
-Symbol.prototype.get = function(tagName) {
-	var results = this.doc.getTag(tagName); // try and get user defined param tags
-	
-	if (tagName == "param") {
-		if (this.params.length && !results.length) { // no user defined params so use parser defined params
-			results = [];
-			for (var i = 0; i < this.params.length; i++) {
-				results.push(new DocTag("param "+this.params[i]));
-			}
-		}
-	}
-	return results;
 }

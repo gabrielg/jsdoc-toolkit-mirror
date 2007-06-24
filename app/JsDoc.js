@@ -37,9 +37,9 @@ JsDoc.File.prototype.addSymbol = function(s) {
 	this.symbols.push(s);
 }
 
-function publish(allFiles, opt) {}
+function publish(allFiles) {}
 
-JsDoc.parse = function(srcFiles, opt) {
+JsDoc.parse = function(srcFiles) {
 	var files = [];
 	
 	if (typeof srcFiles == "string") srcFiles = [srcFiles];	
@@ -74,7 +74,7 @@ JsDoc.parse = function(srcFiles, opt) {
 	
 			if (parser.symbols[s].doc.getTag("ignore").length)
 				continue;
-			if (parser.symbols[s].doc.getTag("undocumented").length && !opt.a)
+			if (parser.symbols[s].doc.getTag("undocumented").length && !JsDoc.opt.a)
 				continue;
 			
 			if (parser.symbols[s].doc.getTag("memberof").length)
@@ -115,7 +115,7 @@ JsDoc.parse = function(srcFiles, opt) {
 		}
 		
 		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", parser.overview);
-		else file.overview = new Symbol(srcFile, [], "FILE", "/** No overview. */");
+		else file.overview = new Symbol(srcFile, [], "FILE", "/** @overview No overview provided. */");
 		
 		files.push(file);
 	}

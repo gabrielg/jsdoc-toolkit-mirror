@@ -23,7 +23,7 @@ JsPlate.prototype.parse = function() {
 		function (match, eachName, inName, sortby) {
 			if (!sortby) sortby = "asis";
 			
-			return "``; var $"+eachName+"_keys = "+sortby+"("+inName+"); for(var $"+eachName+"_key = 0; $"+eachName+"_key < $"+eachName+"_keys.length; $"+eachName+"_key++) { var $"+eachName+"_last = ($"+eachName+"_key == $"+eachName+"_keys.length-1); var $"+eachName+" = $"+eachName+"_keys[$"+eachName+"_key]; var "+eachName+" = "+inName+"[$"+eachName+"]; output+=``";
+			return "``; var $"+eachName+"_keys = "+sortby+"("+inName+"); for(var $"+eachName+"_i = 0; $"+eachName+"_i < $"+eachName+"_keys.length; $"+eachName+"_i++) { var $"+eachName+"_last = ($"+eachName+"_i == $"+eachName+"_keys.length-1); var $"+eachName+"_key = $"+eachName+"_keys[$"+eachName+"_i]; var "+eachName+" = "+inName+"[$"+eachName+"_key]; output+=``";
 		}
 	);	
 	this.code = this.code.replace(/<if test="(.+?)">/g, "``; if ($1) { output+=``");

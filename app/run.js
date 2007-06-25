@@ -13,10 +13,11 @@ load(__DIR__+"JsToke.js");
 load(__DIR__+"JsParse.js");
 load(__DIR__+"DocTag.js");
 load(__DIR__+"Doclet.js");
-load(__DIR__+"Serializer.js");
-load(__DIR__+"SerializerJS.js");
-load(__DIR__+"SerializerXML.js");
-load(__DIR__+"Transformer.js");
+load(__DIR__+"JsPlate.js");
+//load(__DIR__+"Serializer.js");
+//load(__DIR__+"SerializerJS.js");
+//load(__DIR__+"SerializerXML.js");
+//load(__DIR__+"Transformer.js");
 
 function Main() {
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
@@ -51,7 +52,7 @@ function Main() {
 	LOG.inform(srcFiles.length+" source file"+((srcFiles ==1)?"":"s")+" found:\n\t"+srcFiles.join("\n\t"));
 	var files = JsDoc.parse(srcFiles, JsDoc.opt);
 	
-	var serializer = new JSSerializer();
+	/*var serializer = new JSSerializer();
 	serializer.Prefs.SmartIndent	= true;
 	serializer.Prefs.ShowLineBreaks	= true;
 	serializer.Prefs.ShowTypes		= false;
@@ -81,13 +82,14 @@ function Main() {
 		IO.saveFile(JsDoc.opt.d, parsedFile, serializer.GetXMLString('jsdoc'));
 	}
 	delete serializer;
+	*/
 	
 	if (JsDoc.opt.t) {
 		JsDoc.opt.t += (JsDoc.opt.t.indexOf(IO.FileSeparator)==JsDoc.opt.t.length-1)?
 			"" : IO.FileSeparator;
 		LOG.inform("Loading template: "+JsDoc.opt.t+"publish.js");
 		load(JsDoc.opt.t+"publish.js");
-		publish(JsDoc.opt.d+parsedFile);
+		publish(files, JsDoc.opt);
 	}
 }
 

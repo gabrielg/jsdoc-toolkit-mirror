@@ -38,8 +38,13 @@ function getFoo(fooID, r){
 		/** A triangle with a 90 degree angle.
 			@constructor
 			@property {number} angles The angles.
+			@rating {stars} 3
+			@deprecated
 		*/
-		Right: function(a, b, c)	{}
+		Right: function(a, b, c)	{
+		/** The ratio. */
+		this.ratio = a+b/c;
+		}
 	},
 	/** The constant PI*/
 	PI: 3.14,
@@ -48,6 +53,7 @@ function getFoo(fooID, r){
 	{
 		this.addSide = function(newSide) {
 		}
+		
 	}
 };
 
@@ -83,6 +89,7 @@ function ShapeFactory() {
     this.SquareMaker = function(size) {
     	/** @constructor */
         this.Square = function(s) {
+        	/** The size. */
             this.size = s;
             this.display = function() {
                 alert("square: "+s);

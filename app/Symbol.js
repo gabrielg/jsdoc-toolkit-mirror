@@ -65,6 +65,15 @@ function Symbol(name, params, isa, comment) {
 			this.name = names[0].desc;
 			this.doc.dropTag("name");
 		}
+		
+		var properties;
+		if ((properties = this.doc.getTag("property")) && properties.length) {
+			for (var i = 0; i < properties.length; i++) {
+				properties[i].alias = this.alias+"."+properties[i].name;
+				this.properties.push(properties[i]);
+			}
+			this.doc.dropTag("property");
+		}
 	}
 	
 }

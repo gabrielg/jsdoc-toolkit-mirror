@@ -8,37 +8,37 @@ SYM = {
 /** @constructor */
 function Symbol(name, params, isa, comment) {
 	this.name = name;
-	this.alias = name;
-	this.desc = "";
-	this.params = params;
-	this.memberof = "";
-	this.properties = [];
-	this.methods = [];
+	this.params = (params || []);
 	this.isa = isa;
 	
-	this.doc = new Doclet((comment || "/** @desc undocumented */"));
+	this.alias = name;
+	this.desc = "";
+	this.memberof = undefined;
+	this.properties = [];
+	this.methods = [];
+	this.doc = new Doclet(comment);
 	
 	// move certain data out of the tags and into the Symbol
-	if (this.doc.getTag("overview").length) {
+	var overviews;
+	if ((overviews = this.doc.getTag("overview")) && overviews.length) {
 		var libraries;
 		if ((libraries = this.doc.getTag("library")) && libraries.length) {
 			this.name = libraries[0].desc;
 			this.doc.dropTag("library");
 		}
 		
-		var overviews = this.doc.getTag("overview");
 		this.desc = overviews[0].desc;
 		this.doc.dropTag("overview");
 	}
 	else {
-		var descs = this.doc.getTag("desc");
-		if (descs.length) {
+		var descs;
+		if ((descs = this.doc.getTag("desc")) && descs.length) {
 			this.desc = descs[0].desc;
 			this.doc.dropTag("desc");
 		}
 		
-		var params = this.doc.getTag("param");
-		if (params.length) { // user defined params override those defined by parser
+		var params;
+		if ((params = this.doc.getTag("param")) && params.length) { // user defined params override those defined by parser
 			this.params = params;
 			this.doc.dropTag("param");
 		}
@@ -48,18 +48,31 @@ function Symbol(name, params, isa, comment) {
 			}
 		}
 		
-		var constructors = this.doc.getTag("constructor");
-		if (constructors.length) {
+		var constructors;
+		if ((constructors = this.doc.getTag("constructor")) && constructors.length) {
 			this.isa = SYM.CONSTRUCTOR;
 			this.doc.dropTag("constructor");
 		}
+		
+		var functions;
+		if ((functions = this.doc.getTag("function")) && functions.length) {
+			this.isa = SYM.FUNCTION;
+			this.doc.dropTag("function");
+		}
+		
+		var names;
+		if ((names = this.doc.getTag("name")) && names.length) {
+			this.name = names[0].desc;
+			this.doc.dropTag("name");
+		}
 	}
+	
 }
 
-Symbol.prototype.toString = function() {
+/*Symbol.prototype.toString = function() {
 	return "[object Symbol]";
 }
-
+*/
 Symbol.prototype.is = function(what) {
     return this.isa === SYM[what];
 }

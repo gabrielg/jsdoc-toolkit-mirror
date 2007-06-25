@@ -15,7 +15,7 @@
 	<title>JsDoc Index</title>
 	</head>
 	<body>
-		<ul><xsl:for-each select="./JsDoc/Item">
+		<ul><xsl:for-each select="./jsdoc/Item">
 		<xsl:variable name="filename" select="concat('_', position(), '.html')" />
 		<li>
 		<a class="toc" href="{$filename}"><xsl:copy-of select="./overview/name"/></a>

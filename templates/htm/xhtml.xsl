@@ -65,7 +65,7 @@
 
 <!-- main document -->
 <xsl:template match="/">
-<xsl:for-each select="./JsDoc/Item">
+<xsl:for-each select="./jsdoc/Item">
 <xsl:variable name="filename" select="concat('_', position(), '.html')" />
 <xsl:result-document href="{$filename}">
 

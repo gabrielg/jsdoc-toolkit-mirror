@@ -48,7 +48,7 @@ function GetJSStringItem(obj) {
 		
 		if (obj.Link != null) {
 			//link to ancestor object
-			arr[arr.length] = ' = ' + ItemPath(obj.Link) + ';';
+			arr[arr.length] = ' = ' + ItemPath(obj.Link) + ';;; //'+obj.Link;
 		} else {
 			//regular object
 			switch (obj.ExactType) {

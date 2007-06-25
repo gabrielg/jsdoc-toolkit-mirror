@@ -4,7 +4,7 @@ var IO = {};
 // shortcuts
 FileWriter = Packages.java.io.FileWriter;
 File = Packages.java.io.File;
-FileSeparator = Packages.java.io.File.separator;
+IO.FileSeparator = Packages.java.io.File.separator;
 
 /**
  * Gets the contents of a file.
@@ -22,7 +22,7 @@ IO.readFile = function(path) {
  * @param {string} content To write to the new file.
  */
 IO.saveFile = function(outDir, fileName, content) {
-	var out = new FileWriter(outDir+FileSeparator+fileName);
+	var out = new FileWriter(outDir+IO.FileSeparator+fileName);
 	out.write(content);
 	out.flush();
 	out.close();
@@ -36,7 +36,7 @@ IO.saveFile = function(outDir, fileName, content) {
  */
 IO.copyFile = function(inFile, outDir, fileName) {
 	if (fileName == null) fileName = Util.fileName(inFile);
-	var out = new FileWriter(outDir+FileSeparator+fileName);
+	var out = new FileWriter(outDir+IO.FileSeparator+fileName);
 	out.write(IO.readFile(inFile));
 	out.flush();
 	out.close();

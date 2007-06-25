@@ -14,9 +14,10 @@ s.rotate(90);
 /** 
 * Gets the current foo 
 * @param {String} fooId	The unique identifier for the foo.
+* @param [r]	Recursion level.
 * @return {Object}	Returns the current foo.
 */
-function getFoo(fooID){
+function getFoo(fooID, r){
 }
 /**
  * @desc This is a library of geometry-related functions.
@@ -53,7 +54,7 @@ function getFoo(fooID){
 function Shape3D(){}
 	Shape3D.prototype.shrink = function(ratio) {}
 /**
- * @alias Shape3D.Combine
+ * A Geo.
  *
  */
 Geo = <!-- ignore me

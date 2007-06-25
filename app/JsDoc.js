@@ -22,22 +22,17 @@ LOG = {
 JsDoc = {};
 
 /** @constructor */
-JsDoc.File = function(path) {
-	this.overview = new Symbol(this.name, [], "FILE", "");;
+function DocFile(path) {
+	this.overview = new Symbol(path, [], "FILE", "");
 	this.overview.alias = path
-	
 	this.symbols = [];
 }
 
-JsDoc.File.prototype.toString = function() {
-	return "[object File]";
-}
-
-JsDoc.File.prototype.addSymbol = function(s) {
+DocFile.prototype.addSymbol = function(s) {
 	this.symbols.push(s);
 }
 
-function publish(allFiles) {}
+function publish() {}
 
 JsDoc.parse = function(srcFiles) {
 	var files = [];
@@ -47,14 +42,14 @@ JsDoc.parse = function(srcFiles) {
 	for (var f = 0; f < srcFiles.length; f++) {
 		var srcFile = srcFiles[f];
 		
-		LOG.inform("Tokenizing: "+(f+1)+" "+srcFile);
+		LOG.inform("Tokenizing: file "+(f+1)+", "+srcFile);
 		var src = IO.readFile(srcFile);
 		
 		var tokens = new TokenReader(src).tokenize();
 		LOG.inform("\t"+tokens.length+" tokens found.");
 		var ts = new TokenStream(tokens);
 		
-		var file = new JsDoc.File(srcFile);
+		var file = new DocFile(srcFile);
 		var parser = new JsParse();
 		parser.parse(ts);
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");

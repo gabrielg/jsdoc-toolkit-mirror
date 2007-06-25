@@ -1,5 +1,7 @@
 /** @constructor */
 function Doclet(comment) {
+	if (!comment) comment = "/** undocumented */";
+
 	var src = comment.replace(/(^\/\*\*|\*\/$)/g, "").replace(/^\s*\* ?/gm, "");
 	if (src.match(/^\s*[^@\s]/)) src = "@desc "+src;
 	
@@ -12,24 +14,21 @@ function Doclet(comment) {
 	}
 }
 
-Doclet.prototype.toString = function() {
+/*Doclet.prototype.toString = function() {
 	return "[object Doclet]";
-}
+}*/
 
 SYSTAG = {
 	"name": true,
 	"desc": true,
 	"param": true,
 	"return": true,
-	//"property": true,
 	"overview": true,
 	"memberof": true,
 	"type": true,
 	"constructor": true,
 	"alias": true,
 	"function": true,
-	//"method": true,
-	"undocumented": true,
 	"private": true,
 	"library": true
 };

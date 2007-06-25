@@ -1,23 +1,14 @@
-/*function publish_begin(allFiles, context) {
-	LOG.inform("Publish begin.");
-	context.template = new JsPlate(context.t+"file.tmpl");
-	context.output = "<?xml version=\"1.0\"?>\n<files>\n";
-}*/
-
-function publish(xmlout, opt) {
+function publish(parsedFile) {
 	LOG.inform("Publishing...");
-	var t = new Transformer(opt.t+"/xhtml.xsl");
-	t.transform(xmlout, opt.d+"/jsdoc.html");
 	
-	var t = new Transformer(opt.t+"/index.xsl");
-	t.transform(xmlout, opt.d+"/index.html");
-	IO.copyFile(opt.t+"/style.css", opt.d);
-}
-
-/*function publish_finish(allFiles, context) {
-	context.output += "\n</files>\n";
-	if (context.d) {
-		IO.saveFile(context.d, "jsdoc.xml", context.output);
+	if (!/\.xml/.test(parsedFile)) {
+		throw new TypeError("ParsedFile '"+parsedFile+"' is not an xml file.");
 	}
-	LOG.inform("Publish finished.");
-}*/
+	
+	var t = new Transformer(JsDoc.opt.t+"/xhtml.xsl");
+	t.transform(parsedFile, JsDoc.opt.d+"/jsdoc.html");
+	
+	var t = new Transformer(JsDoc.opt.t+"/index.xsl");
+	t.transform(parsedFile, JsDoc.opt.d+"/index.html");
+	IO.copyFile(JsDoc.opt.t+"/style.css", JsDoc.opt.d);
+}

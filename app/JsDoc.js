@@ -99,8 +99,12 @@ JsDoc.parse = function(srcFiles) {
 
 				if (!parent) LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
 				else {
-					if (parser.symbols[s].is("OBJECT")) parent.properties.push({name: parser.symbols[s].name, alias: parser.symbols[s].alias});
-					if (parser.symbols[s].is("FUNCTION")) parent.methods.push({name: parser.symbols[s].name, alias: parser.symbols[s].alias});
+					if (parser.symbols[s].is("OBJECT")) {
+						parent.properties.push({type: parser.symbols[s].type, desc: parser.symbols[s].desc, name: parser.symbols[s].name, alias: parser.symbols[s].alias});
+					}
+					if (parser.symbols[s].is("FUNCTION")) {
+						parent.methods.push({name: parser.symbols[s].name, alias: parser.symbols[s].alias});
+					}
 				}
 				
 			}

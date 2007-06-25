@@ -74,6 +74,12 @@ function Symbol(name, params, isa, comment) {
 			}
 			this.doc.dropTag("property");
 		}
+		
+		var types;
+		if ((types = this.doc.getTag("type")) && types.length) {
+			this.type = types[0].desc; // multiple type tags are ignored
+			this.doc.dropTag("type");
+		}
 	}
 	
 }

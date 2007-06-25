@@ -12,6 +12,7 @@
 				<name>{+symbol.name+}</name>
 				<alias>{+symbol.alias+}</alias>
 				<memberof>{+symbol.memberof+}</memberof>
+				<type>{+symbol.type+}</type>
 				<desc>{+symbol.desc+}</desc>
 				<params><for each="param" in="symbol.params">
 					<param>
@@ -23,8 +24,10 @@
 				</for></params>
 				<properties><for each="prop" in="symbol.properties">
 					<property>
+						<type>{+prop.type+}</type>
 						<name>{+prop.name+}</name>
 						<alias>{+prop.alias+}</alias>
+						<desc>{+prop.desc+}</desc>
 					</property>
 				</for></properties>
 				<methods><for each="meth" in="symbol.methods">

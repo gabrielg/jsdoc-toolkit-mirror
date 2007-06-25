@@ -16,8 +16,10 @@ load(__DIR__+"../app/JsParse.js");
 load(__DIR__+"../app/DocTag.js");
 load(__DIR__+"../app/Doclet.js");
 load(__DIR__+"../app/JsTestrun.js");
-load(__DIR__+"../app/Debug.js");
+//load(__DIR__+"../app/Debug.js");
 
+
+//// set up harness
 JsDoc.opt = {};
 jsdoc = null;
 
@@ -108,13 +110,19 @@ var testCases = [
 		is('jsdoc[0].symbols[4].memberof', "Concat", 'Virtual property can define memberOf.');
 		is('jsdoc[0].symbols[4].alias', "Concat.separator", 'Virtual property alias reflects memberOf tag.');
 		is('jsdoc[0].symbols[2].properties[0].name', "separator", 'Virtual property appears as property in parent object.');
-		is('jsdoc[0].symbols[4].type', "String, Array", 'Virtual property can specify its type.');
+		is('jsdoc[0].symbols[4].type', "String", 'Virtual property can specify its type.');
 	},
 	function() {
 		testFile(__DIR__+"data/properties.js");
+//print(Data.dump(jsdoc))
+		is('jsdoc[0].symbols[1].properties[0].name', "methodId", 'Property in doc comment is added to parent.');
+		is('jsdoc[0].symbols[1].properties[0].type', "Number", 'Property in doc comment has type.');
+		
+		is('jsdoc[0].symbols[1].properties[0].desc', "The id of the method.", 'Property in doc comment has description.');
+		is('jsdoc[0].symbols[1].properties[3].desc', "Only used in older browsers.", 'Property in code body has description.');
 
-		is('jsdoc[0].symbols[1].properties[0].name', "_associated_with", 'Property in code body is added to parent.');
-		is('jsdoc[0].symbols[1].properties.length', 4, 'All properties in code body are added to parent.');
+		is('jsdoc[0].symbols[1].properties[1].name', "_associated_with", 'Property in code body is added to parent.');
+		is('jsdoc[0].symbols[1].properties.length', 5, 'All properties in code body are added to parent.');
 		is('jsdoc[0].symbols[1].methods[0].name', "associated_with", 'Method in code body is added to parent.');
 		is('jsdoc[0].symbols[2].alias', "Codework.Method._associated_with", 'Property appears as own symbol.');
 		is('jsdoc[0].symbols[2].isa', "OBJECT", 'Property symbol is a object.');
@@ -132,6 +140,6 @@ var testCases = [
 ];
 
 
-//// run and print
+//// run and print results
 
 print(testrun(testCases));

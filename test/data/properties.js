@@ -1,9 +1,14 @@
 if (Codework == undefined) var Codework = function () {};
 
+/**
+ * @property {Number} methodId The id of the method.
+ */
 Codework.Method = function (associated_with, code, arity) {
 	/** @type Object */		this._associated_with = associated_with;
 	/** @type String */		this._code            = code;
-    /** @type Boolean */	this._arity           = arity || 1;
+    /** 
+     * Only used in older browsers.
+     * @type Boolean */	this._arity           = arity || 1;
 	
 	/** The arguments. */
 	this._args = [];

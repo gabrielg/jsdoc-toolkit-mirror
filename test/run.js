@@ -115,7 +115,7 @@ var testCases = [
 	},
 	function() {
 		testFile(__DIR__+"data/properties.js");
-//print(Data.dump(jsdoc))
+
 		is('jsdoc[0].symbols[1].properties[0].name', "methodId", 'Property in doc comment is added to parent.');
 		is('jsdoc[0].symbols[1].properties[0].type', "Number", 'Property in doc comment has type.');
 		
@@ -162,6 +162,19 @@ var testCases = [
 		JsDoc.opt = {A:true};
 		testFile(__DIR__+"data/allfuncs_option.js");
 		is('jsdoc[0].symbols.length', 5, 'All functions found with -A.');
+	},
+	function() {
+		JsDoc.opt = {};
+		testFile(__DIR__+"data/ignore.js");
+		is('jsdoc[0].symbols.length', 0, 'Ignored functions are unseen without -a or -A.');
+		
+		JsDoc.opt = {A:true};
+		testFile(__DIR__+"data/ignore.js");
+		//print(Data.dump(jsdoc))
+		is('jsdoc[0].symbols.length', 3, 'Ignored functions are unseen with -A.');
+		is('jsdoc[0].symbols[0].alias', "Log.warn", 'Ignored parent has visible method with -A.');
+		is('jsdoc[0].symbols[2].alias', "Action.passTo", 'Ignored method is unseen with -A.');
+		
 	}
 ];
 

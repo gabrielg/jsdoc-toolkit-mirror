@@ -1,5 +1,6 @@
 // nested functions
 
+/** The layout object; */
 function Layout(){
 	this.init = function() {}
 	

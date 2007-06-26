@@ -39,6 +39,7 @@ JsDoc.parse = function(srcFiles) {
 	
 	if (typeof srcFiles == "string") srcFiles = [srcFiles];	
 	
+	// handle setting up relationships between symbols here
 	for (var f = 0; f < srcFiles.length; f++) {
 		var srcFile = srcFiles[f];
 		
@@ -55,28 +56,29 @@ JsDoc.parse = function(srcFiles) {
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");
 		
 		for (var s = 0; s < parser.symbols.length; s++) {
-			//parser.symbols[s].doc = new Doclet(parser.symbols[s].doc);
-			if (parser.symbols[s].is(SYM.VIRTUAL)) {
-				if (parser.symbols[s].doc.getTag("function").length)
-					parser.symbols[s].isa = SYM.FUNCTION;
-				else if (parser.symbols[s].doc.getTag("constructor").length)
-					parser.symbols[s].isa = SYM.CONSTRUCTOR;
-				else parser.symbols[s].isa = SYM.OBJECT;
-			}
 			
-			if (parser.symbols[s].doc.getTag("constructor").length || parser.symbols[s].doc.getTag("class").length)
-				parser.symbols[s].isa = SYM.CONSTRUCTOR
-	
 			if (parser.symbols[s].doc.getTag("ignore").length)
 				continue;
-			if (parser.symbols[s].doc.getTag("undocumented").length && !JsDoc.opt.a)
-				continue;
 			
-			if (parser.symbols[s].doc.getTag("memberof").length)
-				parser.symbols[s].name = parser.symbols[s].doc.getTag("memberof")[0]+"/"+parser.symbols[s].name;
-			if (parser.symbols[s].doc.getTag("type").length)
-				parser.symbols[s].type = parser.symbols[s].doc.getTag("type").join(", ");
+			var parents;
+			if ((parents = parser.symbols[s].doc.getTag("memberof")) && parents.length) {
+				parser.symbols[s].name = parents[0]+"/"+parser.symbols[s].name;
+				parser.symbols[s].doc.dropTag("memberof");
+			}
 			
+			if (parser.symbols[s].desc == "undocumented") {
+				if (/(^_|\/_)/.test(parser.symbols[s].name) && !JsDoc.opt.A){
+					continue;
+				}
+				if (!JsDoc.opt.a && !JsDoc.opt.A){
+					continue;
+				}
+			}
+			
+			var types;
+			if ((types = parser.symbols[s].doc.getTag("type")) && types.length) {
+				parser.symbols[s].type = types.join(", ");
+			}
 			// is this a member of another object?
 			if (parser.symbols[s].name.indexOf("/") > -1) {
 				var parts = parser.symbols[s].name.match(/^(.+)\/([^\/]+)$/);

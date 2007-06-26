@@ -9,7 +9,7 @@ SYM = {
 function Symbol(name, params, isa, comment) {
 	this.name = name;
 	this.params = (params || []);
-	this.isa = isa;
+	this.isa = (isa || SYM.OBJECT);
 	
 	this.alias = name;
 	this.desc = "";
@@ -60,6 +60,12 @@ function Symbol(name, params, isa, comment) {
 			this.doc.dropTag("function");
 		}
 		
+		var methods;
+		if ((functions = this.doc.getTag("method")) && functions.length) {
+			this.isa = SYM.FUNCTION;
+			this.doc.dropTag("method");
+		}
+		
 		var names;
 		if ((names = this.doc.getTag("name")) && names.length) {
 			this.name = names[0].desc;
@@ -80,6 +86,8 @@ function Symbol(name, params, isa, comment) {
 			this.type = types[0].desc; // multiple type tags are ignored
 			this.doc.dropTag("type");
 		}
+		
+		if (this.isa == SYM.VIRTUAL) this.isa = SYM.OBJECT;
 	}
 	
 }

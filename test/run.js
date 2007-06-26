@@ -16,7 +16,7 @@ load(__DIR__+"../app/JsParse.js");
 load(__DIR__+"../app/DocTag.js");
 load(__DIR__+"../app/Doclet.js");
 load(__DIR__+"../app/JsTestrun.js");
-//load(__DIR__+"../app/Debug.js");
+load(__DIR__+"../app/Debug.js");
 
 
 //// set up harness
@@ -47,6 +47,7 @@ var testCases = [
 		is('jsdoc[0].symbols[0].name', "Site", 'Mixed object literal name can be found.');
 	},
 	function() {
+		JsDoc.opt = {a: true};
 		testFile(__DIR__+"data/prototypes.js");
 		is('jsdoc[0].symbols[1].alias', "Article.getTitle", 'Prototype method name assigned from oblit can be found.');
 		is('jsdoc[0].symbols[1].memberof', "Article", 'Prototype method memberof assigned from oblit can be found.');
@@ -136,6 +137,31 @@ var testCases = [
 		is('jsdoc[0].symbols[1].memberof', "ShapeFactory", 'Constructor which is a member of another constructor identified.');
 		is('jsdoc[0].symbols[2].name', "Square", 'Nested constructor member name can be found.');
 		is('jsdoc[0].symbols[2].memberof', "ShapeFactory.SquareMaker", 'Nested constructor which is a member of another constructor identified.');
+	},
+	function() {
+		JsDoc.opt = {};
+		testFile(__DIR__+"data/underscore.js");
+		is('jsdoc[0].symbols.length', 0, 'No undocumented symbols allowed without -a or -A.');
+		
+		JsDoc.opt = {a:true};
+		testFile(__DIR__+"data/underscore.js");
+		is('jsdoc[0].symbols.length', 3, 'No undocumented, underscored symbols allowed with -a but not -A.');
+	
+		JsDoc.opt = {A:true};
+		testFile(__DIR__+"data/underscore.js");
+		is('jsdoc[0].symbols.length', 5, 'All undocumented symbols allowed with -A.');
+		is('jsdoc[0].symbols[0].methods[1].name', "_debug", 'Undocumented, underscored methods allowed with -A.');
+
+	},
+	function() {
+		JsDoc.opt = {};
+		testFile(__DIR__+"data/allfuncs_option.js");
+		is('jsdoc[0].symbols.length', 1, 'Documented method of undocumented parent found without -a or -A.');
+		is('jsdoc[0].symbols[0].alias', "_Action.passTo", 'Documented method of undocumented parent alias includes parent.');
+
+		JsDoc.opt = {A:true};
+		testFile(__DIR__+"data/allfuncs_option.js");
+		is('jsdoc[0].symbols.length', 5, 'All functions found with -A.');
 	}
 ];
 

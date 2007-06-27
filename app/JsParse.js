@@ -24,7 +24,7 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 	// like /** @alias foo.bar */
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
-		if (/@name\s+(.+)\s*/i.test(doc)) {
+		if (/@name\s+([A-Za-z\.$_0-9]+)\s*/i.test(doc)) {
 			this.symbols.push(
 				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);

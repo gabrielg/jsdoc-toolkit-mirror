@@ -34,7 +34,6 @@ function testFile(path) {
 var testCases = [
 	function() {
 		testFile(__DIR__+"data/functions.js");
-
 		ok('typeof(jsdoc) != "undefined"', 'jsdoc must be defined.');
 		is('jsdoc[0].symbols[0].alias', "Layout", 'Nested commented method name can be found.');
 	},
@@ -75,23 +74,27 @@ var testCases = [
 		is('jsdoc[0].symbols[0].doc.tags[0].title', "status", 'User-defined tag title can be found.');
 		is('jsdoc[0].symbols[0].doc.tags[0].desc', "experimental", 'User-defined tag with desc, desc can be found.');
 		is('jsdoc[0].symbols[0].doc.tags[1].title', "deprecated", 'User-defined tag with no desc, title can be found.');
-		is('jsdoc[0].symbols[0].doc.tags[1].desc', undefined, 'User-defined tag with no desc, desc can be found and is empty.');
+		is('jsdoc[0].symbols[0].doc.tags[1].desc', "", 'User-defined tag with no desc, desc can be found and is empty.');
+	},
+	function() {
+		testFile(__DIR__+"data/type.js");
+		is('jsdoc[0].symbols[0].type', "", 'Constructors can\'t have a type set.');
+		is('jsdoc[0].symbols[0].doc.tags.length', 0, 'Type doesn\'t appear in tags.');
+		is('jsdoc[0].symbols[1].type', "String", 'Properties can have a type set.');
+		is('jsdoc[0].symbols[2].type', "number", 'Variables can have a type set.');
 	},
 	function() {
 		JsDoc.opt.a = true; // grab ALL functions from now on
 		testFile(__DIR__+"data/functions.js");
-		
 		is('jsdoc[0].symbols[0].methods.length', 3, 'Undocumented function has undocumented methods.');
 		is('jsdoc[0].symbols[0].methods[2].name', "Canvas", 'Undocumented function has named undocumented methods.');
 		is('jsdoc[0].symbols[2].alias', "Layout.Element", 'Nested undocumented function has name.');
 		is('jsdoc[0].symbols[2].methods[0].name', "expand", 'Nested undocumented method is found.');
 		is('jsdoc[0].symbols[3].name', "expand", 'Nested undocumented function has name.');
 		is('jsdoc[0].symbols[3].alias', "Layout.Element.expand", 'Nested undocumented function has alias.');
-
 	},
 	function() {
 		testFile(__DIR__+"data/virtual.js");
-
 		is('jsdoc[0].symbols[0].name', "twiddle.flick", 'Virtual doclet name can be found.');
 		is('jsdoc[0].symbols[0].isa', "FUNCTION", 'Virtual doclet isa can be found.');
 		is('jsdoc[0].symbols[0].desc', "Twiddle the given flick.", 'Virtual doclet desc can be found.');
@@ -115,7 +118,6 @@ var testCases = [
 	},
 	function() {
 		testFile(__DIR__+"data/properties.js");
-
 		is('jsdoc[0].symbols[1].properties[0].name', "methodId", 'Property in doc comment is added to parent.');
 		is('jsdoc[0].symbols[1].properties[0].type', "Number", 'Property in doc comment has type.');
 		
@@ -151,7 +153,6 @@ var testCases = [
 		testFile(__DIR__+"data/underscore.js");
 		is('jsdoc[0].symbols.length', 5, 'All undocumented symbols allowed with -A.');
 		is('jsdoc[0].symbols[0].methods[1].name', "_debug", 'Undocumented, underscored methods allowed with -A.');
-
 	},
 	function() {
 		JsDoc.opt = {};
@@ -174,7 +175,6 @@ var testCases = [
 		is('jsdoc[0].symbols.length', 3, 'Ignored functions are unseen with -A.');
 		is('jsdoc[0].symbols[0].alias', "Log.warn", 'Ignored parent has visible method with -A.');
 		is('jsdoc[0].symbols[2].alias', "Action.passTo", 'Ignored method is unseen with -A.');
-		
 	}
 ];
 

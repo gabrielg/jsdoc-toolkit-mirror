@@ -38,7 +38,8 @@ JsDoc.parse = function(srcFiles) {
 	var files = [];
 	
 	if (typeof srcFiles == "string") srcFiles = [srcFiles];	
-	
+	var parser = new JsParse();
+		
 	// handle setting up relationships between symbols here
 	for (var f = 0; f < srcFiles.length; f++) {
 		var srcFile = srcFiles[f];
@@ -51,12 +52,10 @@ JsDoc.parse = function(srcFiles) {
 		var ts = new TokenStream(tokens);
 		
 		var file = new DocFile(srcFile);
-		var parser = new JsParse();
 		parser.parse(ts);
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");
 		
 		for (var s = 0; s < parser.symbols.length; s++) {
-			
 			if (parser.symbols[s].doc.getTag("ignore").length)
 				continue;
 			
@@ -75,10 +74,6 @@ JsDoc.parse = function(srcFiles) {
 				}
 			}
 			
-			var types;
-			if ((types = parser.symbols[s].doc.getTag("type")) && types.length) {
-				parser.symbols[s].type = types.join(", ");
-			}
 			// is this a member of another object?
 			if (parser.symbols[s].name.indexOf("/") > -1) {
 				var parts = parser.symbols[s].name.match(/^(.+)\/([^\/]+)$/);
@@ -89,9 +84,9 @@ JsDoc.parse = function(srcFiles) {
 				parser.symbols[s].alias = parser.symbols[s].name.replace(/\//g, ".");
 				parser.symbols[s].name = childName;
 				parser.symbols[s].memberof = parentName;
-				
+
 				// is the parent defined?
-				var parent;
+				var parent = undefined;
 				for (var i = 0; i < file.symbols.length; i++) {
 					if (file.symbols[i].alias == parentName) {
 						parent = file.symbols[i];

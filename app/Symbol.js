@@ -10,10 +10,10 @@ function Symbol(name, params, isa, comment) {
 	this.name = name;
 	this.params = (params || []);
 	this.isa = (isa || SYM.OBJECT);
-	
+	this.type = "";
 	this.alias = name;
 	this.desc = "";
-	this.memberof = undefined;
+	this.memberof = "";
 	this.properties = [];
 	this.methods = [];
 	this.doc = new Doclet(comment);
@@ -81,21 +81,26 @@ function Symbol(name, params, isa, comment) {
 			this.doc.dropTag("property");
 		}
 		
+		if (this.is("VIRTUAL")) this.isa = SYM.OBJECT;
+		
 		var types;
 		if ((types = this.doc.getTag("type")) && types.length) {
-			this.type = types[0].desc; // multiple type tags are ignored
+			if (this.is("OBJECT"))
+				this.type = (types[0].desc || ""); // multiple type tags are ignored
 			this.doc.dropTag("type");
 		}
-		
-		if (this.isa == SYM.VIRTUAL) this.isa = SYM.OBJECT;
 	}
 	
 }
 
-/*Symbol.prototype.toString = function() {
-	return "[object Symbol]";
-}
-*/
 Symbol.prototype.is = function(what) {
     return this.isa === SYM[what];
+}
+
+Symbol.prototype.signature = function() {
+    var result = [];
+    for (var i = 0; i < this.params.length; i++) {
+    	result.push(this.params[i].name);
+    }
+    return result.join(", ");
 }

@@ -31,3 +31,23 @@ Builder.make({construct: "Concat", params: ['strX', 'strY']}); // <-- this won't
  * @type Array
  * @memberOf Concat
  */
+ 
+ function Employee(id) {
+	/**
+	* id of the employee selected (could be logged user).
+	* @name employeeId
+	* @memberof Employee
+	* @type String
+	*/
+	
+	self.applyField(this, "employeeId", "String");
+}
+
+var Document = {
+	/**
+	* Title of this document.
+	* @name Document.title
+	* @type String
+	*/
+	id: generateId()
+}

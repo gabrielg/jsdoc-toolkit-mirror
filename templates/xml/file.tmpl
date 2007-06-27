@@ -36,6 +36,12 @@
 						<alias>{+meth.alias+}</alias>
 					</method>
 				</for></methods>
+				<returns><for each="ret" in="symbol.returns">
+					<return>
+						<type>{+ret.type+}</type>
+						<desc>{+ret.desc+}</desc>
+					</return>
+				</for></returns>
 				<tags><for each="tag" in="symbol.doc.tags">
 					<tag title="{+tag.title+}">
 						<type>{+tag.type+}</type>

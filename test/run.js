@@ -115,6 +115,11 @@ var testCases = [
 		is('jsdoc[0].symbols[4].alias', "Concat.separator", 'Virtual property alias reflects memberOf tag.');
 		is('jsdoc[0].symbols[2].properties[0].name', "separator", 'Virtual property appears as property in parent object.');
 		is('jsdoc[0].symbols[4].type', "String", 'Virtual property can specify its type.');
+		
+		is('jsdoc[0].symbols[6].alias', "Employee.employeeId", 'Virtual property inside a function can be seen.');
+		is('jsdoc[0].symbols[5].properties[0].name', "employeeId", 'Virtual property inside a function appears as property.');
+	
+		is('jsdoc[0].symbols[7].alias', "Document.title", 'Virtual object inside an object literal can be seen.');
 	},
 	function() {
 		testFile(__DIR__+"data/properties.js");
@@ -175,6 +180,21 @@ var testCases = [
 		is('jsdoc[0].symbols.length', 3, 'Ignored functions are unseen with -A.');
 		is('jsdoc[0].symbols[0].alias', "Log.warn", 'Ignored parent has visible method with -A.');
 		is('jsdoc[0].symbols[2].alias', "Action.passTo", 'Ignored method is unseen with -A.');
+	},
+	function() {
+		JsDoc.opt = {};
+		testFile(__DIR__+"data/returns.js");
+		is('jsdoc[0].symbols[0].returns.length', 1, 'A return tag appears in the returns array.');
+		is('jsdoc[0].symbols[0].doc.tags.length', 0, 'A return tag does not appear in the tags array.');
+		is('jsdoc[0].symbols[0].returns[0].type', "Array, String", 'A return type van contain multiple values and whitespaces.');
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"data/params.js");
+		is('jsdoc[0].symbols[0].params.length', 1, 'A param tag appears in the params array.');
+		is('jsdoc[0].symbols[0].params[0].type', "String, Array", 'A param type van contain multiple values and whitespaces.');
+		is('jsdoc[0].symbols[1].params.length', 3, 'Undocumented param tags appear in the params array.');
+		is('jsdoc[0].symbols[1].signature()', "source, format, target", 'Can get params as a signature.');
 	}
 ];
 

@@ -160,7 +160,10 @@ JsParse.prototype.findVariable = function(ts) { /*dbg*///print("findVariable  "+
 
 JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiteral("+nspace+", "+ts+")");
 	while (ts.next()) {
-		if (ts.look().is("NAME") && ts.look(1).is("COLON")) {
+		if (this.findDocComment(ts)) {
+		
+		}
+		else if (ts.look().is("NAME") && ts.look(1).is("COLON")) {
 			var name = nspace+((nspace.charAt(nspace.length-1)=="/")?"":".")+ts.look().data;
 			
 			// like foo: function
@@ -221,7 +224,10 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 
 JsParse.prototype.onFnBody = function(nspace, fs) {
 	while (fs.look()) {
-		if (fs.look().is("NAME") && fs.look(1).is("ASSIGN")) {
+		if (this.findDocComment(fs)) {
+		
+		}
+		else if (fs.look().is("NAME") && fs.look(1).is("ASSIGN")) {
 			var name = fs.look().data;
 			
 			// like this.foo =

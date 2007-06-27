@@ -16,6 +16,7 @@ function Symbol(name, params, isa, comment) {
 	this.memberof = "";
 	this.properties = [];
 	this.methods = [];
+	this.returns = [];
 	this.doc = new Doclet(comment);
 	
 	// move certain data out of the tags and into the Symbol
@@ -79,6 +80,14 @@ function Symbol(name, params, isa, comment) {
 				this.properties.push(properties[i]);
 			}
 			this.doc.dropTag("property");
+		}
+		
+		var returns;
+		if ((returns = this.doc.getTag("return")) && returns.length) {
+			for (var i = 0; i < returns.length; i++) {
+				this.returns.push(returns[i]);
+			}
+			this.doc.dropTag("return");
 		}
 		
 		if (this.is("VIRTUAL")) this.isa = SYM.OBJECT;

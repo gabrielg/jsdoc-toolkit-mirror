@@ -24,11 +24,17 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 	// like /** @alias foo.bar */
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
-		if (/@name\s+([A-Za-z\.$_0-9]+)\s*/i.test(doc)) {
+		if (/@name\s+(\S+)\s*/i.test(doc)) {
 			this.symbols.push(
 				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);
 			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
+			return true;
+		}
+		else if (/@namespace\s+(\S+)\s*/i.test(doc)) {
+			var nspace = RegExp.$1;
+			if (!nspace) return false;
+			this.onObLiteral(nspace, new TokenStream(ts.balance("LEFT_CURLY")));
 			return true;
 		}
 		else if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
@@ -74,16 +80,16 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			body = ts.balance("LEFT_CURLY");
 			
 			// like foo = function(n) {return n}(42)
-			if (ts.look(1).is("LEFT_PAREN")) { // false alarm, it's not really a named function definition
+			if (ts.look(1).is("LEFT_PAREN")) {
 				isa = SYM.OBJECT;
 				ts.balance("LEFT_PAREN");
 				if (doc) { // we only grab these if they are documented
 					this.symbols.push(
 						new Symbol(name, [], isa, doc)
 					);
-					return true
 				}
-				return false;     // let findVariable have it
+				this.onFnBody(name, new TokenStream(body));
+				return true;
 			}
 		}
 		
@@ -100,6 +106,13 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			
 			paramTokens = ts.balance("LEFT_PAREN");
 			body = ts.balance("LEFT_CURLY");
+			if (doc) { // we only grab these if they are documented
+				this.symbols.push(
+					new Symbol(name, [], isa, doc)
+				);
+			}
+			this.onFnBody(name, new TokenStream(body));
+			return true;
 		}
 		
 		if (isa && name) {

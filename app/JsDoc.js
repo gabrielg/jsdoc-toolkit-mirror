@@ -56,7 +56,7 @@ JsDoc.parse = function(srcFiles) {
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");
 		
 		for (var s = 0; s < parser.symbols.length; s++) {
-			if (parser.symbols[s].doc.getTag("ignore").length)
+			if (parser.symbols[s].doc.getTag("ignore").length || parser.symbols[s].doc.getTag("private").length)
 				continue;
 			
 			var parents;

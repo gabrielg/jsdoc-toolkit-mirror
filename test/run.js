@@ -195,6 +195,16 @@ var testCases = [
 		is('jsdoc[0].symbols[0].params[0].type', "String, Array", 'A param type van contain multiple values and whitespaces.');
 		is('jsdoc[0].symbols[1].params.length', 3, 'Undocumented param tags appear in the params array.');
 		is('jsdoc[0].symbols[1].signature()', "source, format, target", 'Can get params as a signature.');
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"data/namespace.js");
+		is('jsdoc[0].symbols[0].alias', "Record.getRecord", 'Namespace recognized as part of alias with new function(){} syntax.');
+		is('jsdoc[0].symbols[0].name', "Record.getRecord", 'Namespace recognized as part of name with new function(){} syntax.');
+		is('jsdoc[0].symbols[1].alias', "Record.getRecord.Reader", 'Namespace recognized as part of method with new function(){} syntax');
+		is('jsdoc[0].symbols[2].alias', "File.getId", 'Namespace recognized as part of name with function(){}() syntax.');
+		is('jsdoc[0].symbols[3].alias', "Entry.getSubject", 'Namespace recognized as part of method name with function(){}() syntax.');
+		is('jsdoc[0].symbols[4].alias', "dojo.widget.Widget.initializer", 'Namespace within argument list is recognized.');
 	}
 ];
 

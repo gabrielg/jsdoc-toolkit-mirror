@@ -24,14 +24,14 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 	// like /** @alias foo.bar */
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
-		if (/@name\s+(\S+)\s*/i.test(doc)) {
+		if (/@name\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
 			this.symbols.push(
 				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);
 			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
 			return true;
 		}
-		else if (/@namespace\s+(\S+)\s*/i.test(doc)) {
+		else if (/@namespace\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
 			var nspace = RegExp.$1;
 			if (!nspace) return false;
 			this.onObLiteral(nspace, new TokenStream(ts.balance("LEFT_CURLY")));

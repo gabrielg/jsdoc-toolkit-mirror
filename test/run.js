@@ -16,7 +16,7 @@ load(__DIR__+"../app/JsParse.js");
 load(__DIR__+"../app/DocTag.js");
 load(__DIR__+"../app/Doclet.js");
 load(__DIR__+"../app/JsTestrun.js");
-load(__DIR__+"../app/Debug.js");
+//load(__DIR__+"../app/Debug.js");
 
 
 //// set up harness
@@ -205,6 +205,14 @@ var testCases = [
 		is('jsdoc[0].symbols[2].alias', "File.getId", 'Namespace recognized as part of name with function(){}() syntax.');
 		is('jsdoc[0].symbols[3].alias', "Entry.getSubject", 'Namespace recognized as part of method name with function(){}() syntax.');
 		is('jsdoc[0].symbols[4].alias', "dojo.widget.Widget.initializer", 'Namespace within argument list is recognized.');
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"data/framework.js");
+		is('jsdoc[0].symbols[1].alias', "Dragger.scroll", 'Namespace recognized as part of method inside param call.');
+		is('jsdoc[0].symbols[2].alias', "Dragger.onChange", 'Function inside param call recognized when labelled function.');
+		is('jsdoc[0].symbols[3].alias', "Dragger.onUpdate", 'Method inside param call recognized when virtual.');
+		is('jsdoc[0].symbols[3].memberof', "Dragger", 'Method inside param call has memberof when virtual.');
 	}
 ];
 

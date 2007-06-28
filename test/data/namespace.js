@@ -5,7 +5,7 @@ var Record = new function() {
 		alert("I am private.");
 	}
 	
-	return /** @namespace Record */ {
+	return /**@namespace Record*/ {
 		public_variable: 2,
 		
 		getRecord: function() {
@@ -38,7 +38,9 @@ var Entry = function(subject) {
 dojo.declare(
 	"dojo.widget.Widget",
 	null, 
-	/** @namespace dojo.widget.Widget */
+	/**
+	 * @namespace dojo.widget.Widget
+	 */
 	{
 		initializer: function(container, args) {
 			this.children = [];

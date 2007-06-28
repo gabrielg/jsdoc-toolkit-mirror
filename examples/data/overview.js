@@ -1,12 +1,13 @@
-﻿record = {
-    row: {
-         field: {
-            /** Remove the record. */
-            remove: function() {
-            }
-        }
-    }
-};
+/**
+ * @fileOverview A collection of functions for records.
+ * @library Record Keeper
+ */
+ 
+/** 
+ * Gets the current record. 
+ */
+function getRecord(){
+}
 
 /*
 [
@@ -18,12 +19,12 @@
                 type: "",
                 properties: [],
                 isa: "FUNCTION",
-                desc: "Remove the record.",
-                alias: "record.row.field.remove",
+                desc: "Gets the current record.",
+                alias: "getRecord",
                 memberof: "",
                 params: [],
                 methods: [],
-                name: "record.row.field.remove"
+                name: "getRecord"
             }
         ],
         overview: {
@@ -32,12 +33,12 @@
             type: "",
             properties: [],
             isa: "FILE",
-            desc: "No overview provided.",
-            alias: "examples/data/nested_function3.js",
+            desc: "A collection of functions for records.",
+            alias: "examples/data/overview.js",
             memberof: "",
             params: [],
             methods: [],
-            name: "examples/data/nested_function3.js"
+            name: "Record Keeper"
         }
     }
 ]

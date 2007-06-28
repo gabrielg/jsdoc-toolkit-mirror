@@ -1,7 +1,17 @@
-﻿function recast(employeeId, newRole) {
-}
+framework.createClass(
+    "FileWatcher.Widget",
+    /** @namespace FileWatcher.Widget */
+    {
+        /** Set up the widget. */
+        initialize: function(container, args) {
+        }
+    }
+);
 
-refresh = function(record) {
+var Record = new function() {
+    return /** @namespace Record */ {
+        getRecord: function() {}
+    };
 }
 
 /*
@@ -14,27 +24,27 @@ refresh = function(record) {
                 type: "",
                 properties: [],
                 isa: "FUNCTION",
-                desc: "undocumented",
-                alias: "recast",
+                desc: "Set up the widget.",
+                alias: "FileWatcher.Widget.initialize",
                 memberof: "",
                 params: [
                     {
                         title: "param",
                         desc: "",
                         type: "",
-                        name: "employeeId",
+                        name: "container",
                         isOptional: false
                     },
                     {
                         title: "param",
                         desc: "",
                         type: "",
-                        name: "newRole",
+                        name: "args",
                         isOptional: false
                     }
                 ],
                 methods: [],
-                name: "recast"
+                name: "FileWatcher.Widget.initialize"
             },
             {
                 doc: { tags: [] },
@@ -43,19 +53,11 @@ refresh = function(record) {
                 properties: [],
                 isa: "FUNCTION",
                 desc: "undocumented",
-                alias: "refresh",
+                alias: "Record.getRecord",
                 memberof: "",
-                params: [
-                    {
-                        title: "param",
-                        desc: "",
-                        type: "",
-                        name: "record",
-                        isOptional: false
-                    }
-                ],
+                params: [],
                 methods: [],
-                name: "refresh"
+                name: "Record.getRecord"
             }
         ],
         overview: {
@@ -65,11 +67,11 @@ refresh = function(record) {
             properties: [],
             isa: "FILE",
             desc: "No overview provided.",
-            alias: "examples/data/functions1.js",
+            alias: "examples/data/namespace.js",
             memberof: "",
             params: [],
             methods: [],
-            name: "examples/data/functions1.js"
+            name: "examples/data/namespace.js"
         }
     }
 ]

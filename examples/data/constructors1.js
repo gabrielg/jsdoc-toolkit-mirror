@@ -1,0 +1,3 @@
+﻿/** @constructor */
+function RecordSet() {
+}

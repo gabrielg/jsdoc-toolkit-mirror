@@ -16,7 +16,7 @@ load(__DIR__+"../app/JsParse.js");
 load(__DIR__+"../app/DocTag.js");
 load(__DIR__+"../app/Doclet.js");
 load(__DIR__+"../app/JsTestrun.js");
-//load(__DIR__+"../app/Debug.js");
+//load(__DIR__+"../app/Dumper.js");
 
 
 //// set up harness

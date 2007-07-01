@@ -1,20 +1,39 @@
 function publish(files, context) {
+load(__DIR__+"../app/Dumper.js");
+
 	var file_template = new JsPlate(context.t+"file.tmpl");
 	
-	var file_map = {};
+	var index = {};
 	for (var i = 0; i < files.length; i++) {
-		var output = file_template.process(files[i]);
-	
+		
+		
 		if (context.d) {
 			var our_name = "_"+(i+1)+".htm";
+			index[our_name] = { name: (files[i].overview.name || files[i].overview.alias), classes:[]};
+		
+			for (var s = 0; s < files[i].symbols.length; s++) {
+				if (files[i].symbols[s].isa == "CONSTRUCTOR") {
+					index[our_name].classes.push(files[i].symbols[s].alias);
+				}
+			}	
+			
+			var output = file_template.process(files[i]);
 			IO.saveFile(context.d, our_name, output);
-			file_map[our_name] = (files[i].overview.name || files[i].overview.alias);
+			
 		}
 	}
 	
 	var indx_template = new JsPlate(context.t+"index.tmpl");
-	var index = indx_template.process(file_map);
+	var index = indx_template.process(index);
 	if (context.d) {
-		IO.saveFile(context.d, "index.htm", index);
+		IO.saveFile(context.d, "file_list.htm", index);
+		
+		IO.copyFile(context.t+"index.htm", context.d);
+		IO.copyFile(context.t+"splash.htm", context.d);
+		IO.copyFile(context.t+"default.css", context.d);
+		IO.copyFile(context.t+"overview.png", context.d);
+		IO.copyFile(context.t+"constructor.png", context.d);
+		IO.copyFile(context.t+"function.png", context.d);
+		IO.copyFile(context.t+"object.png", context.d);
 	}
 }

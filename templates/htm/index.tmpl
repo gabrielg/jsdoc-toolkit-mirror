@@ -8,7 +8,12 @@
 <body>
 <ul>
 	<for each="file" in="data">
-	<li><a href="{+$file_key+}">{+file+}</a></li>
+	<li><a href="{+$file_key+}">{+file.name+}</a></li>
+		<ul>
+			<for each="c" in="file.classes">
+			<li><a href="{+$file_key+}#{+c+}" target="main">{+c+}</a></li>
+			</for>
+		</ul>
 	</for>
 </ul>
 </body>

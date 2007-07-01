@@ -48,7 +48,7 @@ function Main() {
 	LOG.inform(srcFiles.length+" source file"+((srcFiles ==1)?"":"s")+" found:\n\t"+srcFiles.join("\n\t"));
 	var files = JsDoc.parse(srcFiles, JsDoc.opt);
 	
-	print(Dumper.dump(files))
+	print(Dumper.dump(files));
 }
 
 JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", v:"verbose", h:"help", a:"allfunctions"});

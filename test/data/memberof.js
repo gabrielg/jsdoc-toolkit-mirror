@@ -14,9 +14,20 @@ function ShapeFactory() {
     }
 }
 
+/** @class */
 function Circle(){}
 /** The radius. */
 Circle.prototype.radius = 1;
+
+/**
+	@member Circle
+*/
+getDiameter = f1;
+
+/**
+	@memberOf Circle
+*/
+getCircumference = f2;
 
 String.prototype.toWords = function() {
 }

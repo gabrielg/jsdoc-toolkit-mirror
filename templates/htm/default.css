@@ -96,6 +96,8 @@ ul
 	font-weight: normal;
 }
 
+.itemTitle a.type { font-weight: bold; }
+
 .finePrint
 {
 	color: #878787;

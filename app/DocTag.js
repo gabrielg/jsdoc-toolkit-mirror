@@ -14,6 +14,10 @@ function DocTag(src) {
 		if (this.type) this.type = this.type.replace(/\s*(,|\|)\s*/g, ", ");
 		this.desc = (parts[3] || "");
 		
+		// tag synonyms here
+		if (this.title == "member") this.title = "memberof";
+		else if (this.title == "class") this.title = "constructor";
+		
 		if (this.desc) {
 			if (this.title == "param") { // long tags like {type} [name] desc
 				var m = this.desc.match(/^\s*(\[?)([a-zA-Z0-9.$_]+)(\]?)(?:\s+([\S\s]*\S))?/);

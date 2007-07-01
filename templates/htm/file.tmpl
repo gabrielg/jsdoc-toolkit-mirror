@@ -94,7 +94,7 @@
 				<div class="itemTitle">
 					<a name="{+symbol.alias+}"></a>
 					<if test="symbol.memberof">
-						<i><a href="#{+symbol.memberof+}" class="type">{+symbol.memberof+}.</a></i>{+symbol.name+}({+symbol.signature()+})
+						<i><a href="#{+symbol.memberof+}" class="type">{+symbol.memberof+}.</a></i>{+symbol.name+}(<span class="signature">{+symbol.signature()+}</span>)
 					</if>
 					<if test="!symbol.memberof">
 					{+symbol.alias+}(<span class="signature">{+symbol.signature()+}</span>)
@@ -118,6 +118,22 @@
 						</td>
 						<td>
 							{+param.desc+}
+						</td> 
+					</tr>
+				</for>
+				</table>
+				</if>
+				
+				<if test="symbol.returns.length">
+				<div class="detailHead">returns</div>
+				<table class="params">
+				<for each="ret" in="symbol.returns">
+					<tr>
+						<td class="type">
+							{+ret.type+}
+						</td>
+						<td>
+							{+ret.desc+}
 						</td> 
 					</tr>
 				</for>

@@ -139,11 +139,15 @@ var testCases = [
 		is('jsdoc[0].symbols[6].isa', "FUNCTION", 'Method symbol is a function.');
 	},
 	function() {
+		JsDoc.opt = {a:true};
 		testFile(__DIR__+"data/memberof.js");
+		//print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[1].name', "SquareMaker", 'Constructor member name can be found.');
 		is('jsdoc[0].symbols[1].memberof', "ShapeFactory", 'Constructor which is a member of another constructor identified.');
 		is('jsdoc[0].symbols[2].name', "Square", 'Nested constructor member name can be found.');
 		is('jsdoc[0].symbols[2].memberof', "ShapeFactory.SquareMaker", 'Nested constructor which is a member of another constructor identified.');
+		is('jsdoc[0].symbols[5].isa', "CONSTRUCTOR", 'Class tag is a synonym for constructor.');
+		is('jsdoc[0].symbols[5].properties[1].alias', "Circle.getDiameter", 'Member tag is a synonym for memberof.');
 	},
 	function() {
 		JsDoc.opt = {};

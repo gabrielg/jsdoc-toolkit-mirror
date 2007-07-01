@@ -80,7 +80,6 @@ JsDoc.parse = function(srcFiles) {
 				var parentName = parts[1].replace(/\//g, ".");
 				var childName = parts[2];
 				
-				
 				parser.symbols[s].alias = parser.symbols[s].name.replace(/\//g, ".");
 				parser.symbols[s].name = childName;
 				parser.symbols[s].memberof = parentName;

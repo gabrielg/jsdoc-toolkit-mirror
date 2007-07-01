@@ -15,20 +15,11 @@ ul
 .docs { }
 .signature { font-weight: normal; }
 
-.pageHead
-{
-	font-size: 20px;
-	font-weight: bold;
-	background-color: #8A92BC;
-	color: #fff;
-	margin-top: 18px;
-	padding: 2px 4px 2px 4px;
-}
-
 .itemTitle
 {
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: bold;
+	height: 16px;
 }
 
 .item { }
@@ -60,12 +51,49 @@ ul
 }
 
 .desc { padding: 8px; }
-.overview { background-color: #E9E7F0; }
+
+.fileHead
+{
+	background-image: url(file.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	font-weight: bold;
+	margin-top: 12px;
+}
+
+.overview .itemTitle
+{
+	background-image: url(overview.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+
+.constructor .itemTitle
+{
+	background-image: url(constructor.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+
+.function .itemTitle
+{
+	background-image: url(function.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+
+.object .itemTitle
+{
+	background-image: url(object.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
 
 .type
 {
 	font-style: italic;
-	color: #ccc;
+	color: #999;
+	font-weight: normal;
 }
 
 .finePrint

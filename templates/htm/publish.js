@@ -31,6 +31,8 @@ load(__DIR__+"../app/Dumper.js");
 		IO.copyFile(context.t+"index.htm", context.d);
 		IO.copyFile(context.t+"splash.htm", context.d);
 		IO.copyFile(context.t+"default.css", context.d);
+		
+		IO.copyFile(context.t+"file.png", context.d);
 		IO.copyFile(context.t+"overview.png", context.d);
 		IO.copyFile(context.t+"constructor.png", context.d);
 		IO.copyFile(context.t+"function.png", context.d);

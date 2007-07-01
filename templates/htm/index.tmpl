@@ -9,7 +9,7 @@
 <body>
 <ul>
 	<for each="file" in="data">
-	<li><a href="{+$file_key+}" target="main">{+file.name+}</a></li>
+	<li class="fileHead"><a href="{+$file_key+}" target="main">{+file.name+}</a></li>
 		<ul>
 			<for each="c" in="file.classes.sort()">
 			<li><a href="{+$file_key+}#{+c+}" target="main">{+c+}</a></li>

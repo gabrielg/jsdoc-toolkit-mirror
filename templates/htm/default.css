@@ -1,4 +1,8 @@
-body,a { color: #000; }
+body,a
+{
+	color: #000;
+	font: 12px verdana;
+}
 
 ul
 {
@@ -8,7 +12,7 @@ ul
 }
 
 .content { }
-.docs { font: 12px verdana; }
+.docs { }
 .signature { font-weight: normal; }
 
 .pageHead

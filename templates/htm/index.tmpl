@@ -4,13 +4,14 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<title>JsDoc</title>
+	<link rel=stylesheet href="default.css" type="text/css" media=screen>
 </head>
 <body>
 <ul>
 	<for each="file" in="data">
-	<li><a href="{+$file_key+}">{+file.name+}</a></li>
+	<li><a href="{+$file_key+}" target="main">{+file.name+}</a></li>
 		<ul>
-			<for each="c" in="file.classes">
+			<for each="c" in="file.classes.sort()">
 			<li><a href="{+$file_key+}#{+c+}" target="main">{+c+}</a></li>
 			</for>
 		</ul>

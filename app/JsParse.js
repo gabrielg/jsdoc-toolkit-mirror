@@ -24,7 +24,12 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 	// like /** @alias foo.bar */
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
-		if (/@name\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
+		if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
+			this.overview = doc.replace(RegExp.$1, "overview"); // synonym
+			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
+			return true;
+		}
+		else if (/@name\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
 			this.symbols.push(
 				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);
@@ -35,11 +40,6 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 			var nspace = RegExp.$1;
 			if (!nspace) return false;
 			this.onObLiteral(nspace, new TokenStream(ts.balance("LEFT_CURLY")));
-			return true;
-		}
-		else if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
-			this.overview = doc.replace(RegExp.$1, "overview"); // synonym
-			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
 			return true;
 		}
 	}

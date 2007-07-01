@@ -23,9 +23,12 @@ function Symbol(name, params, isa, comment) {
 	var overviews;
 	if ((overviews = this.doc.getTag("overview")) && overviews.length) {
 		var libraries;
-		if ((libraries = this.doc.getTag("library")) && libraries.length) {
+		if ((libraries = this.doc.getTag("name")) && libraries.length) {
 			this.name = libraries[0].desc;
-			this.doc.dropTag("library");
+			this.doc.dropTag("name");
+		}
+		else {
+			this.name = Util.fileName(this.alias)
 		}
 		
 		this.desc = overviews[0].desc;

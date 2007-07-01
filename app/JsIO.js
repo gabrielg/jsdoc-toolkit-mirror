@@ -29,17 +29,25 @@ IO.saveFile = function(outDir, fileName, content) {
 }
 
 /**
- * Use to copy a file from one directory to another.
+ * Use to copy a file from one directory to another. Can take binary files too.
  * @param {string} inFile Path to the source file.
  * @param {string} outDir Path to directory to save into.
  * @param {string} fileName Name to use for the new file.
  */
 IO.copyFile = function(inFile, outDir, fileName) {
 	if (fileName == null) fileName = Util.fileName(inFile);
-	var out = new FileWriter(outDir+IO.FileSeparator+fileName);
-	out.write(IO.readFile(inFile));
-	out.flush();
-	out.close();
+
+	var inFile = new File(inFile);
+	var outFile = new File(outDir+IO.FileSeparator+fileName);
+	
+	var bis = new Packages.java.io.BufferedInputStream(new Packages.java.io.FileInputStream(inFile), 4096);
+    var bos = new Packages.java.io.BufferedOutputStream(new Packages.java.io.FileOutputStream(outFile), 4096);
+	var theChar;
+	while ((theChar = bis.read()) != -1) {
+		bos.write(theChar);
+	}
+	bos.close();
+	bis.close();
 }
 
 /**

@@ -1,6 +1,6 @@
 /**
  * @overview This library contains a lot of classes and functions.
- * @library Test Library
+ * @name Test Library
  * @author <a href="mailto:jsmith@company.com">Joe Smith</a>
  * @version 	0.1
  @example
@@ -19,6 +19,9 @@ s.rotate(90);
 */
 function getFoo(fooID, r){
 }
+
+/**@constructor*/ function Shape3D(){}
+	Shape3D.prototype.shrink = function(ratio) {}
 /**
  * @desc This is a library of geometry-related functions.
  * 
@@ -56,9 +59,6 @@ function getFoo(fooID, r){
 		
 	}
 };
-
-function Shape3D(){}
-	Shape3D.prototype.shrink = function(ratio) {}
 /**
  * A Geo.
  *
@@ -76,10 +76,12 @@ Geo = <!-- ignore me
 
 }
 
-/**The e constant.*/
+/**The e constant.
+@type number*/
 var E = 12345;
 
-/** meaning of life? */
+/** meaning of life?
+@type integer*/
 var life = function(n) {return n}(42);
 
 // nested constructors

@@ -51,7 +51,6 @@ For help (usage notes) enter this:
 
 LICENSE:
 
-1.
 Rhino (JavaScript in Java) is open source and licensed by Mozilla
 under the MPL 1.1 or later/GPL 2.0 or later licenses, the text of which
 is available at http://www.mozilla.org/MPL/
@@ -59,14 +58,13 @@ is available at http://www.mozilla.org/MPL/
 You can obtain the source code for Rhino via the Mozilla web site at
 http://www.mozilla.org/rhino/download.html
 
-2.
-Serializer.js, SerializerJS.js and SerializerXML.js are copyright
-Nico Westerdale, distributed with the author's permission. The latest
-source code for the Serializer libraries are available at
-http://www.iconico.com/
+The Tango base icon theme is licensed under the Creative Commons 
+Attribution Share-Alike license. The palette is in the public domain.
+Developers, feel free to ship it along with your application. For
+more details visit the Tango! Desktop Project page at
+http://tango.freedesktop.org/Tango_Desktop_Project
 
-3.
-JsDoc Toolkit is a larger work that uses Rhino and Serializer.js
+JsDoc Toolkit is a larger work that uses the Rhino JavaScript engine
 without modification and without any claims whatsoever. The portions of
 code specific to JsDoc Toolkit are open source and licensed under the
 X11/MIT License.

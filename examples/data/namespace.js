@@ -1,6 +1,6 @@
 framework.createClass(
     "FileWatcher.Widget",
-    /** @namespace FileWatcher.Widget */
+    /** @scope FileWatcher.Widget */
     {
         /** Set up the widget. */
         initialize: function(container, args) {
@@ -9,7 +9,7 @@ framework.createClass(
 );
 
 var Record = new function() {
-    return /** @namespace Record */ {
+    return /** @scope Record */ {
         getRecord: function() {}
     };
 }
@@ -25,7 +25,7 @@ var Record = new function() {
                 properties: [],
                 isa: "FUNCTION",
                 desc: "Set up the widget.",
-                alias: "FileWatcher.Widget.initialize",
+                alias: "FileWatcher.Widget.initialize"
                 memberof: "",
                 params: [
                     {
@@ -67,11 +67,11 @@ var Record = new function() {
             properties: [],
             isa: "FILE",
             desc: "No overview provided.",
-            alias: "examples/data/namespace.js",
+            alias: "examples\data\namespace.js",
             memberof: "",
             params: [],
             methods: [],
-            name: "examples/data/namespace.js"
+            name: "namespace.js"
         }
     }
 ]

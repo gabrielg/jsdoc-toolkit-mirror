@@ -8,13 +8,15 @@
 </head>
 <body>
 <ul>
-	<for each="file" in="data">
-	<li class="fileHead"><a href="{+$file_key+}" target="main">{+file.name+}</a></li>
+	<for each="file" in="data" sortby="keys">
+	<li style="margin-bottom: 16px;">
+		<a href="{+$file_key+}" target="main" class="fileHead">{+file.name+}</a>
 		<ul>
 			<for each="c" in="file.classes.sort()">
 			<li><a href="{+$file_key+}#{+c+}" target="main">{+c+}</a></li>
 			</for>
 		</ul>
+	</li>
 	</for>
 </ul>
 </body>

@@ -8,7 +8,7 @@ load(__DIR__+"../app/Dumper.js");
 		
 		
 		if (context.d) {
-			var our_name = "_"+(i+1)+".htm";
+			var our_name = "_"+((i+1<10)?"0"+(i+1):(i+1))+".htm";
 			index[our_name] = { name: (files[i].overview.name || files[i].overview.alias), classes:[]};
 		
 			for (var s = 0; s < files[i].symbols.length; s++) {
@@ -32,10 +32,10 @@ load(__DIR__+"../app/Dumper.js");
 		IO.copyFile(context.t+"splash.htm", context.d);
 		IO.copyFile(context.t+"default.css", context.d);
 		
-		IO.copyFile(context.t+"file.png", context.d);
-		IO.copyFile(context.t+"overview.png", context.d);
-		IO.copyFile(context.t+"constructor.png", context.d);
-		IO.copyFile(context.t+"function.png", context.d);
-		IO.copyFile(context.t+"object.png", context.d);
+		IO.copyFile(context.t+"file.gif", context.d);
+		IO.copyFile(context.t+"overview.gif", context.d);
+		IO.copyFile(context.t+"constructor.gif", context.d);
+		IO.copyFile(context.t+"function.gif", context.d);
+		IO.copyFile(context.t+"object.gif", context.d);
 	}
 }

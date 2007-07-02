@@ -54,37 +54,38 @@ ul
 
 .fileHead
 {
-	background-image: url(file.png);
+	background-image: url(file.gif);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 	font-weight: bold;
-	margin-top: 12px;
+	font-size: 14px;
+	line-height: 20px;
 }
 
 .overview .itemTitle
 {
-	background-image: url(overview.png);
+	background-image: url(overview.gif);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 }
 
 .constructor .itemTitle
 {
-	background-image: url(constructor.png);
+	background-image: url(constructor.gif);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 }
 
 .function .itemTitle
 {
-	background-image: url(function.png);
+	background-image: url(function.gif);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 }
 
 .object .itemTitle
 {
-	background-image: url(object.png);
+	background-image: url(object.gif);
 	background-repeat: no-repeat;
 	padding-left: 20px;
 }

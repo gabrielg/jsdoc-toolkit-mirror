@@ -16,7 +16,7 @@ load(__DIR__+"../app/JsParse.js");
 load(__DIR__+"../app/DocTag.js");
 load(__DIR__+"../app/Doclet.js");
 load(__DIR__+"../app/JsTestrun.js");
-//load(__DIR__+"../app/Dumper.js");
+load(__DIR__+"../app/Dumper.js");
 
 
 //// set up harness
@@ -202,7 +202,7 @@ var testCases = [
 	},
 	function() {
 		JsDoc.opt = {a: true};
-		testFile(__DIR__+"data/namespace.js");
+		testFile(__DIR__+"data/scope.js");
 		is('jsdoc[0].symbols[0].alias', "Record.getRecord", 'Scope recognized as part of alias with new function(){} syntax.');
 		is('jsdoc[0].symbols[0].name', "Record.getRecord", 'Scope recognized as part of name with new function(){} syntax.');
 		is('jsdoc[0].symbols[1].alias', "Record.getRecord.Reader", 'Scope recognized as part of method with new function(){} syntax');
@@ -217,6 +217,12 @@ var testCases = [
 		is('jsdoc[0].symbols[2].alias', "Dragger.onChange", 'Function inside param call recognized when labelled function.');
 		is('jsdoc[0].symbols[3].alias', "Dragger.onUpdate", 'Method inside param call recognized when virtual.');
 		is('jsdoc[0].symbols[3].memberof', "Dragger", 'Method inside param call has memberof when virtual.');
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"data/throws.js");
+		print(Dumper.dump(jsdoc));
+		is('jsdoc[0].symbols[0].exceptions[0]', "This is the label text.", 'Throws can be found.');
 	}
 ];
 

@@ -1,4 +1,15 @@
-/** @constructor */
+/**
+ * @projectDescription Represents a collection of doclet tags.
+ * @name Doclet
+ * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
+ * @license <a href="http://en.wikipedia.org/wiki/MIT_License" target="_blank">X11/MIT License</a>
+ *          (See the accompanying README file for full details.)
+ */
+ 
+/**
+ * @constructor
+ * @param {string} comment The entire documentation comment. The openening slash-star-star and closing star-slash are optional. An untagged string at the start automatically gets a "desc" tag.
+ */
 function Doclet(comment) {
 	if (!comment) comment = "/** undocumented */";
 
@@ -14,25 +25,11 @@ function Doclet(comment) {
 	}
 }
 
-/*Doclet.prototype.toString = function() {
-	return "[object Doclet]";
-}*/
-
-SYSTAG = {
-	"name": true,
-	"desc": true,
-	"param": true,
-	"return": true,
-	"overview": true,
-	"memberof": true,
-	"type": true,
-	"constructor": true,
-	"alias": true,
-	"function": true,
-	"private": true,
-	"library": true
-};
-
+/**
+ * Get every DocTag with the given title.
+ * @param {string} tagTitle
+ * @return {array}
+ */
 Doclet.prototype.getTag = function(tagTitle) {
 	var result = [];
 	
@@ -43,18 +40,15 @@ Doclet.prototype.getTag = function(tagTitle) {
 			}
 		}
 	}
-	else {
-		for (var i = 0; i < this.tags.length; i++) {
-			if (!SYSTAG[this.tags[i].title]) {
-				result.push(this.tags[i]);
-			}
-		}
-	}
 	
 	return result;
 }
 
-Doclet.prototype.dropTag = function(tagTitle) {
+/*
+ * Remove from this Doclet every DocTag with the given title.
+ * @param {string} tagTitle
+ */
+Doclet.prototype._dropTag = function(tagTitle) {
 	var keep = [];
 	for (var i = 0; i < this.tags.length; i++) {
 		if (this.tags[i].title != tagTitle) {

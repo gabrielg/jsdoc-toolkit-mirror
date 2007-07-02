@@ -2,7 +2,7 @@
  * @fileOverview An automated documentation publishing system for JavaScript.
  * @name JsDoc Toolkit
  * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
- * @version 0.6b
+ * @version 1.0b
  * @revision $Id$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
@@ -39,7 +39,10 @@ JsDoc.parse = function(srcFiles) {
 	
 	if (typeof srcFiles == "string") srcFiles = [srcFiles];	
 	var parser = new JsParse();
-		
+	
+	srcFiles = srcFiles.sort();
+	print("source files = "+srcFiles.join(", "));
+	
 	// handle setting up relationships between symbols here
 	for (var f = 0; f < srcFiles.length; f++) {
 		var srcFile = srcFiles[f];
@@ -62,11 +65,11 @@ JsDoc.parse = function(srcFiles) {
 			var parents;
 			if ((parents = parser.symbols[s].doc.getTag("memberof")) && parents.length) {
 				parser.symbols[s].name = parents[0]+"/"+parser.symbols[s].name;
-				parser.symbols[s].doc.dropTag("memberof");
+				parser.symbols[s].doc._dropTag("memberof");
 			}
 			
 			if (parser.symbols[s].desc == "undocumented") {
-				if (/(^_|\/_)/.test(parser.symbols[s].name) && !JsDoc.opt.A){
+				if (/(^_|[.\/]_)/.test(parser.symbols[s].name) && !JsDoc.opt.A){
 					continue;
 				}
 				if (!JsDoc.opt.a && !JsDoc.opt.A){

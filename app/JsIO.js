@@ -1,3 +1,10 @@
+/**
+ * @projectDescription Friendly interface to Java file operations. Requires Rhino.
+ * @name JsIO
+ * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
+ * @license <a href="http://en.wikipedia.org/wiki/MIT_License" target="_blank">X11/MIT License</a>
+ *          (See the accompanying README file for full details.)
+ */
 
 var IO = {};
 

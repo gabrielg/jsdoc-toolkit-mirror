@@ -109,15 +109,24 @@ String.prototype.last = function() {
 	return this.charAt[this.length-1];
 }
 
-// extending Array under a new name...
+/**
+ * Extends built-in Array under a new name.
+ * @constructor 
+ */
 var List = function() {
     that = Array.apply(this, arguments);
+	/**
+	 * @name last
+	 * @function
+	 * @memberOf List
+	 */
     that.last = function() {
     	return this[this.length-1];
     }
     return that;
 }
 
+/** @constructor */
 function Token(data, type, name) {
     this.data = data;
     this.type = type;
@@ -130,6 +139,7 @@ Token.prototype.is = function(what) {
     return this.name === what || this.type === what;
 }
 
+/** @constructor */
 function TextStream(text) {
 	this.text = text;
 	this.cursor = 0;
@@ -164,6 +174,7 @@ TextStream.prototype.next = function(n) {
 	return pulled;
 }
 
+/** @constructor */
 function TokenReader(src){
 	this.src = src;
 };
@@ -400,6 +411,7 @@ TokenReader.prototype.read_regx = function(stream, tokens) { /*debug*///print(">
 	return false;
 }
 
+/** @constructor */
 function TokenStream(array) {
 	this.array = array;
 	this.cursor = -1;

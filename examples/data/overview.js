@@ -1,6 +1,6 @@
 /**
  * @fileOverview A collection of functions for records.
- * @library Record Keeper
+ * @name Record Keeper
  */
  
 /** 

@@ -16,6 +16,7 @@ function DocTag(src) {
 		
 		// tag synonyms here
 		if (this.title == "member") this.title = "memberof";
+		if (this.title == "description") this.title = "desc";
 		else if (this.title == "class") this.title = "constructor";
 		
 		if (this.desc) {

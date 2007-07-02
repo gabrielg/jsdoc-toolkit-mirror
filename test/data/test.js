@@ -16,6 +16,7 @@ s.rotate(90);
 * @param {String} fooId	The unique identifier for the foo.
 * @param [r]	Recursion level.
 * @return {Object}	Returns the current foo.
+* @throws {MalformedFoo} In the case of a fooId not being positve and evenly divisable by 9.
 */
 function getFoo(fooID, r){
 }

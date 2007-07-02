@@ -7,6 +7,7 @@
 
  */
 
+ /** @constructor */
 JsPlate = function(template) {
 	this.template = IO.readFile(template);
 

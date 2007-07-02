@@ -17,6 +17,7 @@ function Symbol(name, params, isa, comment) {
 	this.properties = [];
 	this.methods = [];
 	this.returns = [];
+	this.exceptions = [];
 	this.doc = new Doclet(comment);
 	
 	// move certain data out of the tags and into the Symbol
@@ -25,26 +26,26 @@ function Symbol(name, params, isa, comment) {
 		var libraries;
 		if ((libraries = this.doc.getTag("name")) && libraries.length) {
 			this.name = libraries[0].desc;
-			this.doc.dropTag("name");
+			this.doc._dropTag("name");
 		}
 		else {
 			this.name = Util.fileName(this.alias)
 		}
 		
 		this.desc = overviews[0].desc;
-		this.doc.dropTag("overview");
+		this.doc._dropTag("overview");
 	}
 	else {
 		var descs;
 		if ((descs = this.doc.getTag("desc")) && descs.length) {
 			this.desc = descs[0].desc;
-			this.doc.dropTag("desc");
+			this.doc._dropTag("desc");
 		}
 		
 		var params;
 		if ((params = this.doc.getTag("param")) && params.length) { // user defined params override those defined by parser
 			this.params = params;
-			this.doc.dropTag("param");
+			this.doc._dropTag("param");
 		}
 		else { // promote parser params into DocTag objects
 			for (var i = 0; i < this.params.length; i++) {
@@ -55,25 +56,25 @@ function Symbol(name, params, isa, comment) {
 		var constructors;
 		if ((constructors = this.doc.getTag("constructor")) && constructors.length) {
 			this.isa = SYM.CONSTRUCTOR;
-			this.doc.dropTag("constructor");
+			this.doc._dropTag("constructor");
 		}
 		
 		var functions;
 		if ((functions = this.doc.getTag("function")) && functions.length) {
 			this.isa = SYM.FUNCTION;
-			this.doc.dropTag("function");
+			this.doc._dropTag("function");
 		}
 		
 		var methods;
 		if ((functions = this.doc.getTag("method")) && functions.length) {
 			this.isa = SYM.FUNCTION;
-			this.doc.dropTag("method");
+			this.doc._dropTag("method");
 		}
 		
 		var names;
 		if ((names = this.doc.getTag("name")) && names.length) {
 			this.name = names[0].desc;
-			this.doc.dropTag("name");
+			this.doc._dropTag("name");
 		}
 		
 		var properties;
@@ -82,7 +83,7 @@ function Symbol(name, params, isa, comment) {
 				properties[i].alias = this.alias+"."+properties[i].name;
 				this.properties.push(properties[i]);
 			}
-			this.doc.dropTag("property");
+			this.doc._dropTag("property");
 		}
 		
 		var returns;
@@ -90,7 +91,15 @@ function Symbol(name, params, isa, comment) {
 			for (var i = 0; i < returns.length; i++) {
 				this.returns.push(returns[i]);
 			}
-			this.doc.dropTag("return");
+			this.doc._dropTag("return");
+		}
+
+		var exceptions;
+		if ((exceptions = this.doc.getTag("throws")) && exceptions.length) {
+			for (var i = 0; i < exceptions.length; i++) {
+				this.exceptions.push(exceptions[i]);
+			}
+			this.doc._dropTag("throws");
 		}
 		
 		if (this.is("VIRTUAL")) this.isa = SYM.OBJECT;
@@ -99,7 +108,7 @@ function Symbol(name, params, isa, comment) {
 		if ((types = this.doc.getTag("type")) && types.length) {
 			if (this.is("OBJECT"))
 				this.type = (types[0].desc || ""); // multiple type tags are ignored
-			this.doc.dropTag("type");
+			this.doc._dropTag("type");
 		}
 	}
 	

@@ -3,8 +3,8 @@
 DESCRIPTION:
 
 JsDoc Toolkit is an automatic documentation generation tool for
-JavaScript. It is written in JavaScript and can run either in a web
-browser or on the command line (using Mozilla Rhino). Using this tool
+JavaScript. It is written in JavaScript and is run from a command line
+(or terminal) using Mozilla Rhino JavaScript engine. Using this tool
 you can automatically turn JavaDoc-like comments in your JavaScript
 source code into published output, such as HTML, XML or JSON.
 

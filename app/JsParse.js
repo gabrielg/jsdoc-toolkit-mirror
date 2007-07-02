@@ -6,21 +6,30 @@
  *          (See the accompanying README file for full details.)
  */
 
-function JsParse(){};
+/** @constructor */ function JsParse(){};
 
 JsParse.prototype.parse = function(tokenStream) {
 	this.scope = ["<global>"]
+	/** 
+	 * Found symbols in the source stream.
+	 * @type Symbol[]
+	 */
 	this.symbols = [];
+	
+	/** 
+	 * Found overview in the source stream.
+	 * @type Symbol
+	 */
 	this.overview = null;
 	
 	while(tokenStream.next()) {
-		if (this.findDocComment(tokenStream)) continue;
-		if (this.findFunction(tokenStream)) continue;
-		if (this.findVariable(tokenStream)) continue;
+		if (this._findDocComment(tokenStream)) continue;
+		if (this._findFunction(tokenStream)) continue;
+		if (this._findVariable(tokenStream)) continue;
 	}
 }
 
-JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment "+ts.look());
+JsParse.prototype._findDocComment = function(ts) { /*dbg*///print("_findDocComment "+ts.look());
 	// like /** @alias foo.bar */
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
@@ -36,17 +45,17 @@ JsParse.prototype.findDocComment = function(ts) { /*dbg*///print("findDocComment
 			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
 			return true;
 		}
-		else if (/@namespace\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
-			var nspace = RegExp.$1;
-			if (!nspace) return false;
-			this.onObLiteral(nspace, new TokenStream(ts.balance("LEFT_CURLY")));
+		else if (/@scope\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
+			var scope = RegExp.$1;
+			if (!scope) return false;
+			this._onObLiteral(scope, new TokenStream(ts.balance("LEFT_CURLY")));
 			return true;
 		}
 	}
 	return false;
 }
 
-JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+ts.look());
+JsParse.prototype._findFunction = function(ts) { /*dbg*///print("_findFunction "+ts.look());
 	if (ts.look().is("NAME")) {
 		var name = ts.look().data;
 		var doc = "";
@@ -88,7 +97,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 						new Symbol(name, [], isa, doc)
 					);
 				}
-				this.onFnBody(name, new TokenStream(body));
+				this._onFnBody(name, new TokenStream(body));
 				return true;
 			}
 		}
@@ -111,7 +120,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 					new Symbol(name, [], isa, doc)
 				);
 			}
-			this.onFnBody(name, new TokenStream(body));
+			this._onFnBody(name, new TokenStream(body));
 			return true;
 		}
 		
@@ -134,7 +143,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 			);
 			
 			if (body) {
-				this.onFnBody(name, new TokenStream(body));
+				this._onFnBody(name, new TokenStream(body));
 			}
 			return true;
 		}
@@ -142,7 +151,7 @@ JsParse.prototype.findFunction = function(ts) { /*dbg*///print("findFunction "+t
 	return false;
 }
 
-JsParse.prototype.findVariable = function(ts) { /*dbg*///print("findVariable  "+ts.look());
+JsParse.prototype._findVariable = function(ts) { /*dbg*///print("_findVariable  "+ts.look());
 	if (ts.look().is("NAME") && ts.look(1).is("ASSIGN")) {
 		// like var foo = 1
 		var name = ts.look().data;
@@ -164,16 +173,16 @@ JsParse.prototype.findVariable = function(ts) { /*dbg*///print("findVariable  "+
 		// like foo = {
 		if (ts.look(2).is("LEFT_CURLY")) {
 			var literal = ts.balance("LEFT_CURLY");
-			this.onObLiteral(name, new TokenStream(literal));
+			this._onObLiteral(name, new TokenStream(literal));
 		}
 		return true;
 	}
 	return false;
 }
 
-JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiteral("+nspace+", "+ts+")");
+JsParse.prototype._onObLiteral = function(nspace, ts) { /*dbg*///print("_onObLiteral("+nspace+", "+ts+")");
 	while (ts.next()) {
-		if (this.findDocComment(ts)) {
+		if (this._findDocComment(ts)) {
 		
 		}
 		else if (ts.look().is("NAME") && ts.look(1).is("COLON")) {
@@ -200,7 +209,7 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 				);
 				
 				// find methods in the body of this function
-				this.onFnBody(name, new TokenStream(body));
+				this._onFnBody(name, new TokenStream(body));
 			}
 			// like foo: {...}
 			else if (ts.look(2).is("LEFT_CURLY")) { // another nested object literal
@@ -213,7 +222,7 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 					);
 				}
 				
-				this.onObLiteral(name, new TokenStream(ts.balance("LEFT_CURLY"))); // recursive
+				this._onObLiteral(name, new TokenStream(ts.balance("LEFT_CURLY"))); // recursive
 			}
 			else { // like foo: 1, or foo: "one"
 				if (ts.look(-1).is("JSDOC")) { // we only grab these if they are documented
@@ -235,9 +244,9 @@ JsParse.prototype.onObLiteral = function(nspace, ts) { /*dbg*///print("onObLiter
 	}
 }
 
-JsParse.prototype.onFnBody = function(nspace, fs) {
+JsParse.prototype._onFnBody = function(nspace, fs) {
 	while (fs.look()) {
-		if (this.findDocComment(fs)) {
+		if (this._findDocComment(fs)) {
 		
 		}
 		else if (fs.look().is("NAME") && fs.look(1).is("ASSIGN")) {
@@ -277,7 +286,7 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 					);
 					
 					if (body) {
-						this.onFnBody(name, new TokenStream(body)); // recursive
+						this._onFnBody(name, new TokenStream(body)); // recursive
 					}
 				}
 				else {
@@ -294,7 +303,7 @@ JsParse.prototype.onFnBody = function(nspace, fs) {
 					// like this.foo = { ... }
 					if (fs.look(2).is("LEFT_CURLY")) {
 						var literal = fs.balance("LEFT_CURLY");
-						this.onObLiteral(name, new TokenStream(literal));
+						this._onObLiteral(name, new TokenStream(literal));
 					}
 				}
 			}

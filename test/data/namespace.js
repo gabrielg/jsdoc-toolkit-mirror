@@ -5,7 +5,7 @@ var Record = new function() {
 		alert("I am private.");
 	}
 	
-	return /**@namespace Record*/ {
+	return /**@scope Record*/ {
 		public_variable: 2,
 		
 		getRecord: function() {
@@ -18,7 +18,7 @@ var Record = new function() {
 }
 
 var File = function() {
-	return /** @namespace File */ {
+	return /** @scope File */ {
 		id: 255,
 		
 		getId: function() {
@@ -39,7 +39,7 @@ dojo.declare(
 	"dojo.widget.Widget",
 	null, 
 	/**
-	 * @namespace dojo.widget.Widget
+	 * @scope dojo.widget.Widget
 	 */
 	{
 		initializer: function(container, args) {

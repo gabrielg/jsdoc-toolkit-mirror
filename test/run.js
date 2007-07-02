@@ -203,17 +203,17 @@ var testCases = [
 	function() {
 		JsDoc.opt = {a: true};
 		testFile(__DIR__+"data/namespace.js");
-		is('jsdoc[0].symbols[0].alias', "Record.getRecord", 'Namespace recognized as part of alias with new function(){} syntax.');
-		is('jsdoc[0].symbols[0].name', "Record.getRecord", 'Namespace recognized as part of name with new function(){} syntax.');
-		is('jsdoc[0].symbols[1].alias', "Record.getRecord.Reader", 'Namespace recognized as part of method with new function(){} syntax');
-		is('jsdoc[0].symbols[2].alias', "File.getId", 'Namespace recognized as part of name with function(){}() syntax.');
-		is('jsdoc[0].symbols[3].alias', "Entry.getSubject", 'Namespace recognized as part of method name with function(){}() syntax.');
-		is('jsdoc[0].symbols[4].alias', "dojo.widget.Widget.initializer", 'Namespace within argument list is recognized.');
+		is('jsdoc[0].symbols[0].alias', "Record.getRecord", 'Scope recognized as part of alias with new function(){} syntax.');
+		is('jsdoc[0].symbols[0].name', "Record.getRecord", 'Scope recognized as part of name with new function(){} syntax.');
+		is('jsdoc[0].symbols[1].alias', "Record.getRecord.Reader", 'Scope recognized as part of method with new function(){} syntax');
+		is('jsdoc[0].symbols[2].alias', "File.getId", 'Scope recognized as part of name with function(){}() syntax.');
+		is('jsdoc[0].symbols[3].alias', "Entry.getSubject", 'Scope recognized as part of method name with function(){}() syntax.');
+		is('jsdoc[0].symbols[4].alias', "dojo.widget.Widget.initializer", 'Scope within argument list is recognized.');
 	},
 	function() {
 		JsDoc.opt = {a: true};
 		testFile(__DIR__+"data/framework.js");
-		is('jsdoc[0].symbols[1].alias', "Dragger.scroll", 'Namespace recognized as part of method inside param call.');
+		is('jsdoc[0].symbols[1].alias', "Dragger.scroll", 'Scope recognized as part of method inside param call.');
 		is('jsdoc[0].symbols[2].alias', "Dragger.onChange", 'Function inside param call recognized when labelled function.');
 		is('jsdoc[0].symbols[3].alias', "Dragger.onUpdate", 'Method inside param call recognized when virtual.');
 		is('jsdoc[0].symbols[3].memberof', "Dragger", 'Method inside param call has memberof when virtual.');

@@ -2,7 +2,7 @@ function dragFactory (element) {
 	dragSpace.create(
 	    $(element),
 	    Dragger.register(
-			/**@namespace Dragger*/
+			/**@scope Dragger*/
 			{
 		      element:     element,
 		      dropOnEmpty: false,

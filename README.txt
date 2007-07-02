@@ -47,9 +47,19 @@ The output documentation files will be saved to a new directory named
 "js_docs_out" (by default) in the current directory, or if you specify
 a -d=somewhere_else option, to somewhere else.
 
-For help (usage notes) enter this:
+For help (usage notes) enter this on the command line:
 
- > java -jar app\js.jar app\run.js -h
+ > java -jar app\js.jar test\run.js
+ 
+To run the unit tests included with JsDoc Toolkit enter this on the
+command line:
+
+$ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
+
+To run any example in the included examples enter this on the
+command line:
+
+$ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
 
 =====================================================================
 

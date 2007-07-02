@@ -82,9 +82,12 @@ var testCases = [
 		is('jsdoc[0].symbols[0].doc.tags.length', 0, 'Type doesn\'t appear in tags.');
 		is('jsdoc[0].symbols[1].type', "String", 'Properties can have a type set.');
 		is('jsdoc[0].symbols[2].type', "number", 'Variables can have a type set.');
+		is('jsdoc[0].symbols[3].type', "HTMLElement, HTMLElement[], null", 'Types can be separated with single bars and newlines.');
+		is('jsdoc[0].symbols[4].type', "FontDef, String", 'Types can be separated with double bars.');
+		is('jsdoc[0].symbols[5].type', "number, sizeDef", 'Type tag can be set by setting the type as well as desc.');
 	},
 	function() {
-		JsDoc.opt.a = true; // grab ALL functions from now on
+		JsDoc.opt = {a:true};
 		testFile(__DIR__+"data/functions.js");
 		is('jsdoc[0].symbols[0].methods.length', 3, 'Undocumented function has undocumented methods.');
 		is('jsdoc[0].symbols[0].methods[2].name', "Canvas", 'Undocumented function has named undocumented methods.');
@@ -141,7 +144,6 @@ var testCases = [
 	function() {
 		JsDoc.opt = {a:true};
 		testFile(__DIR__+"data/memberof.js");
-		//print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[1].name', "SquareMaker", 'Constructor member name can be found.');
 		is('jsdoc[0].symbols[1].memberof', "ShapeFactory", 'Constructor which is a member of another constructor identified.');
 		is('jsdoc[0].symbols[2].name', "Square", 'Nested constructor member name can be found.');
@@ -180,7 +182,6 @@ var testCases = [
 		
 		JsDoc.opt = {A:true};
 		testFile(__DIR__+"data/ignore.js");
-		//print(Data.dump(jsdoc))
 		is('jsdoc[0].symbols.length', 3, 'Ignored functions are unseen with -A.');
 		is('jsdoc[0].symbols[0].alias', "Log.warn", 'Ignored parent has visible method with -A.');
 		is('jsdoc[0].symbols[2].alias', "Action.passTo", 'Ignored method is unseen with -A.');
@@ -221,8 +222,11 @@ var testCases = [
 	function() {
 		JsDoc.opt = {a: true};
 		testFile(__DIR__+"data/throws.js");
-		print(Dumper.dump(jsdoc));
+		//print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[0].exceptions[0]', "This is the label text.", 'Throws can be found.');
+		is('jsdoc[0].symbols[1].exceptions[0].type', "OutOfMemory", 'Exception is a synonym for throws.');
+		is('jsdoc[0].symbols[2].exceptions[0].type', "IOException", 'Multiple exception tags allowed, first.');
+		is('jsdoc[0].symbols[2].exceptions[1].type', "PermissionDenied", 'Multiple exception tags allowed, second.');
 	}
 ];
 

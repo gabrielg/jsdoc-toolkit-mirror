@@ -2,7 +2,7 @@
  * @fileOverview An automated documentation publishing system for JavaScript.
  * @name JsDoc Toolkit
  * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
- * @version 1.0b
+ * @version 1.0.0
  * @revision $Id$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
@@ -132,8 +132,7 @@ JsDoc.usage = function() {
 	print("  -d=<PATH> or --directory=<PATH>\n          Output to this directory (defaults to js_docs_out).\n");
 	print("  -r=<DEPTH> or --recurse=<DEPTH>\n          Descend into src directories.\n");
 	print("  -a or --allfunctions\n          Include all functions, even undocumented ones.\n");
-	print("  -v or --verbose\n          Provide more feedback about what is happening.\n");
-	print("  -l or --load\n          Load a plug-in script before processing.\n");
+	print("  -A or --Allfunctions\n          Include all functions, even undocumented, underscored ones.\n");
 	print("  -h or --help\n          Show this message and exit.\n");
 	
 	java.lang.System.exit(0);

@@ -5,3 +5,18 @@
 function processFile(fileId) {
 
 }
+
+/** 
+ * @exception {OutOfMemory}
+ */
+function readFile(path) {
+
+}
+
+/** 
+ * @throws {IOException}
+ * @throws {PermissionDenied}
+ */
+function writeFile(path) {
+
+}

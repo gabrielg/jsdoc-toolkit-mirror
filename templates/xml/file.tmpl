@@ -42,6 +42,12 @@
 						<desc>{+ret.desc+}</desc>
 					</return>
 				</for></returns>
+				<exceptions><for each="ex" in="symbol.exceptions">
+					<return>
+						<type>{+ex.type+}</type>
+						<desc>{+ex.desc+}</desc>
+					</return>
+				</for></exceptions>
 				<tags><for each="tag" in="symbol.doc.tags">
 					<tag title="{+tag.title+}">
 						<type>{+tag.type+}</type>

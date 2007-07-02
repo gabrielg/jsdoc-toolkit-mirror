@@ -11,12 +11,21 @@ function DocTag(src) {
 		
 		this.title = (parts[1].toLowerCase() || "");
 		this.type = (parts[2] || "");
-		if (this.type) this.type = this.type.replace(/\s*(,|\|)\s*/g, ", ");
+	
+		if (this.type) this.type = this.type.replace(/\s*(,|\|\|?)\s*/g, ", ");
 		this.desc = (parts[3] || "");
+		
+		if (this.title == "type") {
+			if (this.type) this.desc = this.type;
+			if (this.desc) {
+				this.desc = this.desc.replace(/\s*(,|\|\|?)\s*/g, ", ");
+			}
+		}
 		
 		// tag synonyms here
 		if (this.title == "member") this.title = "memberof";
-		if (this.title == "description") this.title = "desc";
+		else if (this.title == "description") this.title = "desc";
+		else if (this.title == "exception") this.title = "throws";
 		else if (this.title == "class") this.title = "constructor";
 		
 		if (this.desc) {

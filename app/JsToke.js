@@ -380,11 +380,19 @@ TokenReader.prototype.read_hex = function(stream, tokens) { /*debug*///print("> 
 	return false;
 }
 TokenReader.prototype.read_regx = function(stream, tokens) { /*debug*///print("> read_regx");
-	if (stream.look() == "/" 
-	 && !tokens.last().is("NUMB")
-	 && !tokens.last().is("NAME")
-	 && !tokens.last().is("RIGHT_PAREN")
-	 && !tokens.last().is("RIGHT_BRACKET")
+	if (
+		stream.look() == "/"
+	 	&& 
+	 	(
+	 		!tokens.last()
+	 		||
+			(
+				!tokens.last().is("NUMB")
+				&& !tokens.last().is("NAME")
+				&& !tokens.last().is("RIGHT_PAREN")
+				&& !tokens.last().is("RIGHT_BRACKET")
+			)
+		)
 	) {
 		var regex = stream.next();
 		

@@ -17,6 +17,9 @@ load(__DIR__+"JsPlate.js");
 
 function Main() {
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
+	
+	var ext = ["js"];
+	if (JsDoc.opt.x) ext = JsDoc.opt.x.split(",").map(function(x) {return x.toLowerCase()});
 
 	if (typeof(JsDoc.opt.r) == "boolean") JsDoc.opt.r=10;
 	else if (!isNaN(parseInt(JsDoc.opt.r))) JsDoc.opt.r = parseInt(JsDoc.opt.r);
@@ -36,7 +39,8 @@ function Main() {
 	
 	LOG.inform("Scanning for source files: recursion set to "+JsDoc.opt.r+" subdir"+((JsDoc.opt.r==1)?"":"s")+".");
 	function isJs(element, index, array) {
-		return /\.js$/i.test(element); // we're only interested in .js files
+		var thisExt = element.split(".").pop().toLowerCase();
+		return (ext.indexOf(thisExt) > -1); // we're only interested in files with certain extensions
 	}
 	var srcFiles = [];
 	for (var d = 0; d < JsDoc.opt._.length; d++) {
@@ -60,5 +64,5 @@ function Main() {
 	}
 }
 
-JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", v:"verbose", h:"help", a:"allfunctions"});
+JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", x:"ext", a:"allfunctions", A:"Allfunctions", h:"help"});
 Main();

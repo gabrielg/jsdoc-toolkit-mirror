@@ -16,7 +16,7 @@ TOKN.WHIT = {
 TOKN.NEWLINE = {
 	"\u000A": "UNICODE_LF",
 	"\u000D": "UNICODE_CR",
-	"\n":     "TOKN.NEWLINE",
+	"\n":     "NEWLINE",
 	"\r":     "RETURN"
 };
 TOKN.KEYW = {

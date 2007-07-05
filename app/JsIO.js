@@ -89,7 +89,7 @@ IO.ls = function(dir, recurse, allFiles, path) {
 
 			if ((new File(path.join("/")+"/"+file)).list()) { // it's a directory
 				path.push(file);
-				if (path.length-1 < recurse) Util.ls(path.join("/"), recurse, allFiles, path);
+				if (path.length-1 < recurse) IO.ls(path.join("/"), recurse, allFiles, path);
 				path.pop();
 			}
 			else {

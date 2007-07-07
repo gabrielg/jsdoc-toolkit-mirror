@@ -38,6 +38,10 @@ var testCases = [
 		is('jsdoc[0].symbols[0].alias', "Layout", 'Nested commented method name can be found.');
 	},
 	function() {
+		testFile(__DIR__+"data/comments.js");
+		is('jsdoc[0].symbols.length', 0, '/*** ... */ style comments don\'t appear in the out put.');
+	},
+	function() {
 		testFile(__DIR__+"data/obliterals.js");
 		is('jsdoc[0].symbols[0].name', "Document", 'Nested commented object literal name can be found.');
 	},

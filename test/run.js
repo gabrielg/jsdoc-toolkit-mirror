@@ -1,23 +1,35 @@
 //// load required libraries
-
-var __DIR__;
-try {fail();} catch(e) {
-	var nameStart = Math.max(e.fileName.lastIndexOf("/")+1, e.fileName.lastIndexOf("\\")+1, 0);
-	__DIR__ = e.fileName.substring(0, nameStart-1);
-	__DIR__ += (__DIR__)? "/" : "";
+try {
+	importClass(java.lang.System);
+}
+catch (e) {
+	throw "RuntimeException: The class java.lang.System is required to run this script.";
 }
 
-load(__DIR__+"../app/JsDoc.js");
-load(__DIR__+"../app/Util.js");
-load(__DIR__+"../app/JsIO.js");
-load(__DIR__+"../app/Symbol.js");
-load(__DIR__+"../app/JsToke.js");
-load(__DIR__+"../app/JsParse.js");
-load(__DIR__+"../app/DocTag.js");
-load(__DIR__+"../app/Doclet.js");
-load(__DIR__+"../app/JsTestrun.js");
-load(__DIR__+"../app/Dumper.js");
+var __DIR__ = System.getProperty("user.dir")+"/";
 
+function require(lib) {
+	try {
+		var file = new Packages.java.io.File(__DIR__+lib);
+		if(!file.exists()) throw "missing file.";
+		load(__DIR__+lib);
+	}
+	catch (e) {
+		print("Can't find file '"+lib+"' in directory '"+__DIR__+"'. Change your current working directory to the jsdoc-toolkit folder.");
+		quit();
+	}
+}
+
+require("app/JsDoc.js");
+require("app/Util.js");
+require("app/JsIO.js");
+require("app/Symbol.js");
+require("app/JsToke.js");
+require("app/JsParse.js");
+require("app/DocTag.js");
+require("app/Doclet.js");
+require("app/JsTestrun.js");
+require("app/Dumper.js");
 
 //// set up harness
 JsDoc.opt = {};
@@ -33,25 +45,21 @@ function testFile(path) {
 
 var testCases = [
 	function() {
-		testFile(__DIR__+"data/functions.js");
+		testFile(__DIR__+"test/data/functions.js");
 		ok('typeof(jsdoc) != "undefined"', 'jsdoc must be defined.');
 		is('jsdoc[0].symbols[0].alias', "Layout", 'Nested commented method name can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/comments.js");
-		is('jsdoc[0].symbols.length', 0, '/*** ... */ style comments don\'t appear in the out put.');
-	},
-	function() {
-		testFile(__DIR__+"data/obliterals.js");
+		testFile(__DIR__+"test/data/obliterals.js");
 		is('jsdoc[0].symbols[0].name', "Document", 'Nested commented object literal name can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/oblit_func.js");
+		testFile(__DIR__+"test/data/oblit_func.js");
 		is('jsdoc[0].symbols[0].name', "Site", 'Mixed object literal name can be found.');
 	},
 	function() {
 		JsDoc.opt = {a: true};
-		testFile(__DIR__+"data/prototypes.js");
+		testFile(__DIR__+"test/data/prototypes.js");
 		is('jsdoc[0].symbols[1].alias', "Article.getTitle", 'Prototype method name assigned from oblit can be found.');
 		is('jsdoc[0].symbols[1].memberof', "Article", 'Prototype method memberof assigned from oblit can be found.');
 		is('jsdoc[0].symbols[0].methods[0].name', "getTitle", 'Prototype method is registered with parent object.');
@@ -62,7 +70,7 @@ var testCases = [
 		is('jsdoc[0].symbols[5].isa', "FUNCTION", 'Prototype method isa can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/anonfuncs.js");
+		testFile(__DIR__+"test/data/anonfuncs.js");
 		is('jsdoc[0].symbols[1].alias', "Item.name", 'Anonymous function call assigned to property can be found.');
 		is('jsdoc[0].symbols[2].name', "Item.Price", 'Anonymous function call assigned to variable can be found.');
 		is('jsdoc[0].symbols[3].name', "Product", 'Anonymous constructor call assigned to variable can be found.');
@@ -70,18 +78,18 @@ var testCases = [
 		is('jsdoc[0].symbols[4].alias', "Product.seller", 'Anonymous constructor property name can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/overview.js");
+		testFile(__DIR__+"test/data/overview.js");
 		is('jsdoc[0].overview.doc.tags[1].title', "author", 'Author tag in overview can be found.');
 	},
 	function() {
-		testFile(__DIR__+"data/tags.js");
+		testFile(__DIR__+"test/data/tags.js");
 		is('jsdoc[0].symbols[0].doc.tags[0].title', "status", 'User-defined tag title can be found.');
 		is('jsdoc[0].symbols[0].doc.tags[0].desc', "experimental", 'User-defined tag with desc, desc can be found.');
 		is('jsdoc[0].symbols[0].doc.tags[1].title', "deprecated", 'User-defined tag with no desc, title can be found.');
 		is('jsdoc[0].symbols[0].doc.tags[1].desc', "", 'User-defined tag with no desc, desc can be found and is empty.');
 	},
 	function() {
-		testFile(__DIR__+"data/type.js");
+		testFile(__DIR__+"test/data/type.js");
 		is('jsdoc[0].symbols[0].type', "", 'Constructors can\'t have a type set.');
 		is('jsdoc[0].symbols[0].doc.tags.length', 0, 'Type doesn\'t appear in tags.');
 		is('jsdoc[0].symbols[1].type', "String", 'Properties can have a type set.');
@@ -92,7 +100,7 @@ var testCases = [
 	},
 	function() {
 		JsDoc.opt = {a:true};
-		testFile(__DIR__+"data/functions.js");
+		testFile(__DIR__+"test/data/functions.js");
 		is('jsdoc[0].symbols[0].methods.length', 3, 'Undocumented function has undocumented methods.');
 		is('jsdoc[0].symbols[0].methods[2].name', "Canvas", 'Undocumented function has named undocumented methods.');
 		is('jsdoc[0].symbols[2].alias', "Layout.Element", 'Nested undocumented function has name.');
@@ -101,7 +109,7 @@ var testCases = [
 		is('jsdoc[0].symbols[3].alias', "Layout.Element.expand", 'Nested undocumented function has alias.');
 	},
 	function() {
-		testFile(__DIR__+"data/virtual.js");
+		testFile(__DIR__+"test/data/virtual.js");
 		is('jsdoc[0].symbols[0].name', "twiddle.flick", 'Virtual doclet name can be found.');
 		is('jsdoc[0].symbols[0].isa', "FUNCTION", 'Virtual doclet isa can be found.');
 		is('jsdoc[0].symbols[0].desc', "Twiddle the given flick.", 'Virtual doclet desc can be found.');
@@ -129,7 +137,7 @@ var testCases = [
 		is('jsdoc[0].symbols[7].alias', "Document.title", 'Virtual object inside an object literal can be seen.');
 	},
 	function() {
-		testFile(__DIR__+"data/properties.js");
+		testFile(__DIR__+"test/data/properties.js");
 		is('jsdoc[0].symbols[1].properties[0].name', "methodId", 'Property in doc comment is added to parent.');
 		is('jsdoc[0].symbols[1].properties[0].type', "Number", 'Property in doc comment has type.');
 		
@@ -147,7 +155,7 @@ var testCases = [
 	},
 	function() {
 		JsDoc.opt = {a:true};
-		testFile(__DIR__+"data/memberof.js");
+		testFile(__DIR__+"test/data/memberof.js");
 		is('jsdoc[0].symbols[1].name', "SquareMaker", 'Constructor member name can be found.');
 		is('jsdoc[0].symbols[1].memberof', "ShapeFactory", 'Constructor which is a member of another constructor identified.');
 		is('jsdoc[0].symbols[2].name', "Square", 'Nested constructor member name can be found.');
@@ -157,49 +165,53 @@ var testCases = [
 	},
 	function() {
 		JsDoc.opt = {};
-		testFile(__DIR__+"data/underscore.js");
+		testFile(__DIR__+"test/data/underscore.js");
 		is('jsdoc[0].symbols.length', 0, 'No undocumented symbols allowed without -a or -A.');
 		
 		JsDoc.opt = {a:true};
-		testFile(__DIR__+"data/underscore.js");
+		testFile(__DIR__+"test/data/underscore.js");
 		is('jsdoc[0].symbols.length', 3, 'No undocumented, underscored symbols allowed with -a but not -A.');
 	
 		JsDoc.opt = {A:true};
-		testFile(__DIR__+"data/underscore.js");
+		testFile(__DIR__+"test/data/underscore.js");
 		is('jsdoc[0].symbols.length', 5, 'All undocumented symbols allowed with -A.');
 		is('jsdoc[0].symbols[0].methods[1].name', "_debug", 'Undocumented, underscored methods allowed with -A.');
 	},
 	function() {
 		JsDoc.opt = {};
-		testFile(__DIR__+"data/allfuncs_option.js");
+		testFile(__DIR__+"test/data/allfuncs_option.js");
 		is('jsdoc[0].symbols.length', 1, 'Documented method of undocumented parent found without -a or -A.');
 		is('jsdoc[0].symbols[0].alias', "_Action.passTo", 'Documented method of undocumented parent alias includes parent.');
 
 		JsDoc.opt = {A:true};
-		testFile(__DIR__+"data/allfuncs_option.js");
+		testFile(__DIR__+"test/data/allfuncs_option.js");
 		is('jsdoc[0].symbols.length', 5, 'All functions found with -A.');
 	},
 	function() {
 		JsDoc.opt = {};
-		testFile(__DIR__+"data/ignore.js");
-		is('jsdoc[0].symbols.length', 0, 'Ignored functions are unseen without -a or -A.');
+		testFile(__DIR__+"test/data/ignore.js");
+		is('jsdoc[0].symbols.length', 0, 'Ignored and private functions are unseen without -p, -a or -A.');
 		
 		JsDoc.opt = {A:true};
-		testFile(__DIR__+"data/ignore.js");
+		testFile(__DIR__+"test/data/ignore.js");
 		is('jsdoc[0].symbols.length', 3, 'Ignored functions are unseen with -A.');
 		is('jsdoc[0].symbols[0].alias', "Log.warn", 'Ignored parent has visible method with -A.');
 		is('jsdoc[0].symbols[2].alias', "Action.passTo", 'Ignored method is unseen with -A.');
+	
+		JsDoc.opt = {A:true, p:true};
+		testFile(__DIR__+"test/data/ignore.js");
+		is('jsdoc[0].symbols.length', 4, 'Private functions are seen with -p.');
 	},
 	function() {
 		JsDoc.opt = {};
-		testFile(__DIR__+"data/returns.js");
+		testFile(__DIR__+"test/data/returns.js");
 		is('jsdoc[0].symbols[0].returns.length', 1, 'A return tag appears in the returns array.');
 		is('jsdoc[0].symbols[0].doc.tags.length', 0, 'A return tag does not appear in the tags array.');
 		is('jsdoc[0].symbols[0].returns[0].type', "Array, String", 'A return type van contain multiple values and whitespaces.');
 	},
 	function() {
 		JsDoc.opt = {a: true};
-		testFile(__DIR__+"data/params.js");
+		testFile(__DIR__+"test/data/params.js");
 		is('jsdoc[0].symbols[0].params.length', 1, 'A param tag appears in the params array.');
 		is('jsdoc[0].symbols[0].params[0].type', "String, Array", 'A param type van contain multiple values and whitespaces.');
 		is('jsdoc[0].symbols[1].params.length', 3, 'Undocumented param tags appear in the params array.');
@@ -207,7 +219,7 @@ var testCases = [
 	},
 	function() {
 		JsDoc.opt = {a: true};
-		testFile(__DIR__+"data/scope.js");
+		testFile(__DIR__+"test/data/scope.js");
 		is('jsdoc[0].symbols[0].alias', "Record.getRecord", 'Scope recognized as part of alias with new function(){} syntax.');
 		is('jsdoc[0].symbols[0].name', "Record.getRecord", 'Scope recognized as part of name with new function(){} syntax.');
 		is('jsdoc[0].symbols[1].alias', "Record.getRecord.Reader", 'Scope recognized as part of method with new function(){} syntax');
@@ -217,7 +229,7 @@ var testCases = [
 	},
 	function() {
 		JsDoc.opt = {a: true};
-		testFile(__DIR__+"data/framework.js");
+		testFile(__DIR__+"test/data/framework.js");
 		is('jsdoc[0].symbols[1].alias', "Dragger.scroll", 'Scope recognized as part of method inside param call.');
 		is('jsdoc[0].symbols[2].alias', "Dragger.onChange", 'Function inside param call recognized when labelled function.');
 		is('jsdoc[0].symbols[3].alias', "Dragger.onUpdate", 'Method inside param call recognized when virtual.');
@@ -225,7 +237,7 @@ var testCases = [
 	},
 	function() {
 		JsDoc.opt = {a: true};
-		testFile(__DIR__+"data/throws.js");
+		testFile(__DIR__+"test/data/throws.js");
 		//print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[0].exceptions[0]', "This is the label text.", 'Throws can be found.');
 		is('jsdoc[0].symbols[1].exceptions[0].type', "OutOfMemory", 'Exception is a synonym for throws.');

@@ -1,19 +1,34 @@
-var __DIR__;
-try {fail();} catch(e) {
-	var nameStart = Math.max(e.fileName.lastIndexOf("/")+1, e.fileName.lastIndexOf("\\")+1, 0);
-	__DIR__ = e.fileName.substring(0, nameStart-1);
-	__DIR__ += (__DIR__)? "/" : "";
+//// load required libraries
+try {
+	importClass(java.lang.System);
+}
+catch (e) {
+	throw "RuntimeException: The class java.lang.System is required to run this script.";
 }
 
-load(__DIR__+"../app/JsDoc.js");
-load(__DIR__+"../app/Util.js");
-load(__DIR__+"../app/JsIO.js");
-load(__DIR__+"../app/Symbol.js");
-load(__DIR__+"../app/JsToke.js");
-load(__DIR__+"../app/JsParse.js");
-load(__DIR__+"../app/DocTag.js");
-load(__DIR__+"../app/Doclet.js");
-load(__DIR__+"../app/Dumper.js");
+var __DIR__ = System.getProperty("user.dir")+"/";
+
+function require(lib) {
+	try {
+		var file = new Packages.java.io.File(__DIR__+lib);
+		if(!file.exists()) throw "missing file.";
+		load(__DIR__+lib);
+	}
+	catch (e) {
+		print("Can't find file '"+lib+"' in directory '"+__DIR__+"'. Change your current working directory to the jsdoc-toolkit folder.");
+		quit();
+	}
+}
+
+require("app/JsDoc.js");
+require("app/Util.js");
+require("app/JsIO.js");
+require("app/Symbol.js");
+require("app/JsToke.js");
+require("app/JsParse.js");
+require("app/DocTag.js");
+require("app/Doclet.js");
+require("app/Dumper.js");
 
 function Main() {
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();

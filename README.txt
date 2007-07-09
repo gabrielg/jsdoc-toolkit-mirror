@@ -29,6 +29,10 @@ available. A copy of this jar file is included with the JsDoc Toolkit
 distribution. To download Rhino yourself or to find out more go to 
 the official Rhino web page: http://www.mozilla.org/rhino/
 
+Before running the JsDoc Toolkit app you must change your current
+working directory to the jsdoc-toolkit folder. Then follow the
+examples below, or as shown on the project wiki.
+
 On a computer running Windows a valid command line to run JsDoc
 Toolkit might look like this:
 

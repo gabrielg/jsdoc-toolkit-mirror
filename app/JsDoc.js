@@ -41,7 +41,6 @@ JsDoc.parse = function(srcFiles) {
 	var parser = new JsParse();
 	
 	srcFiles = srcFiles.sort();
-	print("source files = "+srcFiles.join(", "));
 	
 	// handle setting up relationships between symbols here
 	for (var f = 0; f < srcFiles.length; f++) {
@@ -59,7 +58,10 @@ JsDoc.parse = function(srcFiles) {
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");
 		
 		for (var s = 0; s < parser.symbols.length; s++) {
-			if (parser.symbols[s].doc.getTag("ignore").length || parser.symbols[s].doc.getTag("private").length)
+			if (parser.symbols[s].doc.getTag("ignore").length)
+				continue;
+				
+			if (parser.symbols[s].doc.getTag("private").length && !JsDoc.opt.p)
 				continue;
 			
 			var parents;

@@ -1,19 +1,34 @@
-var __DIR__;
-try {fail();} catch(e) {
-	var nameStart = Math.max(e.fileName.lastIndexOf("/")+1, e.fileName.lastIndexOf("\\")+1, 0);
-	__DIR__ = e.fileName.substring(0, nameStart-1);
-	__DIR__ += (__DIR__)? "/" : "";
+//// load required libraries
+try {
+	importClass(java.lang.System);
+}
+catch (e) {
+	throw "RuntimeException: The class java.lang.System is required to run this script.";
 }
 
-load(__DIR__+"JsDoc.js");
-load(__DIR__+"Util.js");
-load(__DIR__+"JsIO.js");
-load(__DIR__+"Symbol.js");
-load(__DIR__+"JsToke.js");
-load(__DIR__+"JsParse.js");
-load(__DIR__+"DocTag.js");
-load(__DIR__+"Doclet.js");
-load(__DIR__+"JsPlate.js");
+var __DIR__ = System.getProperty("user.dir")+"/";
+
+function require(lib) {
+	try {
+		var file = new Packages.java.io.File(__DIR__+lib);
+		if(!file.exists()) throw "missing file.";
+		load(__DIR__+lib);
+	}
+	catch (e) {
+		print("Can't find file '"+lib+"' in directory '"+__DIR__+"'. Change your current working directory to the jsdoc-toolkit folder.");
+		quit();
+	}
+}
+
+require("app/JsDoc.js");
+require("app/Util.js");
+require("app/JsIO.js");
+require("app/Symbol.js");
+require("app/JsToke.js");
+require("app/JsParse.js");
+require("app/DocTag.js");
+require("app/Doclet.js");
+require("app/JsPlate.js");
 
 function Main() {
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
@@ -56,7 +71,7 @@ function Main() {
 		JsDoc.opt.t += (JsDoc.opt.t.indexOf(IO.FileSeparator)==JsDoc.opt.t.length-1)?
 			"" : IO.FileSeparator;
 		LOG.inform("Loading template: "+JsDoc.opt.t+"publish.js");
-		load(JsDoc.opt.t+"publish.js");
+		require(JsDoc.opt.t+"publish.js");
 		
 		LOG.inform("Publishing all files...");
 		publish(files, JsDoc.opt);

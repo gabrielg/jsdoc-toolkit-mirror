@@ -421,7 +421,7 @@ TokenReader.prototype.read_regx = function(stream, tokens) { /*debug*///print(">
 
 /** @constructor */
 function TokenStream(array) {
-	this.array = array;
+	this.array = (array || []);
 	this.cursor = -1;
 }
 

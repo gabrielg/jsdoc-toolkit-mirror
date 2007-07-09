@@ -1,6 +1,4 @@
 function publish(files, context) {
-load(__DIR__+"../app/Dumper.js");
-
 	var file_template = new JsPlate(context.t+"file.tmpl");
 	
 	var index = {};

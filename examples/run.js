@@ -6,7 +6,7 @@ catch (e) {
 	throw "RuntimeException: The class java.lang.System is required to run this script.";
 }
 
-var __DIR__ = System.getProperty("user.dir")+"/";
+var __DIR__ = System.getProperty("user.dir")+Packages.java.io.File.separator;
 
 function require(lib) {
 	try {
@@ -15,7 +15,7 @@ function require(lib) {
 		load(__DIR__+lib);
 	}
 	catch (e) {
-		print("Can't find file '"+lib+"' in directory '"+__DIR__+"'. Change your current working directory to the jsdoc-toolkit folder.");
+		print("Can't find required file '"+lib+"' in directory '"+__DIR__+"'.\nDo you need to change your working directory to jsdoc-toolkit?");
 		quit();
 	}
 }

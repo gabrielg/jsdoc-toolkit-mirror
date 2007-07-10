@@ -47,6 +47,10 @@
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
 				
+				<for each="example" in="symbol.doc.getTag('example')">
+					<pre class="code">{+example.desc+}</pre>
+				</for>
+				
 				<if test="symbol.params.length">
 				<div class="detailHead">parameters</div>
 				<table class="params">
@@ -120,6 +124,10 @@
 				<if test="symbol.desc != 'undocumented'">
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
+				
+				<for each="example" in="symbol.doc.getTag('example')">
+					<pre class="code">{+example.desc+}</pre>
+				</for>
 				
 				<if test="symbol.params.length">
 				<div class="detailHead">parameters</div>
@@ -195,6 +203,10 @@
 				<if test="symbol.desc != 'undocumented'">
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
+				
+				<for each="example" in="symbol.doc.getTag('example')">
+					<pre class="code">{+example.desc+}</pre>
+				</for>
 			</div>
 			</if>
 			

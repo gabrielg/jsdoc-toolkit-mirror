@@ -3,12 +3,6 @@
  * @name Test Library
  * @author <a href="mailto:jsmith@company.com">Joe Smith</a>
  * @version 	0.1
- @example
-<pre class="code">
-var s = new Shape2D.Rect(1, 2, 3);
-s.rotate(90);
-</pre>
- 
  */
  
 /** 
@@ -27,7 +21,7 @@ function getFoo(fooID, r){
  * @desc This is a library of geometry-related functions.
  * 
  */
- Shape2D /*constructor*/
+ Shape2D /*a two-dimensional shape*/
  = {
 	// Shape.Circle()
 	/** @ignore */
@@ -52,7 +46,13 @@ function getFoo(fooID, r){
 	},
 	/** The constant PI*/
 	PI: 3.14,
-	/** @constructor */
+	/** @constructor 
+	* @example
+    * var myPent = new Polygon(5);
+    * myPent.addSide(s1);
+	* @example
+    * var myHex = new Polygon(5).addSide(s2);
+	*/
 	Polygon: function(sides) //how many sides
 	{
 		this.addSide = function(newSide) {

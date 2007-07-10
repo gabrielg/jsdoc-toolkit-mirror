@@ -14,6 +14,12 @@ ul
 .content { }
 .docs { }
 .signature { font-weight: normal; }
+.code {
+	font: 11px monaco,monospace;
+	padding: 4px;
+	margin-left: 18px;
+	border: 1px dashed #ccc;
+}
 
 .itemTitle
 {

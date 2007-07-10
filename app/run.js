@@ -41,7 +41,7 @@ function Main() {
 	else JsDoc.opt.r = 1;
 		
 	if (JsDoc.opt.d === true || JsDoc.opt.t === true) { // like when a user enters: -d mydir
-		LOG.warn("-d JsDoc.option malformed.");
+		LOG.warn("Option malformed.");
 		JsDoc.usage();
 	}
 	else if (!JsDoc.opt.d) {
@@ -79,5 +79,5 @@ function Main() {
 	}
 }
 
-JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", x:"ext", a:"allfunctions", A:"Allfunctions", h:"help"});
+JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", x:"ext", p:"private", a:"allfunctions", A:"Allfunctions", h:"help"});
 Main();

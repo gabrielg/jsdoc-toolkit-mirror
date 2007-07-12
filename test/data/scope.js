@@ -51,6 +51,18 @@ dojo.declare(
 	}
 );
 
+dojo.extend("dojo.widget.Widget",
+	/** @scope dojo.widget.Widget.prototype */
+	{
+	    /**
+	     * Does something.
+	     */
+	    doIt : function (one, two) {
+	    }
+	}
+);
+
+
 Record.getRecord();
 File.getId();
 Entry.getSubject();

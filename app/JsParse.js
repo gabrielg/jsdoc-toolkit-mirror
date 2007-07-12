@@ -48,6 +48,9 @@ JsParse.prototype._findDocComment = function(ts) { /*dbg*///print("_findDocComme
 		else if (/@scope\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
 			var scope = RegExp.$1;
 			if (!scope) return false;
+			if (scope.indexOf(".prototype") > 0) {
+				scope = scope.replace(/\.prototype\.?/, "/");
+			}
 			this._onObLiteral(scope, new TokenStream(ts.balance("LEFT_CURLY")));
 			return true;
 		}

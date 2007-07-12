@@ -226,6 +226,9 @@ var testCases = [
 		is('jsdoc[0].symbols[2].alias', "File.getId", 'Scope recognized as part of name with function(){}() syntax.');
 		is('jsdoc[0].symbols[3].alias', "Entry.getSubject", 'Scope recognized as part of method name with function(){}() syntax.');
 		is('jsdoc[0].symbols[4].alias', "dojo.widget.Widget.initializer", 'Scope within argument list is recognized.');
+		is('jsdoc[0].symbols[6].alias', "dojo.widget.Widget.doIt", 'Scope set to prototype is recognized.');
+		is('jsdoc[0].symbols[6].memberof', "dojo.widget.Widget", 'Scope set to prototype is a method, not static function.');
+	
 	},
 	function() {
 		JsDoc.opt = {a: true};

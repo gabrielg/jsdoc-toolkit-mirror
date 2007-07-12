@@ -47,6 +47,11 @@
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
 				
+				<if test="symbol.basedon.length">
+				<div class="detailHead">extends</div>
+				<for each="basedon" in="symbol.basedon">{+basedon+} </for>
+				</if>
+				
 				<for each="example" in="symbol.doc.getTag('example')">
 					<pre class="code">{+example.desc+}</pre>
 				</for>

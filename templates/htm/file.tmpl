@@ -212,6 +212,25 @@
 				<for each="example" in="symbol.doc.getTag('example')">
 					<pre class="code">{+example.desc+}</pre>
 				</for>
+				
+				<if test="symbol.properties.length">
+				<div class="detailHead">properties</div>
+				<table class="params">
+				<for each="property" in="symbol.properties">
+					<tr>
+						<td class="type">
+							{+property.type+}
+						</td>
+						<td>
+							{+property.name+}
+						</td>
+						<td>
+							{+property.desc+}
+						</td> 
+					</tr>
+				</for>
+				</table>
+				</if>
 			</div>
 			</if>
 			

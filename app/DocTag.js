@@ -26,7 +26,9 @@ function DocTag(src) {
 		if (this.title == "member") this.title = "memberof";
 		else if (this.title == "description") this.title = "desc";
 		else if (this.title == "exception") this.title = "throws";
-		else if (this.title == "class") this.title = "constructor";
+		else if (this.title == "returns") this.title = "return";
+		else if (this.title == "classdescription") this.title = "class";
+		else if (this.title == "extends") this.title = "inherits";
 		
 		if (this.desc) {
 			if (this.title == "param") { // long tags like {type} [name] desc

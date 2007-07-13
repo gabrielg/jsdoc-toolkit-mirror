@@ -47,9 +47,9 @@
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
 				
-				<if test="symbol.basedon.length">
-				<div class="detailHead">extends</div>
-				<for each="basedon" in="symbol.basedon">{+basedon+} </for>
+				<if test="symbol.inherits.length">
+				<div class="detailHead">inherits</div>
+				<for each="inherit" in="symbol.inherits">{+inherit+} </for>
 				</if>
 				
 				<for each="example" in="symbol.doc.getTag('example')">

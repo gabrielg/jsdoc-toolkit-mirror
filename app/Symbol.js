@@ -14,7 +14,7 @@ function Symbol(name, params, isa, comment) {
 	this.alias = name;
 	this.desc = "";
 	this.memberof = "";
-	this.basedon = [];
+	this.inherits = [];
 	this.properties = [];
 	this.methods = [];
 	this.returns = [];
@@ -112,12 +112,19 @@ function Symbol(name, params, isa, comment) {
 			this.doc._dropTag("type");
 		}
 		
-		var basedons;
-		if ((basedons = this.doc.getTag("extends")) && basedons.length) {
-			for (var i = 0; i < basedons.length; i++) {
-				this.basedon.push(basedons[i].desc);
+		var classes;
+		if ((classes = this.doc.getTag("class")) && classes.length) {
+			this.isa = "CONSTRUCTOR";
+				this.desc += "\n"+classes[0].desc; // multiple class tags are ignored
+			this.doc._dropTag("class");
+		}
+		
+		var inherits;
+		if ((inherits = this.doc.getTag("inherits")) && inherits.length) {
+			for (var i = 0; i < inherits.length; i++) {
+				this.inherits.push(inherits[i].desc);
 			}
-			this.doc._dropTag("extends");
+			this.doc._dropTag("inherits");
 		}
 	}
 }

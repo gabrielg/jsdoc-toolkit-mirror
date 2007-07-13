@@ -50,6 +50,12 @@ var testCases = [
 		is('jsdoc[0].symbols[0].alias', "Layout", 'Nested commented method name can be found.');
 	},
 	function() {
+		JsDoc.opt = {};
+		testFile(__DIR__+"test/data/class.js");
+		like('jsdoc[0].symbols[0].desc', /Construct/, 'Untagged description for constructor is found.');
+		like('jsdoc[0].symbols[0].desc', /Class/, 'Class description for constructor is added to description.');
+	},
+	function() {
 		testFile(__DIR__+"test/data/obliterals.js");
 		is('jsdoc[0].symbols[0].name', "Document", 'Nested commented object literal name can be found.');
 	},
@@ -208,6 +214,8 @@ var testCases = [
 		is('jsdoc[0].symbols[0].returns.length', 1, 'A return tag appears in the returns array.');
 		is('jsdoc[0].symbols[0].doc.tags.length', 0, 'A return tag does not appear in the tags array.');
 		is('jsdoc[0].symbols[0].returns[0].type', "Array, String", 'A return type van contain multiple values and whitespaces.');
+		is('jsdoc[0].symbols[1].returns.length', 2, 'Multiple return tags are all found.');
+		is('jsdoc[0].symbols[2].returns[0].desc', "Characters from the file.", 'Returns is a synonym for return.');
 	},
 	function() {
 		JsDoc.opt = {a: true};
@@ -246,6 +254,12 @@ var testCases = [
 		is('jsdoc[0].symbols[1].exceptions[0].type', "OutOfMemory", 'Exception is a synonym for throws.');
 		is('jsdoc[0].symbols[2].exceptions[0].type', "IOException", 'Multiple exception tags allowed, first.');
 		is('jsdoc[0].symbols[2].exceptions[1].type', "PermissionDenied", 'Multiple exception tags allowed, second.');
+	},
+	function() {
+		testFile(__DIR__+"test/data/inherits.js");
+		is('jsdoc[0].symbols[1].inherits[0]', "foo", 'An inherited class can be found.');
+		is('jsdoc[0].symbols[2].inherits[0]', "bar", 'The extends tag is a synonym for inherits.');
+		is('jsdoc[0].symbols[3].inherits.length', 2, 'Multiple inherits are supported.');
 	}
 ];
 

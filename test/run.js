@@ -256,10 +256,14 @@ var testCases = [
 		is('jsdoc[0].symbols[2].exceptions[1].type', "PermissionDenied", 'Multiple exception tags allowed, second.');
 	},
 	function() {
+		JsDoc.opt = {};
 		testFile(__DIR__+"test/data/inherits.js");
-		is('jsdoc[0].symbols[1].inherits[0]', "foo", 'An inherited class can be found.');
-		is('jsdoc[0].symbols[2].inherits[0]', "bar", 'The extends tag is a synonym for inherits.');
-		is('jsdoc[0].symbols[3].inherits.length', 2, 'Multiple inherits are supported.');
+		is('jsdoc[0].symbols[2].inherits[0]', "foo", 'An inherited class can be found.');
+		is('jsdoc[0].symbols[4].inherits[0]', "bar", 'The extends tag is a synonym for inherits.');
+		is('jsdoc[0].symbols[5].inherits.length', 2, 'Multiple inherits are supported.');
+		is('jsdoc[0].symbols[5].inheritedMethods.length', 2, 'Multiple inherited methods are supported.');
+		is('jsdoc[0].symbols[5].inheritedMethods[0].alias', "foo.processFoo", 'First inherited method alias found.');
+		is('jsdoc[0].symbols[5].inheritedMethods[1].name', "doBar", 'Second inherited method name found.');
 	}
 ];
 

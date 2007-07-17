@@ -110,6 +110,13 @@ JsDoc.parse = function(srcFiles) {
 				
 			}
 			
+			// does this inherit methods from another?
+			for (var i = 0; i < parser.symbols[s].inherits.length; i++) {
+				var base = Symbol.index[parser.symbols[s].inherits[i]];
+				parser.symbols[s].inheritedMethods =
+					parser.symbols[s].inheritedMethods.concat(base.methods);
+			}
+			
 			file.addSymbol(parser.symbols[s]);
 			
 		}

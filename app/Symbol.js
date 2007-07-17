@@ -17,6 +17,7 @@ function Symbol(name, params, isa, comment) {
 	this.inherits = [];
 	this.properties = [];
 	this.methods = [];
+	this.inheritedMethods = [];
 	this.returns = [];
 	this.exceptions = [];
 	this.doc = new Doclet(comment);
@@ -126,8 +127,12 @@ function Symbol(name, params, isa, comment) {
 			}
 			this.doc._dropTag("inherits");
 		}
+		
+		Symbol.index[this.alias] = this;
 	}
 }
+
+Symbol.index = {};
 
 Symbol.prototype.is = function(what) {
     return this.isa === SYM[what];

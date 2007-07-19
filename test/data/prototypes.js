@@ -23,3 +23,6 @@ Paragraph.prototype.lines = []
 Paragraph.prototype.getLines = function() {
 	
 }
+
+/** this comment should be ignored */
+Paragraph.lines.prototype = new Array(1);

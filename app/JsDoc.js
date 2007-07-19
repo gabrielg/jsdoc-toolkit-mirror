@@ -80,8 +80,12 @@ JsDoc.parse = function(srcFiles) {
 			}
 			
 			// is this a member of another object?
-			if (parser.symbols[s].name.indexOf("/") > -1) {
-				var parts = parser.symbols[s].name.match(/^(.+)\/([^\/]+)$/);
+			var parts = null;
+			if (
+				parser.symbols[s].name.indexOf("/") > -1
+				&& (parts = parser.symbols[s].name.match(/^(.+)\/([^\/]+)$/))
+			) {
+				
 				var parentName = parts[1].replace(/\//g, ".");
 				var childName = parts[2];
 				

@@ -2,7 +2,6 @@
  * @fileOverview An automated documentation publishing system for JavaScript.
  * @name JsDoc Toolkit
  * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
- * @version 1.0.3
  * @revision $Id$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)

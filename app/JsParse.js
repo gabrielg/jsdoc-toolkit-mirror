@@ -108,7 +108,7 @@ JsParse.prototype._findFunction = function(ts) { /*dbg*///print("_findFunction "
 		// like var foo = new function()
 		else if (ts.look(1).is("ASSIGN") && ts.look(2).is("NEW") && ts.look(3).is("FUNCTION")) {
 			isa = SYM.OBJECT;
-			
+		
 			if (ts.look(-1).is("VAR") && ts.look(-2).is("JSDOC")) {
 				doc = ts.look(-2).data;
 			}

@@ -18,6 +18,7 @@ function Symbol(name, params, isa, comment) {
 	this.properties = [];
 	this.methods = [];
 	this.inheritedMethods = [];
+	this.inheritedProperties = [];
 	this.returns = [];
 	this.exceptions = [];
 	this.doc = new Doclet(comment);

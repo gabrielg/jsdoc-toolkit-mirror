@@ -31,6 +31,12 @@ DocFile.prototype.addSymbol = function(s) {
 	this.symbols.push(s);
 }
 
+DocFile.prototype.getSymbol = function(alias) {
+	for (var i = 0; i < this.symbols.length; i++) {
+		if (this.symbols[i].alias == alias) return this.symbols[i];
+	}
+}
+
 function publish() {}
 
 JsDoc.parse = function(srcFiles) {
@@ -93,31 +99,31 @@ JsDoc.parse = function(srcFiles) {
 				parser.symbols[s].memberof = parentName;
 
 				// is the parent defined?
-				var parent = undefined;
-				for (var i = 0; i < file.symbols.length; i++) {
-					if (file.symbols[i].alias == parentName) {
-						parent = file.symbols[i];
-						break;
-					}
-				}
+				var parent = file.getSymbol(parentName);
 
 				if (!parent) LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
 				else {
 					if (parser.symbols[s].is("OBJECT")) {
-						parent.properties.push({type: parser.symbols[s].type, desc: parser.symbols[s].desc, name: parser.symbols[s].name, alias: parser.symbols[s].alias});
+						parent.properties.push(parser.symbols[s]);
 					}
 					if (parser.symbols[s].is("FUNCTION")) {
-						parent.methods.push({name: parser.symbols[s].name, alias: parser.symbols[s].alias});
+						parent.methods.push(parser.symbols[s]);
 					}
 				}
-				
 			}
 			
 			// does this inherit methods from another?
 			for (var i = 0; i < parser.symbols[s].inherits.length; i++) {
-				var base = Symbol.index[parser.symbols[s].inherits[i]];
-				parser.symbols[s].inheritedMethods =
-					parser.symbols[s].inheritedMethods.concat(base.methods);
+				var base = file.getSymbol(parser.symbols[s].inherits[i]);
+				if (!base) {
+					LOG.warn("Can't determine inherited methods or properties from unfound '"+parser.symbols[s].inherits[i]+"' symbol.");
+				}
+				else {
+					parser.symbols[s].inheritedMethods =
+						parser.symbols[s].inheritedMethods.concat(base.methods);
+					parser.symbols[s].inheritedProperties =
+						parser.symbols[s].inheritedProperties.concat(base.properties);
+				}
 			}
 			
 			file.addSymbol(parser.symbols[s]);

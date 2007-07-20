@@ -47,9 +47,9 @@
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
 				
-				<if test="symbol.inheritedMethods.length">
+				<if test="symbol.inherits.length">
 				<div class="detailHead">inherits</div>
-				<for each="inherit" in="symbol.inheritedMethods"><div>{+inherit.alias+}</div></for>
+				<for each="inherit" in="symbol.inherits"><div><a href="#{+inherit+}">{+inherit+}</a></div></for>
 				</if>
 				
 				<for each="example" in="symbol.doc.getTag('example')">
@@ -79,7 +79,7 @@
 				<div class="detailHead">methods</div>
 				<for each="method" in="symbol.methods">
 					<ul class="details">
-						<li><a href="#{+method.alias+}">{+method.name+}</a></li>
+						<li><a href="#{+method.alias+}">{+method.name+}</a>({+method.signature()+})</li>
 					</ul>
 				</for>
 				</if>
@@ -88,7 +88,7 @@
 				<div class="detailHead">properties</div>
 				<for each="property" in="symbol.properties">
 					<ul class="details">
-						<li><a href="#{+property.alias+}">{+property.name+}</a></li>
+						<li><if test="property.type"><span class="type">{+property.type+}</span> </if><a href="#{+property.alias+}">{+property.name+}</a></li>
 					</ul>
 				</for>
 				</if>

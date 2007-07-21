@@ -35,6 +35,7 @@ DocFile.prototype.getSymbol = function(alias) {
 	for (var i = 0; i < this.symbols.length; i++) {
 		if (this.symbols[i].alias == alias) return this.symbols[i];
 	}
+    return null;
 }
 
 function publish() {}
@@ -76,10 +77,10 @@ JsDoc.parse = function(srcFiles) {
 			}
 			
 			if (parser.symbols[s].desc == "undocumented") {
-				if (/(^_|[.\/]_)/.test(parser.symbols[s].name) && !JsDoc.opt.A){
+				if (/(^_|[.\/]_)/.test(parser.symbols[s].name) && !JsDoc.opt.A) {
 					continue;
 				}
-				if (!JsDoc.opt.a && !JsDoc.opt.A){
+				if (!JsDoc.opt.a && !JsDoc.opt.A) {
 					continue;
 				}
 			}
@@ -90,7 +91,6 @@ JsDoc.parse = function(srcFiles) {
 				parser.symbols[s].name.indexOf("/") > -1
 				&& (parts = parser.symbols[s].name.match(/^(.+)\/([^\/]+)$/))
 			) {
-				
 				var parentName = parts[1].replace(/\//g, ".");
 				var childName = parts[2];
 				
@@ -112,7 +112,7 @@ JsDoc.parse = function(srcFiles) {
 				}
 			}
 			
-			// does this inherit methods from another?
+			// does this inherit methods or properties?
 			for (var i = 0; i < parser.symbols[s].inherits.length; i++) {
 				var base = file.getSymbol(parser.symbols[s].inherits[i]);
 				if (!base) {
@@ -127,7 +127,6 @@ JsDoc.parse = function(srcFiles) {
 			}
 			
 			file.addSymbol(parser.symbols[s]);
-			
 		}
 		
 		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", parser.overview);
@@ -143,7 +142,7 @@ JsDoc.parse = function(srcFiles) {
  * line. This is called automatically by using the -h/--help option.
  */
 JsDoc.usage = function() {
-	print("USAGE: java -jar js.jar jsdoc.js [OPTIONS] <SRC_DIR> <SRC_FILE> ...");
+	print("USAGE: java -jar app/js.jar app/jsdoc.js [OPTIONS] <SRC_DIR> <SRC_FILE> ...");
 	print("");
 	print("OPTIONS:");
 	print("  -t=<PATH> or --template=<PATH>\n          Required. Use this template to format the output.\n");
@@ -152,7 +151,8 @@ JsDoc.usage = function() {
 	print("  -x=<EXT>[,EXT]... or --ext=<EXT>[,EXT]...\n          Scan source files with the given extension/s (defaults to js).\n");
 	print("  -a or --allfunctions\n          Include all functions, even undocumented ones.\n");
 	print("  -A or --Allfunctions\n          Include all functions, even undocumented, underscored ones.\n");
-	print("  -h or --help\n          Show this message and exit.\n");
+	print("  -p or --private\n          Include symbols tagged as private.\n");
+    print("  -h or --help\n          Show this message and exit.\n");
 	
 	java.lang.System.exit(0);
 }

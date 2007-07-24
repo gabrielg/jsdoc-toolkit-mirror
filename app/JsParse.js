@@ -6,18 +6,24 @@
  *          (See the accompanying README file for full details.)
  */
 
-/** @constructor */ function JsParse(){};
+/** @constructor */
+function JsParse() {};
 
+/**
+ * Populate the symbols array with symbols found in the
+ * given token stream.
+ * @param {TokenStream} tokenStream
+ */
 JsParse.prototype.parse = function(tokenStream) {
 	this.scope = ["<global>"]
 	/** 
-	 * Found symbols in the source stream.
+	 * Found symbols in the tokenStream.
 	 * @type Symbol[]
 	 */
 	this.symbols = [];
 	
 	/** 
-	 * Found overview in the source stream.
+	 * Found overview in the tokenStream.
 	 * @type Symbol
 	 */
 	this.overview = null;
@@ -29,6 +35,11 @@ JsParse.prototype.parse = function(tokenStream) {
 	}
 }
 
+/**
+ * Try to find a JsDoc comment in the tokenStream.
+ * @param {TokenStream} ts
+ * @return {boolean} Was a JsDoc comment found?
+ */
 JsParse.prototype._findDocComment = function(ts) { /*dbg*///print("_findDocComment "+ts.look());
 	// like /** @alias foo.bar */
 	if (ts.look().is("JSDOC")) {
@@ -58,6 +69,11 @@ JsParse.prototype._findDocComment = function(ts) { /*dbg*///print("_findDocComme
 	return false;
 }
 
+/**
+ * Try to find a function definition in the tokenStream
+ * @param {TokenStream} ts
+ * @return {boolean} Was a function definition found?
+ */
 JsParse.prototype._findFunction = function(ts) { /*dbg*///print("_findFunction "+ts.look());
 	if (ts.look().is("NAME")) {
 		var name = ts.look().data;
@@ -154,6 +170,11 @@ JsParse.prototype._findFunction = function(ts) { /*dbg*///print("_findFunction "
 	return false;
 }
 
+/**
+ * Try to find a variable definition in the tokenStream
+ * @param {TokenStream} ts
+ * @return {boolean} Was a variable definition found?
+ */
 JsParse.prototype._findVariable = function(ts) { /*dbg*///print("_findVariable  "+ts.look());
 	if (ts.look().is("NAME") && ts.look(1).is("ASSIGN")) {
 		// like var foo = 1
@@ -183,6 +204,12 @@ JsParse.prototype._findVariable = function(ts) { /*dbg*///print("_findVariable  
 	return false;
 }
 
+/**
+ * Handle sub-parsing of the content within an object literal.
+ * @private
+ * @param {String} nspace The name attached to this object.
+ * @param {TokenStream} ts The content of the object literal.
+ */
 JsParse.prototype._onObLiteral = function(nspace, ts) { /*dbg*///print("_onObLiteral("+nspace+", "+ts+")");
 	while (ts.next()) {
 		if (this._findDocComment(ts)) {
@@ -247,6 +274,12 @@ JsParse.prototype._onObLiteral = function(nspace, ts) { /*dbg*///print("_onObLit
 	}
 }
 
+/**
+ * Handle sub-parsing of the content within a function body.
+ * @private
+ * @param {String} nspace The name attached to this function.
+ * @param {TokenStream} fs The content of the function body.
+ */
 JsParse.prototype._onFnBody = function(nspace, fs) {
 	while (fs.look()) {
 		if (this._findDocComment(fs)) {

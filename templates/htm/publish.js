@@ -1,3 +1,5 @@
+require("app/JsHilite.js");
+
 function publish(files, context) {
 	var file_template = new JsPlate(context.t+"file.tmpl");
 	
@@ -15,9 +17,17 @@ function publish(files, context) {
 				}
 			}	
 			
+			// make copy original source code with syntax hiliting
+			var sourceFile = files[i].overview.alias;
+			if (sourceFile) {
+				var hiliter = new JsHilite(IO.readFile(__DIR__+sourceFile));
+				IO.saveFile(context.d, "src"+our_name, hiliter.hilite());
+				
+				files[i].source = "src"+our_name;
+			}
+			
 			var output = file_template.process(files[i]);
 			IO.saveFile(context.d, our_name, output);
-			
 		}
 	}
 	

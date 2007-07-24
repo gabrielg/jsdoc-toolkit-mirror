@@ -152,7 +152,7 @@ JsDoc.usage = function() {
 	print("  -a or --allfunctions\n          Include all functions, even undocumented ones.\n");
 	print("  -A or --Allfunctions\n          Include all functions, even undocumented, underscored ones.\n");
 	print("  -p or --private\n          Include symbols tagged as private.\n");
-    print("  -h or --help\n          Show this message and exit.\n");
+	print("  -h or --help\n          Show this message and exit.\n");
 	
 	java.lang.System.exit(0);
 }

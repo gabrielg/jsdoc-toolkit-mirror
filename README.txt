@@ -36,20 +36,30 @@ examples below, or as shown on the project wiki.
 On a computer running Windows a valid command line to run JsDoc
 Toolkit might look like this:
 
-> java -jar app\js.jar app\run.js -a -t=templates\htm test\data\test.js
+ > java -jar app\js.jar app\run.js -a -t=templates\htm test\data\test.js
 
-On Mac OS X the same command would look like this:
+On Mac OS X or Linux the same command would look like this:
 
-$ java -jar app/js.jar app/run.js -a -t=templates/htm test/data/test.js
+ $ java -jar app/js.jar app/run.js -a -t=templates/htm test/data/test.js
 
-This assumes your current working directory contains the app, test
+The above assumes your current working directory contains the app, test
 and templates subdirectories from the standard JsDoc Toolkit 
 distribution. If you have the js.jar file saved to a place in your
 system's Java CLASSPATH, it can safely be omitted from the command.
 
+To run JsDoc Toolkit from any directory, specify the path to the app
+folder like so:
+
+ > java -Djsdoc.dir=%BASE_DIR% -jar %RHINO% %RUN% %OPTS% %SRC_FILES%
+
+So assuming the JsDoc Toolkit "app" directory is in "lib\jsdoc-toolkit"
+you would specify that like so:
+
+ > java -Djsdoc.dir=lib\jsdoc-toolkit <etc>
+
 The output documentation files will be saved to a new directory named
 "js_docs_out" (by default) in the current directory, or if you specify
-a -d=somewhere_else option, to somewhere else.
+a -d=somewhere_else option, to the somewhere_else directory.
 
 For help (usage notes) enter this on the command line:
 
@@ -58,12 +68,12 @@ For help (usage notes) enter this on the command line:
 To run the unit tests included with JsDoc Toolkit enter this on the
 command line:
 
-$ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
+ $ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
 
 To run any example in the included examples enter this on the
 command line:
 
-$ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
+ $ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
 
 =====================================================================
 

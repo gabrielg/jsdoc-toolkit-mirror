@@ -19,6 +19,7 @@
 				</div>
 				<div>	
 					<div class="desc">{+data.overview.desc+}</div>
+					<if test="data.source"> <a href="{+data.source+}" class="type">view source code</a></if>
 					<div class="itemTags">
 					<for each="tag" in="data.overview.doc.tags">
 						<ul>

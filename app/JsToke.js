@@ -8,16 +8,20 @@
 
 var TOKN = {};
 TOKN.WHIT = {
-	" ":  "SPACE",
-	"\f": "FORMFEED",
-	"\t": "TAB",
-	"\v": "VERTICAL_TAB"
+	" ":      "SPACE",
+	"\f":     "FORMFEED",
+	"\t":     "TAB",
+	"\u0009": "UNICODE_TAB",
+	"\u000A": "UNICODE_NBR",
+	"\u0008": "VERTICAL_TAB"
 };
 TOKN.NEWLINE = {
+	"\n":     "NEWLINE",
+	"\r":     "RETURN",
 	"\u000A": "UNICODE_LF",
 	"\u000D": "UNICODE_CR",
-	"\n":     "NEWLINE",
-	"\r":     "RETURN"
+	"\u2029": "UNICODE_PS",
+	"\u2028": "UNICODE_LS"
 };
 TOKN.KEYW = {
 	"break":      "BREAK",
@@ -177,6 +181,9 @@ TextStream.prototype.next = function(n) {
 /** @constructor */
 function TokenReader(src){
 	this.src = src;
+	this.keepDocs = true;
+	this.keepWhite = false;
+	this.keepComments = false;
 };
 TokenReader.prototype.tokenize = function() {
 	var stream = new TextStream(this.src);
@@ -233,16 +240,15 @@ TokenReader.prototype.read_space = function(stream, tokens) { /*debug*///print("
 	var found = "";
 	
 	while (!stream.look().eof && stream.look().isSpace()) {
-		found = " "; // collapse multiples
-		stream.next();
+		found += stream.next();
 	}
 	
 	if (found === "") {
 		return false;
 	}
 	else {
-		// don't keep
-		//tokens.push(new Token(found, "TOKN.WHIT", "SPACE"));
+		if (this.collapseWhite) found = " ";
+		if (this.keepWhite) tokens.push(new Token(found, "WHIT", "SPACE"));
 		return true;
 	}
 }
@@ -250,15 +256,15 @@ TokenReader.prototype.read_newline = function(stream, tokens) { /*debug*///print
 	var found = "";
 	
 	while (!stream.look().eof && stream.look().isNewline()) {
-		found = "\n"; // collapse multiples
-		stream.next();
+		found += stream.next();
 	}
 	
 	if (found === "") {
 		return false;
 	}
 	else {
-		tokens.push(new Token(found, "WHIT", "NEWLINE"));
+		if (this.collapseWhite) found = "\n";
+		if (this.keepWhite) tokens.push(new Token(found, "WHIT", "NEWLINE"));
 		return true;
 	}
 }
@@ -270,7 +276,7 @@ TokenReader.prototype.read_mlcomment = function(stream, tokens) { /*debug*///pri
 			found += stream.next();
 		}
 		
-		if (/^\/\*\*[^*]/.test(found)) tokens.push(new Token(found, "COMM", "JSDOC"));
+		if (/^\/\*\*[^*]/.test(found) && this.keepDocs) tokens.push(new Token(found, "COMM", "JSDOC"));
 		else if (this.keepComments) tokens.push(new Token(found, "COMM", "MULTI_LINE_COMM"));
 		return true;
 	}

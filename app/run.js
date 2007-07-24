@@ -1,3 +1,4 @@
+
 //// load required libraries
 try {
 	importClass(java.lang.System);
@@ -6,18 +7,31 @@ catch (e) {
 	throw "RuntimeException: The class java.lang.System is required to run this script.";
 }
 
-var __DIR__ = System.getProperty("user.dir")+Packages.java.io.File.separator;
+var __DIR__ = (System.getProperty("jsdoc.dir")||System.getProperty("user.dir"))+Packages.java.io.File.separator;
 
 function require(lib) {
-	try {
-		var file = new Packages.java.io.File(__DIR__+lib);
-		if(!file.exists()) throw "missing file.";
-		load(__DIR__+lib);
+	var libDirs = ['', __DIR__, __DIR__+'app/', __DIR__+'../'];
+	var libErrors = [];
+	for(var i = 0; i < libDirs.length; i++) {
+		try {
+			var file = new Packages.java.io.File(libDirs[i]+lib);
+			if(!file.exists()) {
+				libErrors.push('Could not find: ['+(libDirs[i]+lib)+']');
+			}
+			else {
+				print("Loading: ["+(libDirs[i]+lib)+"] ...");
+				load(libDirs[i]+lib);
+				return;
+			}
+		}
+		catch (e) {
+			libErrors.push('Error loading: ['+(libDirs[i]+lib)+']');
+		}
 	}
-	catch (e) {
-		print("Can't find required file '"+lib+"' in directory '"+__DIR__+"'.\nDo you need to change your working directory to jsdoc-toolkit?");
-		quit();
+	for(var i=0; i < libErrors.length; i++) {
+		print("ERROR: ["+libErrors[i]+"]");
 	}
+	quit();
 }
 
 require("app/JsDoc.js");

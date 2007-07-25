@@ -149,9 +149,13 @@ JsParse.prototype._findFunction = function(ts) {
 			}
 			
 			// like Foo.bar.prototype.baz = function() {}
+			var ns = name;
 			if (name.indexOf(".prototype") > 0) {
 				isa = SYM.FUNCTION;
-				name = name.replace(/\.prototype\.?/, "/");
+				
+				if (name.indexOf(".prototype") > 0) {
+					name = name.replace(/\.prototype\.?/, "/");
+				}
 			}
 			
 			this.symbols.push(
@@ -159,7 +163,15 @@ JsParse.prototype._findFunction = function(ts) {
 			);
 			
 			if (body) {
-				this._onFnBody(name, new TokenStream(body));
+				if (ns.indexOf(".prototype") > 0) {
+					if (/@constructor\b/.test(doc)) {
+						ns = ns.replace(/\.prototype\.?/, "/");
+					}
+					else {
+						ns = ns.replace(/\.prototype\.[^.]+$/, "/");
+					}
+				}
+				this._onFnBody(ns, new TokenStream(body));
 			}
 			return true;
 		}
@@ -176,15 +188,14 @@ JsParse.prototype._findVariable = function(ts) {
 	if (ts.look().is("NAME") && ts.look(1).is("ASSIGN")) {
 		// like var foo = 1
 		var name = ts.look().data;
-	
-		if (name.indexOf(".prototype") > 0) {
-			name = name.replace(/\.prototype\.?/, "/");
-		}
-					
 		var doc;
 		if (ts.look(-1).is("JSDOC")) doc = ts.look(-1).data;
 		else if (ts.look(-1).is("VAR") && ts.look(-2).is("JSDOC")) doc = ts.look(-2).data;
 
+		if (name.indexOf(".prototype") > 0) {
+			name = name.replace(/\.prototype\.?/, "/");
+		}
+		
 		if (doc) { // we only grab these if they are documented
 			this.symbols.push(
 				new Symbol(name, [], SYM.OBJECT, doc)
@@ -290,9 +301,8 @@ JsParse.prototype._onFnBody = function(nspace, fs) {
 				// like this.foo = function
 				if (fs.look(2).is("FUNCTION")) {
 					var isa = SYM.FUNCTION;
-					
-					name = name.replace(/^this\./, nspace+"/")
 					var doc = (fs.look(-1).is("JSDOC"))? fs.look(-1).data : "";
+					name = name.replace(/^this\./, (nspace+"/").replace("//", "/"))
 					
 					var paramTokens = fs.balance("LEFT_PAREN");
 					var params = [];
@@ -324,8 +334,8 @@ JsParse.prototype._onFnBody = function(nspace, fs) {
 				}
 				else {
 					var isa = SYM.OBJECT;
-					name = name.replace(/^this\./, nspace+"/")
 					var doc = (fs.look(-1).is("JSDOC"))? fs.look(-1).data : "";
+					name = name.replace(/^this\./, (nspace+"/").replace("//", "/"))
 						
 					if (doc) {
 						this.symbols.push(

@@ -74,10 +74,14 @@ var testCases = [
 		is('jsdoc[0].symbols[4].isa', "OBJECT", 'Prototype property isa can be found.');
 		is('jsdoc[0].symbols[5].alias', "Paragraph.getLines", 'Prototype method name can be found.');
 		is('jsdoc[0].symbols[5].isa', "FUNCTION", 'Prototype method isa can be found.');
-		is('jsdoc[0].symbols[7].properties[0].alias', "Person.name", 'Property set via prototype method is on instance.');
-		is('jsdoc[0].symbols[7].methods[1].alias', "Person.getName", 'Method set via prototype method is on instance.');
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"test/data/prototypes_props.js");
+		is('jsdoc[0].symbols[0].properties[0].alias', "Person.name", 'Property set via prototype method is on instance.');
+		is('jsdoc[0].symbols[0].methods[1].alias', "Person.getName", 'Method set via prototype method is on instance.');
 		
-		print(Dumper.dump(jsdoc));
+		//print(Dumper.dump(jsdoc));
 	},
 	function() {
 		testFile(__DIR__+"test/data/anonfuncs.js");

@@ -205,7 +205,7 @@ TokenReader.prototype.tokenize = function() {
 	}
 	return tokens;
 }
-TokenReader.prototype.read_word = function(stream, tokens) { /*debug*///print("> read_word");
+TokenReader.prototype.read_word = function(stream, tokens) {
 	var found = "";
 	while (!stream.look().eof && stream.look().isWordChar()) {
 		found += stream.next();
@@ -221,7 +221,7 @@ TokenReader.prototype.read_word = function(stream, tokens) { /*debug*///print(">
 		return true;
 	}
 }
-TokenReader.prototype.read_punc = function(stream, tokens) { /*debug*///print("> read_punc");
+TokenReader.prototype.read_punc = function(stream, tokens) {
 	var found = "";
 	var name;
 	while (!stream.look().eof && TOKN.PUNC[found+stream.look()]) {
@@ -236,7 +236,7 @@ TokenReader.prototype.read_punc = function(stream, tokens) { /*debug*///print(">
 		return true;
 	}
 }
-TokenReader.prototype.read_space = function(stream, tokens) { /*debug*///print("> read_space");
+TokenReader.prototype.read_space = function(stream, tokens) {
 	var found = "";
 	
 	while (!stream.look().eof && stream.look().isSpace()) {
@@ -252,7 +252,7 @@ TokenReader.prototype.read_space = function(stream, tokens) { /*debug*///print("
 		return true;
 	}
 }
-TokenReader.prototype.read_newline = function(stream, tokens) { /*debug*///print("> read_newline");
+TokenReader.prototype.read_newline = function(stream, tokens) {
 	var found = "";
 	
 	while (!stream.look().eof && stream.look().isNewline()) {
@@ -268,7 +268,7 @@ TokenReader.prototype.read_newline = function(stream, tokens) { /*debug*///print
 		return true;
 	}
 }
-TokenReader.prototype.read_mlcomment = function(stream, tokens) { /*debug*///print("> read_mlcomment");
+TokenReader.prototype.read_mlcomment = function(stream, tokens) {
 	if (stream.look() == "/" && stream.look(1) == "*") {
 		var found = stream.next(2);
 		
@@ -282,7 +282,7 @@ TokenReader.prototype.read_mlcomment = function(stream, tokens) { /*debug*///pri
 	}
 	return false;
 }
-TokenReader.prototype.read_slcomment = function(stream, tokens) { /*debug*///print("> read_slcomment");
+TokenReader.prototype.read_slcomment = function(stream, tokens) {
 	var found;
 	if (
 		(stream.look() == "/" && stream.look(1) == "/" && (found=stream.next(2)))
@@ -301,13 +301,13 @@ TokenReader.prototype.read_slcomment = function(stream, tokens) { /*debug*///pri
 	}
 	return false;
 }
-TokenReader.prototype.read_dbquote = function(stream, tokens) { /*debug*///print("> read_dbquote");
+TokenReader.prototype.read_dbquote = function(stream, tokens) {
 	if (stream.look() == "\"") {
 		// find terminator
 		var string = stream.next();
 		
 		while (!stream.look().eof) {
-			if (stream.look() == "\\") { /*debug*///print("> escape sequence ");
+			if (stream.look() == "\\") {
 				if (stream.look(1).isNewline()) {
 					do {
 						stream.next();
@@ -330,7 +330,7 @@ TokenReader.prototype.read_dbquote = function(stream, tokens) { /*debug*///print
 	}
 	return false; // error! unterminated string
 }
-TokenReader.prototype.read_snquote = function(stream, tokens) { /*debug*///print("> read_snquote");
+TokenReader.prototype.read_snquote = function(stream, tokens) {
 	if (stream.look() == "'") {
 		// find terminator
 		var string = stream.next();
@@ -351,7 +351,7 @@ TokenReader.prototype.read_snquote = function(stream, tokens) { /*debug*///print
 	}
 	return false; // error! unterminated string
 }
-TokenReader.prototype.read_numb = function(stream, tokens) { /*debug*///print("> read_numb \n");
+TokenReader.prototype.read_numb = function(stream, tokens) {
 	if (stream.look() === "0" && stream.look(1) == "x") {
 		return this.read_hex(stream, tokens);
 	}
@@ -371,7 +371,7 @@ TokenReader.prototype.read_numb = function(stream, tokens) { /*debug*///print(">
 		return true;
 	}
 }
-TokenReader.prototype.read_hex = function(stream, tokens) { /*debug*///print("> read_hex\n");
+TokenReader.prototype.read_hex = function(stream, tokens) {
 	var found = stream.next(2);
 	
 	while (!stream.look().eof) {
@@ -385,7 +385,7 @@ TokenReader.prototype.read_hex = function(stream, tokens) { /*debug*///print("> 
 	}
 	return false;
 }
-TokenReader.prototype.read_regx = function(stream, tokens) { /*debug*///print("> read_regx");
+TokenReader.prototype.read_regx = function(stream, tokens) {
 	if (
 		stream.look() == "/"
 	 	&& 

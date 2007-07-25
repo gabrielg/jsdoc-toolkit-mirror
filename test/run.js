@@ -221,7 +221,7 @@ var testCases = [
 		testFile(__DIR__+"test/data/returns.js");
 		is('jsdoc[0].symbols[0].returns.length', 1, 'A return tag appears in the returns array.');
 		is('jsdoc[0].symbols[0].doc.tags.length', 0, 'A return tag does not appear in the tags array.');
-		is('jsdoc[0].symbols[0].returns[0].type', "Array, String", 'A return type van contain multiple values and whitespaces.');
+		is('jsdoc[0].symbols[0].returns[0].type', "Array, String", 'A return type can contain multiple values and whitespaces.');
 		is('jsdoc[0].symbols[1].returns.length', 2, 'Multiple return tags are all found.');
 		is('jsdoc[0].symbols[2].returns[0].desc', "Characters from the file.", 'Returns is a synonym for return.');
 	},

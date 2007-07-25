@@ -32,6 +32,7 @@ function DocTag(src) {
 		else if (this.title == "fileoverview") this.title = "overview";
 		else if (this.title == "projectdescription") this.title = "overview";
 		else if (this.title == "extends") this.title = "inherits";
+		else if (this.title == "base") this.title = "inherits";
 		
 		if (this.desc) {
 			if (this.title == "param") { // long tags like {type} [name] desc

@@ -16,13 +16,13 @@ function JsParse() {};
  */
 JsParse.prototype.parse = function(tokenStream) {
 	/** 
-	 * Found symbols in the tokenStream.
+	 * All symbols found in the tokenStream.
 	 * @type Symbol[]
 	 */
 	this.symbols = [];
 	
 	/** 
-	 * Found overview in the tokenStream.
+	 * Overview found in the tokenStream.
 	 * @type Symbol
 	 */
 	this.overview = null;
@@ -107,11 +107,14 @@ JsParse.prototype._findFunction = function(ts) {
 			// like foo = function(n) {return n}(42)
 			if (ts.look(1).is("LEFT_PAREN")) {
 				isa = SYM.OBJECT;
+				
 				ts.balance("LEFT_PAREN");
-				if (doc) { // we only grab these if they are documented
-					this.symbols.push(
-						new Symbol(name, [], isa, doc)
-					);
+				if (doc) { // we only keep these if they're documented
+					name = name.replace(/\.prototype\.?/, "/");
+						
+					if (!/\/$/.test(name)) { // assigning to prototype of already existing symbol
+						this.symbols.push(new Symbol(name, [], isa, doc));
+					}
 				}
 				this._onFnBody(name, new TokenStream(body));
 				return true;
@@ -131,10 +134,12 @@ JsParse.prototype._findFunction = function(ts) {
 			
 			paramTokens = ts.balance("LEFT_PAREN");
 			body = ts.balance("LEFT_CURLY");
-			if (doc) { // we only grab these if they are documented
-				this.symbols.push(
-					new Symbol(name, [], isa, doc)
-				);
+			if (doc) { // we only keep these if they're documented
+				name = name.replace(/\.prototype\.?/, "/");
+						
+				if (!/\/$/.test(name)) { // assigning to prototype of already existing symbol
+					this.symbols.push(new Symbol(name, [], isa, doc));
+				}
 			}
 			this._onFnBody(name, new TokenStream(body));
 			return true;
@@ -152,15 +157,10 @@ JsParse.prototype._findFunction = function(ts) {
 			var ns = name;
 			if (name.indexOf(".prototype") > 0) {
 				isa = SYM.FUNCTION;
-				
-				if (name.indexOf(".prototype") > 0) {
-					name = name.replace(/\.prototype\.?/, "/");
-				}
+				name = name.replace(/\.prototype\.?/, "/");
 			}
 			
-			this.symbols.push(
-				new Symbol(name, params, isa, doc)
-			);
+			this.symbols.push(new Symbol(name, params, isa, doc));
 			
 			if (body) {
 				if (ns.indexOf(".prototype") > 0) {
@@ -188,24 +188,23 @@ JsParse.prototype._findVariable = function(ts) {
 	if (ts.look().is("NAME") && ts.look(1).is("ASSIGN")) {
 		// like var foo = 1
 		var name = ts.look().data;
+		isa = SYM.OBJECT;
+		
 		var doc;
 		if (ts.look(-1).is("JSDOC")) doc = ts.look(-1).data;
 		else if (ts.look(-1).is("VAR") && ts.look(-2).is("JSDOC")) doc = ts.look(-2).data;
 
-		if (name.indexOf(".prototype") > 0) {
-			name = name.replace(/\.prototype\.?/, "/");
-		}
+		name = name.replace(/\.prototype\.?/, "/");
 		
-		if (doc) { // we only grab these if they are documented
-			this.symbols.push(
-				new Symbol(name, [], SYM.OBJECT, doc)
-			);
+		if (doc) { // we only keep these if they're documented
+			if (!/\/$/.test(name)) { // assigning to prototype of already existing symbol
+				this.symbols.push(new Symbol(name, [], isa, doc));
+			}
 		}
 		
 		// like foo = {
 		if (ts.look(2).is("LEFT_CURLY")) {
-			var literal = ts.balance("LEFT_CURLY");
-			this._onObLiteral(name, new TokenStream(literal));
+			this._onObLiteral(name, new TokenStream(ts.balance("LEFT_CURLY")));
 		}
 		return true;
 	}
@@ -242,9 +241,7 @@ JsParse.prototype._onObLiteral = function(nspace, ts) {
 				
 				var body = ts.balance("LEFT_CURLY");
 
-				this.symbols.push(
-					new Symbol(name, params, isa, doc)
-				);
+				this.symbols.push(new Symbol(name, params, isa, doc));
 				
 				// find methods in the body of this function
 				this._onFnBody(name, new TokenStream(body));
@@ -255,9 +252,7 @@ JsParse.prototype._onObLiteral = function(nspace, ts) {
 					var isa = SYM.OBJECT;
 					var doc = ts.look(-1).data;
 
-					this.symbols.push(
-						new Symbol(name, [], isa, doc)
-					);
+					this.symbols.push(new Symbol(name, [], isa, doc));
 				}
 				
 				this._onObLiteral(name, new TokenStream(ts.balance("LEFT_CURLY"))); // recursive
@@ -267,9 +262,7 @@ JsParse.prototype._onObLiteral = function(nspace, ts) {
 					var isa = SYM.OBJECT;
 					var doc = ts.look(-1).data;
 					
-					this.symbols.push(
-						new Symbol(name, [], isa, doc)
-					);
+					this.symbols.push(new Symbol(name, [], isa, doc));
 				}
 				
 				while (!ts.look().is("COMMA")) { // skip to end of RH value ignoring things like bar({blah, blah})

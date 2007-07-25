@@ -24,5 +24,11 @@ Paragraph.prototype.getLines = function() {
 	
 }
 
-/** this comment should be ignored */
+/** this whole thing should be ignored */
 Paragraph.lines.prototype = new Array(1);
+
+/** set the page */
+Article.prototype.page = function(n) {
+	/**@scope Article.page*/
+	return {turn: function(){}}
+}(42);

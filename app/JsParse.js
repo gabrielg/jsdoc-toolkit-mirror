@@ -15,7 +15,6 @@ function JsParse() {};
  * @param {TokenStream} tokenStream
  */
 JsParse.prototype.parse = function(tokenStream) {
-	this.scope = ["<global>"]
 	/** 
 	 * Found symbols in the tokenStream.
 	 * @type Symbol[]
@@ -40,30 +39,28 @@ JsParse.prototype.parse = function(tokenStream) {
  * @param {TokenStream} ts
  * @return {boolean} Was a JsDoc comment found?
  */
-JsParse.prototype._findDocComment = function(ts) { /*dbg*///print("_findDocComment "+ts.look());
-	// like /** @alias foo.bar */
+JsParse.prototype._findDocComment = function(ts) {
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
 		if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
-			this.overview = doc.replace(RegExp.$1, "overview"); // synonym
-			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
+			this.overview = new Symbol("", [], "FILE", doc);
+			delete ts.array[ts.cursor];
 			return true;
 		}
 		else if (/@name\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
 			this.symbols.push(
 				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);
-			ts.array[ts.cursor] = new Token("\n", "WHIT", "NEWLINE");
+			delete ts.array[ts.cursor];
 			return true;
 		}
 		else if (/@scope\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
 			var scope = RegExp.$1;
-			if (!scope) return false;
-			if (scope.indexOf(".prototype") > 0) {
-				scope = scope.replace(/\.prototype\.?/, "/");
+			if (scope) {
+				scope = scope.replace(/\.prototype\b/, "/");
+				this._onObLiteral(scope, new TokenStream(ts.balance("LEFT_CURLY")));
+				return true;
 			}
-			this._onObLiteral(scope, new TokenStream(ts.balance("LEFT_CURLY")));
-			return true;
 		}
 	}
 	return false;
@@ -74,7 +71,7 @@ JsParse.prototype._findDocComment = function(ts) { /*dbg*///print("_findDocComme
  * @param {TokenStream} ts
  * @return {boolean} Was a function definition found?
  */
-JsParse.prototype._findFunction = function(ts) { /*dbg*///print("_findFunction "+ts.look());
+JsParse.prototype._findFunction = function(ts) {
 	if (ts.look().is("NAME")) {
 		var name = ts.look().data;
 		var doc = "";
@@ -175,7 +172,7 @@ JsParse.prototype._findFunction = function(ts) { /*dbg*///print("_findFunction "
  * @param {TokenStream} ts
  * @return {boolean} Was a variable definition found?
  */
-JsParse.prototype._findVariable = function(ts) { /*dbg*///print("_findVariable  "+ts.look());
+JsParse.prototype._findVariable = function(ts) {
 	if (ts.look().is("NAME") && ts.look(1).is("ASSIGN")) {
 		// like var foo = 1
 		var name = ts.look().data;
@@ -210,7 +207,7 @@ JsParse.prototype._findVariable = function(ts) { /*dbg*///print("_findVariable  
  * @param {String} nspace The name attached to this object.
  * @param {TokenStream} ts The content of the object literal.
  */
-JsParse.prototype._onObLiteral = function(nspace, ts) { /*dbg*///print("_onObLiteral("+nspace+", "+ts+")");
+JsParse.prototype._onObLiteral = function(nspace, ts) {
 	while (ts.next()) {
 		if (this._findDocComment(ts)) {
 		

@@ -29,6 +29,8 @@ function DocTag(src) {
 		else if (this.title == "argument") this.title = "param";
 		else if (this.title == "returns") this.title = "return";
 		else if (this.title == "classdescription") this.title = "class";
+		else if (this.title == "fileoverview") this.title = "overview";
+		else if (this.title == "projectdescription") this.title = "overview";
 		else if (this.title == "extends") this.title = "inherits";
 		
 		if (this.desc) {

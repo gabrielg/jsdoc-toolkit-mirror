@@ -129,7 +129,11 @@ JsDoc.parse = function(srcFiles) {
 			file.addSymbol(parser.symbols[s]);
 		}
 		
-		if (parser.overview) file.overview = new Symbol(srcFile, [], "FILE", parser.overview);
+		if (parser.overview) {
+			file.overview = parser.overview;
+			file.overview.alias = srcFile;
+			file.overview.name = Util.fileName(srcFile);
+		}
 		else file.overview = new Symbol(srcFile, [], "FILE", "/** @overview No overview provided. */");
 		
 		files.push(file);

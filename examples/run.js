@@ -28,6 +28,7 @@ require("app/JsToke.js");
 require("app/JsParse.js");
 require("app/DocTag.js");
 require("app/Doclet.js");
+require("app/DocFile.js");
 require("app/Dumper.js");
 
 function Main() {

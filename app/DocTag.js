@@ -1,12 +1,30 @@
-/** @constructor */
+/**
+ * @fileOverview Represents a tag within a doclet.
+ * @name DocTag
+ * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
+ * @revision $Id$
+ * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
+ *          (See the accompanying README file for full details.)
+ */
+ 
+ /**
+ * @constructor
+ * @param {string} src line(s) of text following the @ chracter
+ */
 function DocTag(src) {
+	/** Like @title */
 	this.title = "";
-	this.name = "";
+	
+	/** Like @title {type} */
 	this.type = "";
+	
+	/** Like @title {type}? name, though this is only recognized in tags with a title of "param" or "property." */
+	this.name = "";
+	
+	/** Like @title {type}? name? description goes here... */
 	this.desc = "";
 	
 	if (typeof(src) != "undefined") {
-		// like @title {type} name/desc
 		var parts = src.match(/^(\S+)(?:\s+\{\s*([\S\s]+?)\s*\})?\s*([\S\s]*\S)?/);
 		
 		this.title = (parts[1].toLowerCase() || "");
@@ -15,8 +33,11 @@ function DocTag(src) {
 		if (this.type) this.type = this.type.replace(/\s*(,|\|\|?)\s*/g, ", ");
 		this.desc = (parts[3] || "");
 		
+		// should be @type foo but we'll accept @type {foo} too
 		if (this.title == "type") {
 			if (this.type) this.desc = this.type;
+			
+			// should be @type foo, bar, baz but we'll accept @type foo|bar||baz too
 			if (this.desc) {
 				this.desc = this.desc.replace(/\s*(,|\|\|?)\s*/g, ", ");
 			}

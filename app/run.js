@@ -42,6 +42,7 @@ require("app/JsToke.js");
 require("app/JsParse.js");
 require("app/DocTag.js");
 require("app/Doclet.js");
+require("app/DocFile.js");
 require("app/JsPlate.js");
 
 function Main() {
@@ -61,7 +62,7 @@ function Main() {
 	else if (!JsDoc.opt.d) {
 		JsDoc.opt.d = "js_docs_out";
 	}
-	JsDoc.opt.d += (JsDoc.opt.d.indexOf(IO.FileSeparator)==JsDoc.opt.d.length-1)?
+	JsDoc.opt.d += (JsDoc.opt.d.indexOf(IO.FileSeparator) == JsDoc.opt.d.length-1)?
 		"" : IO.FileSeparator;
 	LOG.inform("Creating output directory: "+JsDoc.opt.d);
 	IO.makeDir(JsDoc.opt.d);

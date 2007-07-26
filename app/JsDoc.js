@@ -45,8 +45,8 @@ JsDoc.parse = function(srcFiles) {
 		parser.parse(ts);
 		LOG.inform("\t"+parser.symbols.length+" symbols found.");
 		
-		file.load(parser.symbols, JsDoc.opt);
-		if (parser.overview) file.addOverview(parser.overview);
+		file.addSymbols(parser.symbols, JsDoc.opt);
+		if (parser.overview) file.overview = parser.overview;
 		
 		files.push(file);
 	}

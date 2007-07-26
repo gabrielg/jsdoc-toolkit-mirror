@@ -44,14 +44,14 @@ JsParse.prototype._findDocComment = function(ts) {
 		var doc = ts.look().data;
 		if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
 			this.overview = new Symbol("", [], "FILE", doc);
-			delete ts.array[ts.cursor];
+			delete ts.tokens[ts.cursor];
 			return true;
 		}
 		else if (/@name\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
 			this.symbols.push(
 				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
 			);
-			delete ts.array[ts.cursor];
+			delete ts.tokens[ts.cursor];
 			return true;
 		}
 		else if (/@scope\s+([a-z0-9_$.]+)\s*/i.test(doc)) {

@@ -12,20 +12,20 @@
 	<div class="content">
 		<div class="docs">
 		
-			<div class="sectionHead">Library: {+data.overview.name+}</div>
+			<div class="sectionHead">Library: {+(data.overview.name||data.filename)+}</div>
 			<div class="section overview">
 				<div class="itemTitle">
 					Overview
 				</div>
 				<div>	
 					<div class="desc">{+data.overview.desc+}</div>
-					<if test="data.source"> <a href="{+data.source+}" class="type">view source code</a></if>
 					<div class="itemTags">
+					<ul>
+						<if test="data.source"><li>source: <a href="{+data.source+}">{+data.filename+}</a></li></if>
 					<for each="tag" in="data.overview.doc.tags">
-						<ul>
-							<li>{+tag.title+}: {+tag.desc+}</li>
-						</ul>
+						<li>{+tag.title+}: {+tag.desc+}</li>
 					</for>
+					</ul>
 					</div>
 				</div>
 			</div>

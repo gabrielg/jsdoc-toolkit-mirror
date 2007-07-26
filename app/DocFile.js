@@ -13,31 +13,15 @@
  */
 function DocFile(path) {
 	this.path = path;
-	this.overview = new Symbol(path, [], "FILE", "/** @overview No overview provided. */");
+	this.filename = Util.fileName(this.path);
+	this.overview = new Symbol(this.filename, [], "FILE", "/** @overview No overview provided. */");
 	this.symbols = [];
 }
 
-DocFile.prototype.addSymbol = function(symbol) {
-	this.symbols.push(symbol);
-}
-
-DocFile.prototype.addOverview = function(overview) {
-	this.overview = overview;
-	if (!overview.name) {
-		this.overview.name = Util.fileName(this.path);
-	}
-}
-
-DocFile.prototype.getSymbol = function(alias) {
-	for (var i = 0; i < this.symbols.length; i++) {
-		if (this.symbols[i].alias == alias) return this.symbols[i];
-	}
-    return null;
-}
 /**
  * Add a group of doclets. Finds relationships between doclets within the group
  */
-DocFile.prototype.load = function(symbols, opt) {
+DocFile.prototype.addSymbols = function(symbols, opt) {
 	for (var s = 0; s < symbols.length; s++) {
 		if (symbols[s].doc.getTag("ignore").length)
 			continue;
@@ -100,7 +84,13 @@ DocFile.prototype.load = function(symbols, opt) {
 					symbols[s].inheritedProperties.concat(base.properties);
 			}
 		}
-		
-		this.addSymbol(symbols[s]);
+		this.symbols.push(symbols[s]);
 	}
+}
+
+DocFile.prototype.getSymbol = function(alias) {
+	for (var i = 0; i < this.symbols.length; i++) {
+		if (this.symbols[i].alias == alias) return this.symbols[i];
+	}
+    return null;
 }

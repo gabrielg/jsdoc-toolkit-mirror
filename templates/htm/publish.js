@@ -9,7 +9,7 @@ function publish(files, context) {
 		
 		if (context.d) {
 			var our_name = "_"+((i+1<10)?"0"+(i+1):(i+1))+".htm";
-			index[our_name] = { name: (files[i].overview.name || files[i].overview.alias), classes:[]};
+			index[our_name] = { name: (files[i].filename), classes:[]};
 		
 			for (var s = 0; s < files[i].symbols.length; s++) {
 				if (files[i].symbols[s].isa == "CONSTRUCTOR") {

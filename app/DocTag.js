@@ -43,17 +43,8 @@ function DocTag(src) {
 			}
 		}
 		
-		// tag synonyms here
-		if (this.title == "member") this.title = "memberof";
-		else if (this.title == "description") this.title = "desc";
-		else if (this.title == "exception") this.title = "throws";
-		else if (this.title == "argument") this.title = "param";
-		else if (this.title == "returns") this.title = "return";
-		else if (this.title == "classdescription") this.title = "class";
-		else if (this.title == "fileoverview") this.title = "overview";
-		else if (this.title == "projectdescription") this.title = "overview";
-		else if (this.title == "extends") this.title = "inherits";
-		else if (this.title == "base") this.title = "inherits";
+		var syn;
+		if ((syn = DocTag.synonyms["="+this.title])) this.title = syn;
 		
 		if (this.desc) {
 			if (this.title == "param") { // long tags like {type} [name] desc
@@ -73,6 +64,19 @@ function DocTag(src) {
 			}
 		}
 	}
+}
+
+DocTag.synonyms = {
+	"=member":             "memberof",
+	"=description":        "desc",
+	"=exception":          "throws",
+	"=argument":           "param",
+	"=returns":            "return",
+	"=classdescription":   "class",
+	"=fileoverview":       "overview",
+	"=projectdescription": "overview",
+	"=extends":            "inherits",
+	"=base":               "inherits"
 }
 
 DocTag.prototype.toString = function() {

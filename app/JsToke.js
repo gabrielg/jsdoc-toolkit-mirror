@@ -6,6 +6,7 @@
  *          (See the accompanying README file for full details.)
  */
 
+/** Defines the internal names for tokens. */
 var TOKN = {};
 TOKN.WHIT = {
 	" ":      "SPACE",
@@ -119,7 +120,9 @@ String.prototype.last = function() {
  */
 var List = function() {
     that = Array.apply(this, arguments);
+	
 	/**
+	 * Get the last item on the list.
 	 * @name last
 	 * @function
 	 * @memberOf List
@@ -130,7 +133,10 @@ var List = function() {
     return that;
 }
 
-/** @constructor */
+/** 
+ * A single element of the source code.
+ * @constructor
+ */
 function Token(data, type, name) {
     this.data = data;
     this.type = type;
@@ -139,15 +145,28 @@ function Token(data, type, name) {
 Token.prototype.toString = function() { 
     return "<"+this.type+" name=\""+this.name+"\">"+this.data+"</"+this.type+">";
 }
+
+/** 
+ * Check to see what this token is.
+ * @param {string} what Either a name or a token type, like "COMMA" or "PUNC"
+ */
 Token.prototype.is = function(what) {
     return this.name === what || this.type === what;
 }
 
-/** @constructor */
+/**
+ * Like a string that you can easily move forward and backward through.
+ * @constructor
+ */
 function TextStream(text) {
 	this.text = text;
 	this.cursor = 0;
 }
+
+/**
+ * Like a string that you can easily move forward and backward through.
+ * @param {integer} n Positive or negative (defaults to zero), where to look relative to the current cursor position.
+ */
 TextStream.prototype.look = function(n) {
 	if (typeof n == "undefined") n = 0;
 	
@@ -158,6 +177,11 @@ TextStream.prototype.look = function(n) {
 	}
 	return this.text.charAt(this.cursor+n);
 }
+
+/**
+ * Get the next n tokens from the string relative to the current cursor position, and advance the cursor to the new position.
+ * @param {integer} n Positive (defaults to one), how many tokens to return.
+ */
 TextStream.prototype.next = function(n) {
 	if (typeof n == "undefined") n = 1;
 	if (n < 1) return null;
@@ -178,13 +202,22 @@ TextStream.prototype.next = function(n) {
 	return pulled;
 }
 
-/** @constructor */
+/**
+ * Scan the source code for possible tokens.
+ * @constructor
+ * @param {string} src The JavaScript source code.
+ */
 function TokenReader(src){
 	this.src = src;
 	this.keepDocs = true;
 	this.keepWhite = false;
 	this.keepComments = false;
 };
+
+/**
+ * Get the next n tokens from the string relative to the current cursor position, and advance the cursor to the new position.
+ * @return {List} All Tokens found in the source code.
+ */
 TokenReader.prototype.tokenize = function() {
 	var stream = new TextStream(this.src);
 	var tokens = new List();
@@ -205,6 +238,7 @@ TokenReader.prototype.tokenize = function() {
 	}
 	return tokens;
 }
+
 TokenReader.prototype.read_word = function(stream, tokens) {
 	var found = "";
 	while (!stream.look().eof && stream.look().isWordChar()) {
@@ -425,32 +459,41 @@ TokenReader.prototype.read_regx = function(stream, tokens) {
 	return false;
 }
 
-/** @constructor */
-function TokenStream(array) {
-	this.array = (array || []);
+/**
+ * Like a array that you can easily move forward and backward through.
+ * @constructor
+ * @param {List} array The list of tokens to use.
+ */
+function TokenStream(tokens) {
+	this.tokens = (tokens || []);
 	this.cursor = -1;
 }
 
+/**
+ * Return the token n places away from the current position.
+ * @param {integer} n Positive or negative (defaults to zero), where to look relative to the current cursor position.
+ * @param {boolean} considerWhitespace If whitespace is in the tokenStream they will normally be ignored here, but set this to true if you want to consider whitespace.
+ */
 TokenStream.prototype.look = function(n, considerWhitespace) {
 	if (typeof n == "undefined") n = 0;
 
 	if (considerWhitespace == true) {
-		if (this.cursor+n < 0 || this.cursor+n > this.array.length) return {};
-		return this.array[this.cursor+n];
+		if (this.cursor+n < 0 || this.cursor+n > this.tokens.length) return {};
+		return this.tokens[this.cursor+n];
 	}
 	else {
 		var count = 0;
 		var i = this.cursor;
 		var voidToken = {is: function(){return false;}}
 		while (true) {
-			if (i < 0 || i > this.array.length) return voidToken;
-			if (i != this.cursor && (this.array[i] === undefined || this.array[i].is("SPACE") || this.array[i].is("NEWLINE"))) {
+			if (i < 0 || i > this.tokens.length) return voidToken;
+			if (i != this.cursor && (this.tokens[i] === undefined || this.tokens[i].is("SPACE") || this.tokens[i].is("NEWLINE"))) {
 				if (n < 0) i--; else i++;
 				continue;
 			}
 			
 			if (count == Math.abs(n)) {
-				return this.array[i];
+				return this.tokens[i];
 			}
 			count++;
 			(n < 0)? i-- : i++;
@@ -458,16 +501,21 @@ TokenStream.prototype.look = function(n, considerWhitespace) {
 		return voidToken; // because null isn't an object and caller always expects an object
 	}
 };
+
+/**
+ * Get the next n tokens from the stream relative to the current cursor position, and advance the cursor to the new position.
+ * @param {integer} howMany Positive (defaults to one), how many tokens to return.
+ */
 TokenStream.prototype.next = function(howMany) {
 	if (typeof howMany == "undefined") howMany = 1;
 	if (howMany < 1) return null;
 	var got = [];
 
 	for (var i = 1; i <= howMany; i++) {
-		if (this.cursor+i >= this.array.length) {
+		if (this.cursor+i >= this.tokens.length) {
 			return null;
 		}
-		got.push(this.array[this.cursor+i]);
+		got.push(this.tokens[this.cursor+i]);
 	}
 	this.cursor += howMany;
 
@@ -476,6 +524,14 @@ TokenStream.prototype.next = function(howMany) {
 	}
 	else return got;
 };
+
+/**
+ * Get all the tokens between a starting token and the stop token. The stop token will be found considering its balance with 
+ * the start token. That is, it must be the one that closes the start token, not necessarily the first stop token.
+ * @param {TOKN} start The token to start collecting on, must be present somewhere in the stream ahead of the cursor.
+ * @param {TOKN} [stop] The token to stop collecting on, must be present somewhere in the stream ahead of the cursor and after the start token.
+ * If this is not given, the matching token to start will be used if it exists. Like ( and ) or { and }.
+ */
 TokenStream.prototype.balance = function(start, stop) {
 	if (!stop) stop = TOKN.MATCHING[start];
 	

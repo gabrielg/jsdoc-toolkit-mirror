@@ -148,7 +148,8 @@ Token.prototype.toString = function() {
 
 /** 
  * Check to see what this token is.
- * @param {string} what Either a name or a token type, like "COMMA" or "PUNC"
+ * @param {string} what Either a name or a token type, like "COMMA" or "PUNC".
+ * @return {boolean}
  */
 Token.prototype.is = function(what) {
     return this.name === what || this.type === what;
@@ -164,8 +165,9 @@ function TextStream(text) {
 }
 
 /**
- * Like a string that you can easily move forward and backward through.
+ * Return the character n places away.
  * @param {integer} n Positive or negative (defaults to zero), where to look relative to the current cursor position.
+ * @return {character}
  */
 TextStream.prototype.look = function(n) {
 	if (typeof n == "undefined") n = 0;
@@ -179,8 +181,9 @@ TextStream.prototype.look = function(n) {
 }
 
 /**
- * Get the next n tokens from the string relative to the current cursor position, and advance the cursor to the new position.
+ * Get the next n characters from the string relative to the current cursor position, and advance the cursor to the new position.
  * @param {integer} n Positive (defaults to one), how many tokens to return.
+ * @return {string}
  */
 TextStream.prototype.next = function(n) {
 	if (typeof n == "undefined") n = 1;

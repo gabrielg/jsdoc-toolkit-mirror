@@ -1,0 +1,131 @@
+{!
+function byName(a, b) {
+  var anew = a.name.toLowerCase();
+  var bnew = b.name.toLowerCase();
+  if (anew < bnew) return -1;
+  if (anew > bnew) return 1;
+  return 0;
+}
+!}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>JsDoc: {+data.alias+}</title>
+	<style type="text/css">
+/* JSDoc style sheet */
+
+/* Define colors, fonts and other style attributes here to override the defaults */
+
+/* Page background color */
+body { background-color: #FFFFFF }
+
+/* Table colors */
+.TableHeadingColor     { background: #CCCCFF } /* Dark mauve */
+.TableSubHeadingColor  { background: #EEEEFF } /* Light mauve */
+.TableRowColor         { background: #FFFFFF } /* White */
+
+/* Font used in left-hand frame lists */
+.FrameTitleFont   { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
+.FrameHeadingFont { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
+.FrameItemFont    { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
+
+/* Example of smaller, sans-serif font in frames */
+/* .FrameItemFont  { font-size: 10pt; font-family: Helvetica, Arial, sans-serif } */
+
+/* Navigation bar fonts and colors */
+.NavBarCell1    { background-color:#EEEEFF;}/* Light mauve */
+.NavBarCell1Rev { background-color:#00008B;}/* Dark Blue */
+.NavBarFont1    { font-family: Arial, Helvetica, sans-serif; color:#000000;}
+.NavBarFont1Rev { font-family: Arial, Helvetica, sans-serif; color:#FFFFFF;}
+
+.NavBarCell2    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
+.NavBarCell3    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
+
+.jsdoc_ctime    { font-family: Arial, Helvetica, sans-serif; font-size: 9pt;
+                    text-align: right }
+
+/* Sourcecode view */
+.sourceview { background: #FFFFFF }
+.attrib { color: #DD7777 }
+.comment { color: #55AA55 }
+.reserved { color: #FF5555 }
+.literal { color: #5555FF }
+</style>
+</head>
+<body>
+
+<h2>Class {+data.alias+}</h2>
+
+<p>
+<i>Defined in <a href='{+data.outfile+}'>{+data.outfile+}</a></i>
+<br/><br/>
+<b>Author:</b> ?
+<br/>
+</p>
+
+<hr>
+   
+<!-- ========== METHOD SUMMARY =========== -->
+<a name="method_summary"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=2>
+			<font size="+2"> <b>Method Summary</b></font>
+		</td>
+	</tr>
+	<for each="method" in="data.methods.sort(byName)">
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"><code><if test="method.returns.length">
+				<for each="ret" in="method.returns">&nbsp;{+ret.type+}</for>
+				</if><if test="!method.returns.length">void</if></code></font> 
+			</td>
+			<td>
+				<code> <b> <a href="#{+method.name+}">{+method.name+}</a></b>({+method.signature()+}) </code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {+method.desc+} 
+			</td>
+		</tr>
+	</for>
+</table>
+<p />
+<!-- ========== END METHOD SUMMARY =========== -->
+
+<!-- ============ METHOD DETAIL START ========== -->
+<a name="method_detail"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=1>
+			<font size="+2"> <b>Method Detail</b></font> 
+		</td>
+	</tr>
+</table>
+
+<for each="method" in="data.methods.sort(byName)">
+	<!-- One single method detail entry -->
+	<a name="{+method.name+}">
+	<!-- -->
+	</a> <h3>{+method.name+}</h3>
+		<pre><if test="method.returns.length"><for each="ret" in="method.returns">&nbsp;{+ret.type+}</for></if><if test="!method.returns.length">void</if> <b>{+method.name+}</b>({+method.signature()+})</pre> 
+	<ul>
+		{+method.desc+}
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<ul>
+		<b>Parameters:</b><for each="param" in="method.params">
+		<ul>
+			<code>{+param.type+} <b>{+param.name+}</b></code> - {+param.desc+} 
+		</ul></for>
+	</ul>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+</for>
+
+<!-- ============ METHOD DETAIL END ========== -->
+
+</body>
+</html>

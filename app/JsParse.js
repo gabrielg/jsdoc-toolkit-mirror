@@ -198,7 +198,7 @@ JsParse.prototype._findVariable = function(ts) {
 			if (!/\/$/.test(name)) { // assigning to prototype of already existing symbol
 				this.symbols.push(new Symbol(name, [], isa, doc));
 			}
-			if (/@singleton\b/i.test(doc)) {
+			if (/@class\b/i.test(doc)) {
 				name = name +"/";
 			}
 		}

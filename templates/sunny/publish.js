@@ -6,11 +6,12 @@ function basename(filename) {
 }
 
 function publish(files, context) {
-	var class_template = new JsPlate(context.t+"class.tmpl");
-	var index_template = new JsPlate(context.t+"index.tmpl");
+	var classTemplate = new JsPlate(context.t+"class.tmpl");
+	var indexTemplate = new JsPlate(context.t+"index.tmpl");
 	
 	var allFiles = {};
 	var allClasses = {};
+	var globals = {methods:[], properties:[], alias:"GLOBALS", isStatic:true};
 	
 	for (var i = 0; i < files.length; i++) {
 		var file_basename = basename(files[i].filename);
@@ -24,12 +25,16 @@ function publish(files, context) {
 				allClasses[classname].filename = files[i].filename;
 				allClasses[classname].docs = classname+".html";
 			}
+			else if (files[i].symbols[s].alias == files[i].symbols[s].name) {
+				if (files[i].symbols[s].isa == "FUNCTION") {
+					globals.methods.push(files[i].symbols[s]);
+				}
+				else {
+					globals.properties.push(files[i].symbols[s]);
+				}
+			}
 		}
 
-		// make copy original source code with syntax hiliting
-		//var sourceFile = files[i].path;
-		
-		
 		var hiliter = new JsHilite(IO.readFile(__DIR__+files[i].path));
 		IO.saveFile(context.d, file_srcname, hiliter.hilite());
 		
@@ -40,14 +45,17 @@ function publish(files, context) {
 	for (var c in allClasses) {
 		outfile = c+".html";
 		allClasses[c].outfile = outfile;
-		var output = class_template.process(allClasses[c]);
+		var output = classTemplate.process(allClasses[c]);
 		IO.saveFile(context.d, outfile, output);
 	}
 	
-	var output = index_template.process(allClasses);
-	IO.saveFile(context.d, "allclasses-frame.html", output);
+	output = classTemplate.process(globals);
+	IO.saveFile(context.d, "globals.html", output);
 	
+	var output = indexTemplate.process(allClasses);
+	IO.saveFile(context.d, "allclasses-frame.html", output);
 	IO.copyFile(context.t+"index.html", context.d);
+	
 	
 		/*
 		if (context.d) {

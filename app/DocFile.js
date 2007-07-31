@@ -31,7 +31,13 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 		
 		var parents;
 		if ((parents = symbols[s].doc.getTag("memberof")) && parents.length) {
-			symbols[s].name = parents[0]+"/"+symbols[s].name;
+			if (symbols[s].name.indexOf(parents[0]+".") == 0) {
+				symbols[s].name = symbols[s].name.replace(parents[0]+".", parents[0]+"/");
+			}
+			else {
+				symbols[s].name = parents[0]+"/"+symbols[s].name;
+			}
+
 			symbols[s].doc._dropTag("memberof");
 		}
 		

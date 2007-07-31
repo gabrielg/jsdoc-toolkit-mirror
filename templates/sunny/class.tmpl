@@ -66,8 +66,35 @@ body { background-color: #FFFFFF }
 </p>
 
 <hr>
-   
+ 
+<!-- =========== FIELD SUMMARY =========== -->
+<if test="data.properties.length">
+<a name="field_summary"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=2>
+			<font size="+2"> <b>Field Summary</b></font>
+		</td>
+	</tr>
+	<for each="property" in="data.properties.sort(byName)">
+		<tr bgcolor="white" class="TableRowColor">
+			<td align="right" valign="top" width="1%">
+				<font size="-1"> <code>&nbsp;{+(property.type||"object")+}</code></font>
+			</td>
+			<td>
+				<code><b><a href="#{+property.name+}">{+property.name+}</a></b></code> 
+				<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+property.desc+}
+			</td>
+		</tr>
+	</for>
+</table>
+&nbsp;
+</if>
+<!-- =========== END FIELD SUMMARY =========== -->
+
 <!-- ========== METHOD SUMMARY =========== -->
+<if test="data.methods.length">
 <a name="method_summary"> </a> 
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
@@ -90,10 +117,12 @@ body { background-color: #FFFFFF }
 		</tr>
 	</for>
 </table>
-<p />
+&nbsp;
+</if>
 <!-- ========== END METHOD SUMMARY =========== -->
 
 <!-- ============ METHOD DETAIL START ========== -->
+<if test="data.methods.length">
 <a name="method_detail"> </a> 
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
@@ -124,8 +153,33 @@ body { background-color: #FFFFFF }
 	<!-- ADDITIONAL ATTRIBUTES  END -->
 	<hr>
 </for>
-
+</if>
 <!-- ============ METHOD DETAIL END ========== -->
+
+<!-- ============ FIELD DETAIL START ========== -->
+<if test="data.properties.length">
+<a name="method_detail"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=1>
+			<font size="+2"> <b>Field Detail</b></font> 
+		</td>
+	</tr>
+</table>
+
+<for each="property" in="data.properties.sort(byName)">
+	<!-- One single method detail entry -->
+	<a name="{+property.name+}">
+	<!-- -->
+	</a> <h3>{+property.name+}</h3>
+		<pre>&nbsp;{+(property.type||"object")+} <b>{+property.name+}</b></pre> 
+	<ul>
+		{+property.desc+}
+	</ul>
+	<hr>
+</for>
+</if>
+<!-- ============ FIELD DETAIL END ========== -->
 
 </body>
 </html>

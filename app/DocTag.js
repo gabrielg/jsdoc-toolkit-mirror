@@ -12,16 +12,28 @@
  * @param {string} src line(s) of text following the @ chracter
  */
 function DocTag(src) {
-	/** Like @title */
+	/**
+	 * Like @title
+	 * @type string
+	 */
 	this.title = "";
 	
-	/** Like @title {type} */
+	/**
+	 * Like @title {type}
+	 * @type string
+	 */
 	this.type = "";
 	
-	/** Like @title {type}? name, though this is only recognized in tags with a title of "param" or "property." */
+	/**
+	 * Like @title {type}? name, though this is only recognized in tags with a title of "param" or "property."
+	 * @type string
+	 */
 	this.name = "";
 	
-	/** Like @title {type}? name? description goes here... */
+	/**
+	 * Like @title {type}? name? description goes here...
+	 * @type string
+	 */
 	this.desc = "";
 	
 	if (typeof(src) != "undefined") {

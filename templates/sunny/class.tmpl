@@ -1,9 +1,9 @@
 {!
 function byName(a, b) {
-  var anew = a.name.toLowerCase();
-  var bnew = b.name.toLowerCase();
-  if (anew < bnew) return -1;
-  if (anew > bnew) return 1;
+  a = a.name.toLowerCase();
+  b = b.name.toLowerCase();
+  if (a < b) return -1;
+  if (a > b) return 1;
   return 0;
 }
 !}
@@ -14,58 +14,82 @@ function byName(a, b) {
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<title>JsDoc: {+data.alias+}</title>
 	<style type="text/css">
-/* JSDoc style sheet */
+	/* JSDoc style sheet */
 
-/* Define colors, fonts and other style attributes here to override the defaults */
+	/* Define colors, fonts and other style attributes here to override the defaults */
 
-/* Page background color */
-body { background-color: #FFFFFF }
+	/* Page background color */
+	body { background-color: #FFFFFF }
 
-/* Table colors */
-.TableHeadingColor     { background: #CCCCFF } /* Dark mauve */
-.TableSubHeadingColor  { background: #EEEEFF } /* Light mauve */
-.TableRowColor         { background: #FFFFFF } /* White */
+	/* Table colors */
+	.TableHeadingColor     { background: #CCCCFF } /* Dark mauve */
+	.TableSubHeadingColor  { background: #EEEEFF } /* Light mauve */
+	.TableRowColor         { background: #FFFFFF } /* White */
 
-/* Font used in left-hand frame lists */
-.FrameTitleFont   { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
-.FrameHeadingFont { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
-.FrameItemFont    { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
+	/* Font used in left-hand frame lists */
+	.FrameTitleFont   { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
+	.FrameHeadingFont { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
+	.FrameItemFont    { font-size: 10pts; font-family: Helvetica, Arial, san-serif }
 
-/* Example of smaller, sans-serif font in frames */
-/* .FrameItemFont  { font-size: 10pt; font-family: Helvetica, Arial, sans-serif } */
+	/* Example of smaller, sans-serif font in frames */
+	/* .FrameItemFont  { font-size: 10pt; font-family: Helvetica, Arial, sans-serif } */
 
-/* Navigation bar fonts and colors */
-.NavBarCell1    { background-color:#EEEEFF;}/* Light mauve */
-.NavBarCell1Rev { background-color:#00008B;}/* Dark Blue */
-.NavBarFont1    { font-family: Arial, Helvetica, sans-serif; color:#000000;}
-.NavBarFont1Rev { font-family: Arial, Helvetica, sans-serif; color:#FFFFFF;}
+	/* Navigation bar fonts and colors */
+	.NavBarCell1    { background-color:#EEEEFF;}/* Light mauve */
+	.NavBarCell1Rev { background-color:#00008B;}/* Dark Blue */
+	.NavBarFont1    { font-family: Arial, Helvetica, sans-serif; color:#000000;}
+	.NavBarFont1Rev { font-family: Arial, Helvetica, sans-serif; color:#FFFFFF;}
 
-.NavBarCell2    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
-.NavBarCell3    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
+	.NavBarCell2    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
+	.NavBarCell3    { font-family: Arial, Helvetica, sans-serif; background-color:#FFFFFF;}
 
-.jsdoc_ctime    { font-family: Arial, Helvetica, sans-serif; font-size: 9pt;
-                    text-align: right }
-
-/* Sourcecode view */
-.sourceview { background: #FFFFFF }
-.attrib { color: #DD7777 }
-.comment { color: #55AA55 }
-.reserved { color: #FF5555 }
-.literal { color: #5555FF }
-</style>
+	.jsdoc_ctime    { font-family: Arial, Helvetica, sans-serif; font-size: 9pt;
+	                    text-align: right }
+	</style>
 </head>
 <body>
 
-<h2>Class {+data.alias+}</h2>
+<table style="width: 100%">
+<tr>
+<td class="NavBarCell3" valign="top"><font size="-2">
+  SUMMARY:&nbsp;<a href="#field_summary">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_summary">CONSTR</a>&nbsp;|&nbsp;<a href="#method_summary">METHOD</a></font></td>
+<td class="NavBarCell3" valign="top"><font size="-2">
+DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_detail">CONSTR</a>&nbsp;|&nbsp;<a href="#method_detail">METHOD</a></font></td>
 
-<p>
-<i>Defined in <a href='{+data.outfile+}'>{+data.outfile+}</a></i>
-<br/><br/>
-<b>Author:</b> ?
-<br/>
-</p>
+</tr>
+</table>
 
 <hr>
+
+<h2>Class {+data.alias+}</h2>
+
+<i>Defined in <a href='{+data.source+}'>{+data.filename+}</a></i>
+<br/><br/>
+<!--<b>Author:</b>
+<br/>-->
+
+<hr>
+
+<!-- ======== CONSTRUCTOR SUMMARY ======== -->
+<A NAME="constructor_summary"> </A>
+<TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+	<TD COLSPAN=2><FONT SIZE="+2"><B>Constructor Summary</B></FONT></TD>
+</TR>
+<TR BGCOLOR="white" CLASS="TableRowColor">
+   <TD>
+
+	<CODE>
+	<B><A HREF="#{+data.name+}">{+data.name+}</A></B>({+data.signature()+})
+	</CODE>
+      <BR>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      {+data.desc+}
+      </TD>
+</TR>
+</TABLE>
+&nbsp;
+<!-- ======== END CONSTRUCTOR SUMMARY ======== -->
  
 <!-- =========== FIELD SUMMARY =========== -->
 <if test="data.properties.length">
@@ -121,44 +145,44 @@ body { background-color: #FFFFFF }
 </if>
 <!-- ========== END METHOD SUMMARY =========== -->
 
-<!-- ============ METHOD DETAIL START ========== -->
-<if test="data.methods.length">
-<a name="method_detail"> </a> 
-<table border="1" cellpadding="3" cellspacing="0" width="100%">
-	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
-		<td colspan=1>
-			<font size="+2"> <b>Method Detail</b></font> 
-		</td>
-	</tr>
-</table>
+<!-- ========= CONSTRUCTOR DETAIL START ======== -->
+<A NAME="constructor_detail"> </A>
+<TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+   <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
+      <TD COLSPAN=1>
+      <FONT SIZE="+2"><B>Constructor Detail</B></FONT>
+      </TD>
+   </TR>
 
-<for each="method" in="data.methods.sort(byName)">
-	<!-- One single method detail entry -->
-	<a name="{+method.name+}">
-	<!-- -->
-	</a> <h3>{+method.name+}</h3>
-		<pre><if test="method.returns.length"><for each="ret" in="method.returns">&nbsp;{+ret.type+}</for></if><if test="!method.returns.length">void</if> <b>{+method.name+}</b>({+method.signature()+})</pre> 
+</TABLE>
+
+<A NAME="{+data.name+}"> </A>
+<H3>{+data.name+}</H3>
+<PRE><B>{+data.name+}</B>()</PRE>
+<UL>
+   {+data.desc+}
+</UL>
+
+<!-- PARAMETERS START -->
+<if test="data.params.length">
+<ul>
+	<b>Parameters:</b>
+	<for each="param" in="data.params">
 	<ul>
-		{+method.desc+}
+		<code>{+param.type+} <b>{+param.name+}</b></code><if test="param.desc"> - {+param.desc+}</if> 
 	</ul>
-	<!-- METHOD PARAMETERS START -->
-	<ul>
-		<b>Parameters:</b><for each="param" in="method.params">
-		<ul>
-			<code>{+param.type+} <b>{+param.name+}</b></code> - {+param.desc+} 
-		</ul></for>
-	</ul>
-	<!-- METHOD PARAMETERS END -->
-	<!-- ADDITIONAL ATTRIBUTES START -->
-	<!-- ADDITIONAL ATTRIBUTES  END -->
-	<hr>
-</for>
+	</for>
+</ul>
 </if>
-<!-- ============ METHOD DETAIL END ========== -->
+<!-- PARAMETERS END -->
 
-<!-- ============ FIELD DETAIL START ========== -->
+<hr/>
+<!-- END ADDITIONAL ATTRIBUTES  -->
+<!-- ========= CONSTRUCTOR DETAIL END ======== -->
+
+<!-- ============ FIELD DETAIL START ========= -->
 <if test="data.properties.length">
-<a name="method_detail"> </a> 
+<a name="field_detail"> </a> 
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
 		<td colspan=1>
@@ -181,5 +205,49 @@ body { background-color: #FFFFFF }
 </if>
 <!-- ============ FIELD DETAIL END ========== -->
 
+<!-- ============ METHOD DETAIL START ======= -->
+<if test="data.methods.length">
+<a name="method_detail"> </a> 
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+		<td colspan=1>
+			<font size="+2"> <b>Method Detail</b></font> 
+		</td>
+	</tr>
+</table>
+
+<for each="method" in="data.methods.sort(byName)">
+	<a name="{+method.name+}"> </a> <h3>{+method.name+}</h3>
+		<pre><if test="method.returns.length"><for each="ret" in="method.returns">&nbsp;{+ret.type+}</for></if><if test="!method.returns.length">void</if> <b>{+method.name+}</b>({+method.signature()+})</pre> 
+	<ul>
+		{+method.desc+}
+	</ul>
+	<!-- METHOD PARAMETERS START -->
+	<if test="method.params.length"><ul>
+		<b>Parameters:</b><for each="param" in="method.params">
+		<ul>
+			<code>{+param.type+} <b>{+param.name+}</b></code><if test="param.desc"> - {+param.desc+}</if> 
+		</ul></for>
+	</ul></if>
+	<!-- METHOD PARAMETERS END -->
+	<!-- ADDITIONAL ATTRIBUTES START -->
+	<if test="method.returns.length"><ul>
+		<b>Returns:</b><for each="ret" in="method.returns">
+		<ul>
+			<code>{+ret.type+}</code> {+ret.desc+} 
+		</ul></for>
+	</ul></if>
+	<if test="method.exceptions.length"><ul>
+		<b>Throws:</b><for each="ex" in="method.exceptions">
+		<ul>
+			<code>{+ex.type+}</code> {+ex.desc+} 
+		</ul></for>
+	</ul></if>
+	<!-- ADDITIONAL ATTRIBUTES  END -->
+	<hr>
+</for>
+</if>
+<!-- ============ METHOD DETAIL END ========== -->
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoctoolkit.org/" target="_parent">JsDoc Toolkit</a> on {+new Date()+}</div>
 </body>
 </html>

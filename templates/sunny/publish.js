@@ -1,4 +1,4 @@
-//require("app/JsHilite.js");
+require("app/JsHilite.js");
 
 function basename(filename) {
 	filename.match(/([^\/\\]+)\.[^\/\\]+$/);
@@ -7,21 +7,34 @@ function basename(filename) {
 
 function publish(files, context) {
 	var class_template = new JsPlate(context.t+"class.tmpl");
+	var index_template = new JsPlate(context.t+"index.tmpl");
 	
 	var allFiles = {};
 	var allClasses = {};
 	
 	for (var i = 0; i < files.length; i++) {
-		var filename = basename(files[i].filename)+".html";
-		
-		allFiles[filename] = {};
+		var file_basename = basename(files[i].filename);
+		var file_srcname = file_basename+".src.html";
 		
 		for (var s = 0; s < files[i].symbols.length; s++) {
 			if (files[i].symbols[s].isa == "CONSTRUCTOR") {
 				var classname = files[i].symbols[s].alias;
 				allClasses[classname] = files[i].symbols[s];
+				allClasses[classname].source = file_srcname;
+				allClasses[classname].filename = files[i].filename;
+				allClasses[classname].docs = classname+".html";
 			}
-		}	
+		}
+
+		// make copy original source code with syntax hiliting
+		//var sourceFile = files[i].path;
+		
+		
+		var hiliter = new JsHilite(IO.readFile(__DIR__+files[i].path));
+		IO.saveFile(context.d, file_srcname, hiliter.hilite());
+		
+		files[i].source = file_srcname;
+		
 	}
 	
 	for (var c in allClasses) {
@@ -30,6 +43,12 @@ function publish(files, context) {
 		var output = class_template.process(allClasses[c]);
 		IO.saveFile(context.d, outfile, output);
 	}
+	
+	var output = index_template.process(allClasses);
+	IO.saveFile(context.d, "allclasses-frame.html", output);
+	
+	IO.copyFile(context.t+"index.html", context.d);
+	
 		/*
 		if (context.d) {
 			var our_name = "_"+((i+1<10)?"0"+(i+1):(i+1))+".htm";

@@ -88,6 +88,10 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 	}
 }
 
+/**
+ * @param {string} alias The full alias name of the symbol.
+ * @return {Symbol}
+ */
 DocFile.prototype.getSymbol = function(alias) {
 	for (var i = 0; i < this.symbols.length; i++) {
 		if (this.symbols[i].alias == alias) return this.symbols[i];

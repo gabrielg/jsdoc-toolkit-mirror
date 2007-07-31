@@ -13,6 +13,7 @@ function Symbol(name, params, isa, comment) {
 	this.type = "";
 	this.alias = name;
 	this.desc = "";
+	this.classDesc = "";
 	this.memberof = "";
 	this.inherits = [];
 	this.properties = [];
@@ -114,13 +115,17 @@ function Symbol(name, params, isa, comment) {
 			this.doc._dropTag("type");
 		}
 		
+		if (this.doc.getTag("singleton").length > 0) {
+			this.isStatic = true;
+			this.isa = "CONSTRUCTOR";
+		}
+			
 		var classes;
 		if ((classes = this.doc.getTag("class")) && classes.length) {
-			// handle some non-jsdoc-toolkit syntaxes
-			if (this.doc.getTag("static").length == 0 && this.doc.getTag("singleton").length == 0) {
-				this.isa = "CONSTRUCTOR";
-				this.desc += "\n"+classes[0].desc; // multiple class tags are ignored
-			}
+			if (this.doc.getTag("static").length > 0) this.isStatic = true;
+			this.isa = "CONSTRUCTOR"; // a class tag implies a conctuctor doclet
+			
+			this.classDesc += "\n"+classes[0].desc; // multiple class tags are concatenated
 			this.doc._dropTag("class");
 		}
 		

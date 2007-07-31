@@ -48,9 +48,7 @@ JsParse.prototype._findDocComment = function(ts) {
 			return true;
 		}
 		else if (/@name\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
-			this.symbols.push(
-				new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc)
-			);
+			this.symbols.push(new Symbol(RegExp.$1, [], SYM.VIRTUAL, doc));
 			delete ts.tokens[ts.cursor];
 			return true;
 		}
@@ -199,6 +197,9 @@ JsParse.prototype._findVariable = function(ts) {
 		if (doc) { // we only keep these if they're documented
 			if (!/\/$/.test(name)) { // assigning to prototype of already existing symbol
 				this.symbols.push(new Symbol(name, [], isa, doc));
+			}
+			if (/@singleton\b/i.test(doc)) {
+				name = name +"/";
 			}
 		}
 		

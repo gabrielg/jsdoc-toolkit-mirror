@@ -24,7 +24,20 @@ See http://www.perl.com/perl/misc/Artistic.html
 
 */
 
-Dumper = {};
+/**
+ * @class
+ * @static
+ */
+Dumper = {
+	dump: function () {
+	    if (arguments.length > 1)
+	        return this._dump(arguments);
+	    else if (arguments.length == 1)
+	        return this._dump(arguments[0]);
+	    else
+	        return "()";
+	}
+};
 
 Dumper.ESC = {
     "\t": "\\t",
@@ -46,15 +59,6 @@ Dumper.nodeTypes = {
     11: "DOCUMENT_FRAGMENT_NODE",
     12: "NOTATION_NODE"
 };
-
-Dumper.dump = function () {
-    if (arguments.length > 1)
-        return this._dump(arguments);
-    else if (arguments.length == 1)
-        return this._dump(arguments[0]);
-    else
-        return "()";
-}
 
 Dumper._dump = function (obj) {
     var out;

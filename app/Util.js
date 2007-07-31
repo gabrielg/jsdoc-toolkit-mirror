@@ -1,7 +1,8 @@
 
 
 /**
- * Various utility methods used by JsDoc.
+ * @class Various utility methods used by JsDoc.
+ * @singleton
  */
 Util = {
 	/**

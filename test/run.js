@@ -54,7 +54,6 @@ var testCases = [
 		JsDoc.opt = {};
 		testFile(__DIR__+"test/data/class.js");
 		like('jsdoc[0].symbols[0].desc', /Construct/, 'Untagged description for constructor is found.');
-		like('jsdoc[0].symbols[0].desc', /Class/, 'Class description for constructor is added to description.');
 	},
 	function() {
 		testFile(__DIR__+"test/data/obliterals.js");

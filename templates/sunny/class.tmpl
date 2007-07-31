@@ -61,15 +61,16 @@ DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor
 
 <hr>
 
-<h2>Class {+data.alias+}</h2>
+<h2><if test="data.isStatic">Static </if>Class {+data.alias+}</h2>
 
 <i>Defined in <a href='{+data.source+}'>{+data.filename+}</a></i>
-<br/><br/>
+<p>{+data.classDesc+}</p>
 <!--<b>Author:</b>
 <br/>-->
 
 <hr>
 
+<if test="!data.isStatic">
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <A NAME="constructor_summary"> </A>
 <TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
@@ -90,7 +91,8 @@ DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor
 </TABLE>
 &nbsp;
 <!-- ======== END CONSTRUCTOR SUMMARY ======== -->
- 
+</if>
+
 <!-- =========== FIELD SUMMARY =========== -->
 <if test="data.properties.length">
 <a name="field_summary"> </a> 
@@ -145,6 +147,7 @@ DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor
 </if>
 <!-- ========== END METHOD SUMMARY =========== -->
 
+<if test="!data.isStatic">
 <!-- ========= CONSTRUCTOR DETAIL START ======== -->
 <A NAME="constructor_detail"> </A>
 <TABLE BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
@@ -179,6 +182,7 @@ DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor
 <hr/>
 <!-- END ADDITIONAL ATTRIBUTES  -->
 <!-- ========= CONSTRUCTOR DETAIL END ======== -->
+</if>
 
 <!-- ============ FIELD DETAIL START ========= -->
 <if test="data.properties.length">

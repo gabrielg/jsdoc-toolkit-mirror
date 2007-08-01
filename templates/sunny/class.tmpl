@@ -67,9 +67,14 @@ function byName(a, b) {
 
 <if test="data.source"><i>Defined in <a href="{+data.source+}">{+data.filename+}</a></i></if>
 <if test="data.classDesc"><p>{+data.classDesc+}</p></if>
-<!--<b>Author:</b>
-<br/>-->
-
+<if test="data.doc">
+<for each="author" in="data.doc.getTag('author')">
+<b>Author:</b> {+author+}<br/>
+</for>
+<for each="version" in="data.doc.getTag('version')">
+<b>Version:</b> {+version+}<br/>
+</for>
+</if>
 <hr>
 
 <!-- =========== FIELD SUMMARY =========== -->
@@ -84,7 +89,7 @@ function byName(a, b) {
 	<for each="property" in="data.properties.sort(byName)">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
-				<font size="-1"><code><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+}</code></font>
+				<font size="-1"><code><if test="property.isPrivate">&lt;private&gt;&nbsp;</if><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+}</code></font>
 			</td>
 			<td>
 				<code><b><a href="#{+property.name+}">{+property.name+}</a></b></code> 
@@ -133,7 +138,7 @@ function byName(a, b) {
 	<for each="method" in="data.methods.sort(byName)">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
-				<font size="-1"><code><if test="method.isStatic||!method.memberof">&lt;static&gt; </if><if test="method.returns.length">
+				<font size="-1"><code><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt; </if><if test="method.returns.length">
 				<for each="ret" in="method.returns">&nbsp;{+ret.type+}</for>
 				</if></code></font> 
 			</td>
@@ -165,7 +170,7 @@ function byName(a, b) {
 	<a name="{+property.name+}">
 	<!-- -->
 	</a> <h3>{+property.name+}</h3>
-		<pre><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+} <b>{+property.name+}</b></pre> 
+		<pre><if test="property.isPrivate">&lt;private&gt;&nbsp;</if><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+} <b>{+property.name+}</b></pre> 
 	<ul>
 		{+property.desc+}
 	</ul>
@@ -224,7 +229,7 @@ function byName(a, b) {
 
 <for each="method" in="data.methods.sort(byName)">
 	<a name="{+method.name+}"> </a> <h3>{+method.name+}</h3>
-		<pre><if test="method.isStatic||!method.memberof">&lt;static&gt;&nbsp;</if><if test="method.returns.length"><for each="ret" in="method.returns">{+ret.type+}&nbsp;</for></if><b>{+method.name+}</b>({+method.signature()+})</pre> 
+		<pre><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt;&nbsp;</if><if test="method.returns.length"><for each="ret" in="method.returns">{+ret.type+}&nbsp;</for></if><b>{+method.name+}</b>({+method.signature()+})</pre> 
 	<ul>
 		{+method.desc+}
 	</ul>

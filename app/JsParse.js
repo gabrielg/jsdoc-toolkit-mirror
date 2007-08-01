@@ -1,12 +1,15 @@
 /**
- * @fileOverview Find functions in tokenized JavaScript source code.
- * @author Michael Mathews, micmath@gmail.com
+ * @fileOverview
  * @revision $Id$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
 
-/** @constructor */
+/**
+ * @class Find objects in tokenized JavaScript source code.
+ * @constructor
+ * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
+ */
 function JsParse() {};
 
 /**

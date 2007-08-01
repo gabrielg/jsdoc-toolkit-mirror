@@ -1,14 +1,15 @@
 /**
- * @fileOverview Represents a collection of doclets associated with a file.
+ * @fileOverview
  * @name DocFile
- * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
- * @revision $Id$
+ * @revision $Id:$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
  
 /**
+ * @class Represents a collection of doclets associated with a file.
  * @constructor
+ * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
  * @param {string} [path] The file path to the source file.
  */
 function DocFile(path) {
@@ -20,6 +21,8 @@ function DocFile(path) {
 
 /**
  * Add a group of doclets. Finds relationships between doclets within the group
+ * @param {Symbol[]} symbols
+ * @param {object} opt Passed in from the command line.
  */
 DocFile.prototype.addSymbols = function(symbols, opt) {
 	for (var s = 0; s < symbols.length; s++) {

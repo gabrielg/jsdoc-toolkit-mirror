@@ -115,7 +115,7 @@ String.prototype.last = function() {
 }
 
 /**
- * Extends built-in Array under a new name.
+ * @class Extends built-in Array under a new name.
  * @constructor 
  */
 var List = function() {
@@ -134,7 +134,7 @@ var List = function() {
 }
 
 /** 
- * A single element of the source code.
+ * @class A single element of the source code.
  * @constructor
  */
 function Token(data, type, name) {
@@ -156,7 +156,7 @@ Token.prototype.is = function(what) {
 }
 
 /**
- * Like a string that you can easily move forward and backward through.
+ * @class Like a string that you can easily move forward and backward through.
  * @constructor
  */
 function TextStream(text) {
@@ -206,7 +206,7 @@ TextStream.prototype.next = function(n) {
 }
 
 /**
- * Scan the source code for possible tokens.
+ * @class Scan the source code for possible tokens.
  * @constructor
  * @param {string} src The JavaScript source code.
  */
@@ -218,7 +218,7 @@ function TokenReader(src){
 };
 
 /**
- * Get the next n tokens from the string relative to the current cursor position, and advance the cursor to the new position.
+ * Turn source code into a Token array.
  * @return {List} All Tokens found in the source code.
  */
 TokenReader.prototype.tokenize = function() {
@@ -463,7 +463,7 @@ TokenReader.prototype.read_regx = function(stream, tokens) {
 }
 
 /**
- * Like a array that you can easily move forward and backward through.
+ * @class Like a array that you can easily move forward and backward through.
  * @constructor
  * @param {List} array The list of tokens to use.
  */

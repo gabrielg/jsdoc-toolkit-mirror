@@ -1,5 +1,8 @@
 require("app/JsToke.js");
 
+/**
+ * @class Turn source code into HTML with tokens marked for hilighting with CSS.
+ */
 function JsHilite(sourceCode) {
 	this.tokenizer = new TokenReader(sourceCode);
 	this.tokenizer.keepComments = true;

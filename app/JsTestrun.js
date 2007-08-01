@@ -1,6 +1,6 @@
 /**
  * @name JsTestrun
- * @overview Yet another unit testing tool for JavaScript.
+ * @overview
  * @version 0.2
  * @author Michael Mathews, micmath@gmail.com
  * @license LGPL version 2, http://www.gnu.org/licenses/lgpl.html
@@ -8,6 +8,8 @@
  
 /**
 	Runs tests and prints out report.
+	@class Yet another unit testing tool for JavaScript.
+	@author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
 	@param {object} testCases Properties are testcase names, values are functions to execute as tests.
 */
 function testrun(testCases) {
@@ -20,12 +22,25 @@ function testrun(testCases) {
 	return testrun.reportOut+"-------------------------------\n"+((testrun.fails>0)? ":( Failed "+testrun.fails+"/" : ":) Passed all ")+testrun.count+" test"+((testrun.count == 1)? "":"s")+".\n";
 }
 
+/** @memberOf testrun
+	@static */
 testrun.count = 0;
+/** @memberOf testrun
+	@static */
 testrun.current = null;
+/** @memberOf testrun
+	@static */
 testrun.passes = 0;
+/** @memberOf testrun
+	@static */
 testrun.fails = 0;
+/** @memberOf testrun
+	@static */
 testrun.reportOut = "";
 
+/** Add text to the report.
+	@memberOf testrun
+	@static */
 testrun.report = function(text) {
 	testrun.reportOut += text+"\n";
 }

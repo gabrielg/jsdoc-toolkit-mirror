@@ -1,3 +1,4 @@
+/** @class Use a style sheet to transform XML. Requires Rhino. */
 function Transformer(xsl) { //like: var t = new Transformer("data/teststyle.xsl");
 	var xsltFile = new Packages.java.io.File(xsl);
 	var xsltSource = new Packages.javax.xml.transform.stream.StreamSource(xsltFile);

@@ -5,7 +5,10 @@ SYM = {
 	VIRTUAL:		"VIRTUAL",
 };
 
-/** @constructor */
+/**
+	@class Represents an atomic unit of code.
+	@constructor
+*/
 function Symbol(name, params, isa, comment) {
 	this.name = name;
 	this.params = (params || []);
@@ -119,6 +122,11 @@ function Symbol(name, params, isa, comment) {
 			this.isStatic = true;
 			this.doc._dropTag("static");
 		}
+		
+		if (this.doc.getTag("private").length > 0) {
+			this.isPrivate = true;
+			this.doc._dropTag("private");
+		}
 			
 		var classes;
 		if ((classes = this.doc.getTag("class")) && classes.length) {
@@ -147,6 +155,7 @@ Symbol.prototype.is = function(what) {
     return this.isa === SYM[what];
 }
 
+/** Generate a comma separated list of the parameters. */
 Symbol.prototype.signature = function() {
     var result = [];
     for (var i = 0; i < this.params.length; i++) {

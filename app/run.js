@@ -1,5 +1,4 @@
 
-//// load required libraries
 try {
 	importClass(java.lang.System);
 }
@@ -9,6 +8,7 @@ catch (e) {
 
 var __DIR__ = (System.getProperty("jsdoc.dir")||System.getProperty("user.dir"))+Packages.java.io.File.separator;
 
+/** Load required libraries. */
 function require(lib) {
 	var libDirs = ['', __DIR__, __DIR__+'app/', __DIR__+'../'];
 	var libErrors = [];
@@ -45,6 +45,7 @@ require("app/Doclet.js");
 require("app/DocFile.js");
 require("app/JsPlate.js");
 
+/** The main function. Called automatically. */
 function Main() {
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
 	

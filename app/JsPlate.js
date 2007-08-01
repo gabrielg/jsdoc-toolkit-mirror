@@ -1,13 +1,17 @@
 /**
- * @fileOverview A lightweight template engine for JavaScript.
- * @author Michael Mathews, micmath@gmail.com
+ * @fileOverview
  * @revision $Id: JsPlate.js 27 2007-06-15 22:29:53Z micmath $
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
 
  */
 
- /** @constructor */
+ /**
+  * @class A lightweight template engine for JavaScript.
+  * @constructor
+  * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
+  * @param {string} template
+  */
 JsPlate = function(template) {
 	this.template = IO.readFile(template);
 
@@ -15,6 +19,7 @@ JsPlate = function(template) {
 	this.parse();
 }
 
+/** Converts a template into evalable code. */
 JsPlate.prototype.parse = function() {
 	this.template = this.template.replace(/\{#[\s\S]+?#\}/gi, "");
 	this.code = "var output=``"+this.template;
@@ -52,10 +57,18 @@ JsPlate.prototype.parse = function() {
 	this.code = this.code.replace(/``/g, "\"");
 }
 
+/**
+ * @private
+ */
 JsPlate.prototype.toCode = function() {
 	return this.code;
 }
 
+/**
+ * @private
+ * @static
+ * @memberOf JsPlate
+ */
 JsPlate.keys = function(obj) {
 	var keys = [];
 	if (obj.constructor.toString().indexOf("Array") > -1) {
@@ -67,6 +80,11 @@ JsPlate.keys = function(obj) {
 	return keys.sort();
 };
 
+/**
+ * @private
+ * @static
+ * @memberOf JsPlate
+ */
 JsPlate.values = function(obj) {
 	var values = [];
 	if (obj.constructor.toString().indexOf("Array") > -1) {
@@ -78,6 +96,11 @@ JsPlate.values = function(obj) {
 	return values.sort();
 };
 
+/**
+ * @private
+ * @static
+ * @memberOf JsPlate
+ */
 JsPlate.asis = function(obj) {
 	var keys = [];
 	if (obj.constructor.toString().indexOf("Array") > -1) {
@@ -89,6 +112,11 @@ JsPlate.asis = function(obj) {
 	return keys;
 };
 
+/**
+ * Return the output. This must be called after parse()
+ * @param {object} data What shall represent the "data" in your template.
+ * @return {string}
+ */
 JsPlate.prototype.process = function(data) {
 	var keys = JsPlate.keys;
 	var values = JsPlate.values;

@@ -1,16 +1,17 @@
 /**
- * @fileOverview Represents a tag within a doclet.
+ * @fileOverview
  * @name DocTag
- * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
- * @revision $Id$
+ * @revision $Id:$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
  
  /**
- * @constructor
- * @param {string} src line(s) of text following the @ chracter
- */
+  * @class Represents a tag within a doclet.
+  * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
+  * @constructor
+  * @param {string} src line(s) of text following the @ character
+  */
 function DocTag(src) {
 	/**
 	 * Like @title
@@ -78,6 +79,10 @@ function DocTag(src) {
 	}
 }
 
+/**
+ * Used to make various JsDoc tags compatible with JsDoc Toolkit.
+ * @memberOf DocTag
+ */
 DocTag.synonyms = {
 	"=member":             "memberof",
 	"=description":        "desc",

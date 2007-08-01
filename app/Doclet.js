@@ -1,14 +1,15 @@
 /**
- * @fileOverview Represents a collection of doclet tags.
+ * @fileOverview
  * @name Doclet
- * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
- * @revision $Id$
+ * @revision $Id:$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
  
 /**
+ * @class Represents a collection of DocTags.
  * @constructor
+ * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
  * @param {string} comment The entire documentation comment. The openening slash-star-star and
  * closing star-slash are optional. An untagged string at the start automatically gets a "desc" tag.
  */

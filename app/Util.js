@@ -2,11 +2,12 @@
 
 /**
  * @class Various utility methods used by JsDoc.
- * @singleton
+ * @static
  */
 Util = {
 	/**
 	 * Turn a path into just the name of the file.
+	 * @static
 	 * @param {string} path
 	 * @return {string} The fileName portion of the path.
 	 */
@@ -17,6 +18,7 @@ Util = {
 	
 	/**
 	 * Turn a path into just the directory part.
+	 * @static
 	 * @param {string} path
 	 * @return {string} The directory part of the path.
 	 */
@@ -27,6 +29,7 @@ Util = {
 	
 	/**
 	 * Get commandline option values.
+	 * @static
 	 * @param {Array} args Commandline arguments. Like ["-a=xml", "-b", "--class=new", "--debug"]
 	 * @param {object} optNames Map short names to long names. Like {a:"accept", b:"backtrace", c:"class", d:"debug"}.
 	 * @return {object} Short names and values. Like {a:"xml", b:true, c:"new", d:true}

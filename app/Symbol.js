@@ -115,9 +115,9 @@ function Symbol(name, params, isa, comment) {
 			this.doc._dropTag("type");
 		}
 		
-		if (this.doc.getTag("singleton").length > 0) {
+		if (this.doc.getTag("static").length > 0) {
 			this.isStatic = true;
-			this.isa = "CONSTRUCTOR";
+			this.doc._dropTag("static");
 		}
 			
 		var classes;

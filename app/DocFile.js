@@ -33,8 +33,9 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 		if ((parents = symbols[s].doc.getTag("memberof")) && parents.length) {
 			if (symbols[s].name.indexOf(parents[0]+".") == 0) {
 				symbols[s].name = symbols[s].name.replace(parents[0]+".", parents[0]+"/");
+				symbols[s].isStatic = true;
 			}
-			else {
+			else if (symbols[s].name.indexOf(parents[0]+"/") != 0) {
 				symbols[s].name = parents[0]+"/"+symbols[s].name;
 			}
 

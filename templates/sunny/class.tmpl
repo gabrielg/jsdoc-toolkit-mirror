@@ -8,8 +8,8 @@ function byName(a, b) {
 }
 !}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<title>JsDoc: {+data.alias+}</title>
@@ -37,28 +37,7 @@ function byName(a, b) {
 			font-family: Helvetica, Arial, san-serif;
 		}
 		
-		.NavBarCell1 { background-color: #EEEEFF; }
-		.NavBarCell1Rev { background-color: #00008B; }
-		
-		.NavBarFont1
-		{
-			font-family: Arial, Helvetica, sans-serif;
-			color: #000000;
-		}
-		
-		.NavBarFont1Rev
-		{
-			font-family: Arial, Helvetica, sans-serif;
-			color: #FFFFFF;
-		}
-		
-		.NavBarCell2
-		{
-			font-family: Arial, Helvetica, sans-serif;
-			background-color: #FFFFFF;
-		}
-		
-		.NavBarCell3
+		.NavBar
 		{
 			font-family: Arial, Helvetica, sans-serif;
 			background-color: #FFFFFF;
@@ -77,8 +56,8 @@ function byName(a, b) {
 
 <table style="width: 100%">
 <tr>
-<td class="NavBarCell3" valign="top"><font size="-2">SUMMARY:&nbsp;<a href="#field_summary">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_summary">CONSTR</a>&nbsp;|&nbsp;<a href="#method_summary">METHOD</a></font></td>
-<td class="NavBarCell3" valign="top"><font size="-2">DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_detail">CONSTR</a>&nbsp;|&nbsp;<a href="#method_detail">METHOD</a></font></td>
+<td class="NavBar" valign="top"><font size="-2">SUMMARY:&nbsp;<a href="#field_summary">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_summary">CONSTR</a>&nbsp;|&nbsp;<a href="#method_summary">METHOD</a></font></td>
+<td class="NavBar" valign="top"><font size="-2">DETAIL:&nbsp;<a href="#field_detail">FIELD</a>&nbsp;|&nbsp;<a href="#constructor_detail">CONSTR</a>&nbsp;|&nbsp;<a href="#method_detail">METHOD</a></font></td>
 </tr>
 </table>
 
@@ -105,7 +84,7 @@ function byName(a, b) {
 	<for each="property" in="data.properties.sort(byName)">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
-				<font size="-1"> <code>&nbsp;{+(property.type||"object")+}</code></font>
+				<font size="-1"><code><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+}</code></font>
 			</td>
 			<td>
 				<code><b><a href="#{+property.name+}">{+property.name+}</a></b></code> 
@@ -130,7 +109,7 @@ function byName(a, b) {
    <td>
 
 	<code>
-	<b><a href="#{+data.name+}">{+data.name+}</a></b>({+data.signature()+})
+	<b><a href="#{+data.name+}">{+data.alias+}</a></b>({+data.signature()+})
 	</code>
       <br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -154,7 +133,7 @@ function byName(a, b) {
 	<for each="method" in="data.methods.sort(byName)">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
-				<font size="-1"><code><if test="method.returns.length">
+				<font size="-1"><code><if test="method.isStatic||!method.memberof">&lt;static&gt; </if><if test="method.returns.length">
 				<for each="ret" in="method.returns">&nbsp;{+ret.type+}</for>
 				</if></code></font> 
 			</td>
@@ -186,7 +165,7 @@ function byName(a, b) {
 	<a name="{+property.name+}">
 	<!-- -->
 	</a> <h3>{+property.name+}</h3>
-		<pre>&nbsp;{+(property.type||"object")+} <b>{+property.name+}</b></pre> 
+		<pre><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+} <b>{+property.name+}</b></pre> 
 	<ul>
 		{+property.desc+}
 	</ul>
@@ -208,8 +187,8 @@ function byName(a, b) {
 </table>
 
 <a name="{+data.name+}"> </a>
-<h3>{+data.name+}</h3>
-<pre><b>{+data.name+}</b>()</pre>
+<h3>{+data.alias+}</h3>
+<pre><b>{+data.alias+}</b>({+data.signature()+})</pre>
 <ul>
    {+data.desc+}
 </ul>
@@ -220,7 +199,7 @@ function byName(a, b) {
 	<b>Parameters:</b>
 	<for each="param" in="data.params">
 	<ul>
-		<code>{+param.name+}</code><if test="param.desc"> - {+param.desc+}</if> 
+		<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+}</code><if test="param.desc"> - {+param.desc+}</if> 
 	</ul>
 	</for>
 </ul>
@@ -245,7 +224,7 @@ function byName(a, b) {
 
 <for each="method" in="data.methods.sort(byName)">
 	<a name="{+method.name+}"> </a> <h3>{+method.name+}</h3>
-		<pre><if test="method.returns.length"><for each="ret" in="method.returns">&nbsp;{+ret.type+}</for></if> <b>{+method.name+}</b>({+method.signature()+})</pre> 
+		<pre><if test="method.isStatic||!method.memberof">&lt;static&gt;&nbsp;</if><if test="method.returns.length"><for each="ret" in="method.returns">{+ret.type+}&nbsp;</for></if><b>{+method.name+}</b>({+method.signature()+})</pre> 
 	<ul>
 		{+method.desc+}
 	</ul>
@@ -253,7 +232,7 @@ function byName(a, b) {
 	<if test="method.params.length"><ul>
 		<b>Parameters:</b><for each="param" in="method.params">
 		<ul>
-			<code>{+param.name+} </code><if test="param.desc"> - {+param.desc+}</if> 
+			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+} </code><if test="param.desc"> - {+param.desc+}</if> 
 		</ul></for>
 	</ul></if>
 	<!-- METHOD PARAMETERS END -->
@@ -261,7 +240,7 @@ function byName(a, b) {
 	<if test="method.returns.length"><ul>
 		<b>Returns:</b><for each="ret" in="method.returns">
 		<ul>
-			<code>{+ret.type+}</code> {+ret.desc+} 
+			<code><if test="ret.type"><i>{+ret.type+}</i>&nbsp;</if></code>{+ret.desc+} 
 		</ul></for>
 	</ul></if>
 	<if test="method.exceptions.length"><ul>

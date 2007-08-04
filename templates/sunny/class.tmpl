@@ -65,6 +65,9 @@ function byName(a, b) {
 
 <h2><if test="data.isStatic">Static </if>Class {+data.alias+}</h2>
 
+<if test="data.inherits && data.inherits.length">Extends
+	<for each="inherit" in="data.inherits"><a href="{+inherit+}.html">{+inherit+}</a></for>.<br/>
+</if>
 <if test="data.source"><i>Defined in <a href="{+data.source+}">{+data.filename+}</a></i></if>
 <if test="data.classDesc"><p>{+data.classDesc+}</p></if>
 <if test="data.doc">

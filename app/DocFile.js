@@ -29,7 +29,7 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 		if (symbols[s].doc.getTag("ignore").length)
 			continue;
 			
-		if (symbols[s].doc.getTag("private").length && !opt.p)
+		if (symbols[s].isPrivate && !opt.p)
 			continue;
 		
 		var parents;

@@ -36,7 +36,7 @@ function publish(files, context) {
 		}
 		
 		if (!allFiles[files[i].path]) {
-			var hiliter = new JsHilite(IO.readFile(__DIR__+files[i].path));
+			var hiliter = new JsHilite(IO.readFile(files[i].path));
 			IO.saveFile(context.d, file_srcname, hiliter.hilite());
 		}
 		files[i].source = file_srcname;

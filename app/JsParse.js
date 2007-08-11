@@ -194,7 +194,6 @@ JsParse.prototype._findVariable = function(ts) {
 		var doc;
 		if (ts.look(-1).is("JSDOC")) doc = ts.look(-1).data;
 		else if (ts.look(-1).is("VAR") && ts.look(-2).is("JSDOC")) doc = ts.look(-2).data;
-
 		name = name.replace(/\.prototype\.?/, "/");
 		
 		if (doc) { // we only keep these if they're documented

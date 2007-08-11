@@ -25,35 +25,36 @@ TOKN.NEWLINE = {
 	"\u2028": "UNICODE_LS"
 };
 TOKN.KEYW = {
-	"break":      "BREAK",
-	"case":       "CASE",
-	"catch":      "CATCH",
-	"continue":   "CONTINUE",
-	"default":    "DEFAULT",
-	"delete":     "DELETE",
-	"do":         "DO",
-	"else":       "ELSE",
-	"false":      "FALSE",
-	"finally":    "FINALLY",
-	"for":        "FOR",
-	"function":   "FUNCTION",
-	"if":         "IF",
-	"in":         "IN",
-	"instanceof": "INSTANCEOF",
-	"new":        "NEW",
-	"null":       "NULL",
-	"return":     "RETURN",
-	"switch":     "SWITCH",
-	"this":       "THIS",
-	"throw":      "THROW",
-	"true":       "TRUE",
-	"try":        "TRY",
-	"typeof":     "TYPEOF",
-	"void":       "VOID",
-	"while":      "WHILE",
-	"with":       "WITH",
-	"var":        "VAR"
+	"=break":      "BREAK",
+	"=case":       "CASE",
+	"=catch":      "CATCH",
+	"=continue":   "CONTINUE",
+	"=default":    "DEFAULT",
+	"=delete":     "DELETE",
+	"=do":         "DO",
+	"=else":       "ELSE",
+	"=false":      "FALSE",
+	"=finally":    "FINALLY",
+	"=for":        "FOR",
+	"=function":   "FUNCTION",
+	"=if":         "IF",
+	"=in":         "IN",
+	"=instanceof": "INSTANCEOF",
+	"=new":        "NEW",
+	"=null":       "NULL",
+	"=return":     "RETURN",
+	"=switch":     "SWITCH",
+	"=this":       "THIS",
+	"=throw":      "THROW",
+	"=true":       "TRUE",
+	"=try":        "TRY",
+	"=typeof":     "TYPEOF",
+	"=void":       "VOID",
+	"=while":      "WHILE",
+	"=with":       "WITH",
+	"=var":        "VAR"
 };
+
 TOKN.PUNC = {
 	";":   "SEMICOLON",
 	",":   "COMMA",
@@ -253,7 +254,7 @@ TokenReader.prototype.read_word = function(stream, tokens) {
 	}
 	else {
 		var name;
-		if ((name = TOKN.KEYW[found])) tokens.push(new Token(found, "KEYW", name));
+		if ((name = TOKN.KEYW["="+found])) tokens.push(new Token(found, "KEYW", name));
 		else tokens.push(new Token(found, "NAME", "NAME"));
 		return true;
 	}

@@ -17,7 +17,7 @@ function JsHilite(sourceCode) {
 	.NUMB {color: #393;}\n\
 	.STRN {color: #393;}\n\
 	.REGX {color: #339;}\n\
-	.linenumber {border-right: 1px dotted #666; color: #666;}\n\
+	.linenumber {border-right: 1px dotted #666; color: #666; font-style: normal;}\n\
 	</style></head><body><pre>";
 	this.footer = "</pre></body></html>";
 	this.showLinenumbers = true;

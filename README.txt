@@ -19,6 +19,7 @@ be found on the JSDoc.pm homepage: http://jsdoc.sourceforge.net/
 Complete documentation on JsDoc Toolkit can be found on the project
 wiki at http://code.google.com/p/jsdoc-toolkit/w/list
 
+
 =====================================================================
 
 USAGE:
@@ -63,17 +64,18 @@ a -d=somewhere_else option, to the somewhere_else directory.
 
 For help (usage notes) enter this on the command line:
 
- > java -jar app\js.jar test\run.js
- 
+ > java -jar app\js.jar app\run.js -h
+
 To run the unit tests included with JsDoc Toolkit enter this on the
 command line:
 
- $ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
+ > java -jar app\js.jar test\run.js
 
 To run any example in the included examples enter this on the
 command line:
 
  $ java -jar app/js.jar examples/run.js -a  examples/data/whatever.js
+
 
 =====================================================================
 

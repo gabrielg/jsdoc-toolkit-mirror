@@ -27,7 +27,7 @@ function Doclet(comment) {
 	
 	for(var i = 0; i < this.tags.length; i++) {
 		if (this.tags[i].title == "config") {
-			var paramParent = "arguments";
+			var paramParent = "config";
 			if (i > 0 && this.tags[i-1].title == "param") paramParent = this.tags[i-1].name;
 			this.tags[i].name = paramParent+"."+this.tags[i].name;
 		}

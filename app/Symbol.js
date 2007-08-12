@@ -159,7 +159,8 @@ Symbol.prototype.is = function(what) {
 Symbol.prototype.signature = function() {
     var result = [];
     for (var i = 0; i < this.params.length; i++) {
-    	result.push(this.params[i].name);
+    	if (this.params[i].name.indexOf(".") == -1) // config information does not appear in the signature
+    		result.push(this.params[i].name);
     }
     return result.join(", ");
 }

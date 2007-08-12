@@ -75,6 +75,13 @@ function DocTag(src) {
 					this.desc = (m[2] || "");
 				}
 			}
+			else if (this.title == "config") {
+				m = this.desc.match(/^\s*([a-zA-Z0-9.$_]+)(?:\s+([\S\s]*\S))?/);
+				if (m) {
+					this.name = (m[1] || "");
+					this.desc = (m[2] || "");
+				}
+			}
 		}
 	}
 }

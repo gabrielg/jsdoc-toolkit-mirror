@@ -19,11 +19,14 @@ function publish(files, context) {
 		
 		for (var s = 0; s < files[i].symbols.length; s++) {
 			if (files[i].symbols[s].isa == "CONSTRUCTOR") {
-				var classname = files[i].symbols[s].alias;
-				allClasses[classname] = files[i].symbols[s];
-				allClasses[classname].source = file_srcname;
-				allClasses[classname].filename = files[i].filename;
-				allClasses[classname].docs = classname+".html";
+				var thisClass = files[i].symbols[s];;
+				thisClass.name = files[i].symbols[s].alias;
+				thisClass.source = file_srcname;
+				thisClass.filename = files[i].filename;
+				thisClass.docs = thisClass.name+".html";
+				
+				if (!allClasses[thisClass.name]) allClasses[thisClass.name] = [];
+				allClasses[thisClass.name].push(thisClass);
 			}
 			else if (files[i].symbols[s].alias == files[i].symbols[s].name) {
 				if (files[i].symbols[s].isa == "FUNCTION") {
@@ -50,7 +53,7 @@ function publish(files, context) {
 		IO.saveFile(context.d, outfile, output);
 	}
 	
-	output = classTemplate.process(globals);
+	output = classTemplate.process([globals]);
 	IO.saveFile(context.d, "globals.html", output);
 	
 	var output = indexTemplate.process(allClasses);

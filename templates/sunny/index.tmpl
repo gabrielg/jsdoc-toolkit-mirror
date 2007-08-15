@@ -34,7 +34,7 @@ function keys(o) {
 <ul>
 	<li><a href="globals.html" target="main">GLOBALS</a></li>
 	<for each="classname" in="keys(data).sort()">
-	<li><a href="{+data[classname].docs+}" target="main">{+classname+}</a></li>
+	<li><a href="{+data[classname][0].docs+}" target="main">{+classname+}</a></li>
 	</for>
 </ul>
 </body>

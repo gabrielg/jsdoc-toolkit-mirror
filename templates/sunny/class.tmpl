@@ -1,18 +1,22 @@
 {!
 function byName(a, b) {
-  a = a.name.toLowerCase();
-  b = b.name.toLowerCase();
-  if (a < b) return -1;
-  if (a > b) return 1;
-  return 0;
+	if (a.name != undefined && b.name != undefined) {
+		a = a.name.toLowerCase();
+		b = b.name.toLowerCase();
+		if (a < b) return -1;
+		if (a > b) return 1;
+		return 0;
+	}
 }
+
+thisClass = data[0];
 !}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 	"http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>JsDoc: {+data.alias+}</title>
+	<title>JsDoc: {+thisClass.alias+}</title>
 	<style type="text/css">
 		body { background-color: #FFFFFF; }
 		.TableHeadingColor { background: #CCCCFF; }
@@ -63,25 +67,25 @@ function byName(a, b) {
 
 <hr>
 
-<h2><if test="data.isStatic">Static </if>Class {+data.alias+}</h2>
+<h2><if test="thisClass.isStatic">Static </if>Class {+thisClass.alias+}</h2>
 
-<if test="data.inherits && data.inherits.length">Extends
-	<for each="inherit" in="data.inherits"><a href="{+inherit+}.html">{+inherit+}</a></for>.<br/>
+<if test="thisClass.inherits && thisClass.inherits.length">Extends
+	<for each="inherit" in="thisClass.inherits"><a href="{+inherit+}.html">{+inherit+}</a></for>.<br/>
 </if>
-<if test="data.source"><i>Defined in <a href="{+data.source+}">{+data.filename+}</a></i></if>
-<if test="data.classDesc"><p>{+data.classDesc+}</p></if>
-<if test="data.doc">
-<for each="author" in="data.doc.getTag('author')">
+<if test="thisClass.source"><i>Defined in <a href="{+thisClass.source+}">{+thisClass.filename+}</a></i></if>
+<if test="thisClass.classDesc"><p>{+thisClass.classDesc+}</p></if>
+<if test="thisClass.doc">
+<for each="author" in="thisClass.doc.getTag('author')">
 <b>Author:</b> {+author+}<br/>
 </for>
-<for each="version" in="data.doc.getTag('version')">
+<for each="version" in="thisClass.doc.getTag('version')">
 <b>Version:</b> {+version+}<br/>
 </for>
 </if>
 <hr>
 
 <!-- =========== FIELD SUMMARY =========== -->
-<if test="data.properties.length">
+<if test="thisClass.properties.length">
 <a name="field_summary"> </a> 
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
@@ -89,7 +93,7 @@ function byName(a, b) {
 			<font size="+2"> <b>Field Summary</b></font>
 		</td>
 	</tr>
-	<for each="property" in="data.properties.sort(byName)">
+	<for each="property" in="thisClass.properties.sort(byName)">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
 				<font size="-1"><code><if test="property.isPrivate">&lt;private&gt;&nbsp;</if><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+}</code></font>
@@ -106,31 +110,33 @@ function byName(a, b) {
 </if>
 <!-- =========== END FIELD SUMMARY =========== -->
 
-<if test="!data.isStatic">
+<if test="!thisClass.isStatic">
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <a name="constructor_summary"> </a>
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 <tr bgcolor="#CCCCFF" class="TableHeadingColor">
 	<td colspan=2><font size="+2"><b>Constructor Summary</b></font></td>
 </tr>
-<tr bgcolor="white" class="TableRowColor">
-   <td>
-
-	<code>
-	<b><a href="#{+data.name+}">{+data.alias+}</a></b>({+data.signature()+})
-	</code>
-      <br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      {+data.desc+}
-      </td>
-</tr>
+<for each="cn" in="data">
+	<tr bgcolor="white" class="TableRowColor">
+	   <td>
+	
+		<code>
+		<b><a href="#{+cn.name+}">{+cn.alias+}</a></b>({+cn.signature()+})
+		</code>
+		  <br>
+		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		  {+cn.desc+}
+		  </td>
+	</tr>
+</for>
 </table>
 &nbsp;
 <!-- ======== END CONSTRUCTOR SUMMARY ======== -->
 </if>
 
 <!-- ========== METHOD SUMMARY =========== -->
-<if test="data.methods.length">
+<if test="thisClass.methods.length">
 <a name="method_summary"> </a> 
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
@@ -138,7 +144,7 @@ function byName(a, b) {
 			<font size="+2"> <b>Method Summary</b></font>
 		</td>
 	</tr>
-	<for each="method" in="data.methods.sort(byName)">
+	<for each="method" in="thisClass.methods.sort(byName)">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
 				<font size="-1"><code><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt; </if><if test="method.returns.length">
@@ -158,7 +164,7 @@ function byName(a, b) {
 <!-- ========== END METHOD SUMMARY =========== -->
 
 <!-- ============ FIELD DETAIL START ========= -->
-<if test="data.properties.length">
+<if test="thisClass.properties.length">
 <a name="field_detail"> </a> 
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
@@ -168,7 +174,7 @@ function byName(a, b) {
 	</tr>
 </table>
 
-<for each="property" in="data.properties.sort(byName)">
+<for each="property" in="thisClass.properties.sort(byName)">
 	<!-- One single method detail entry -->
 	<a name="{+property.name+}">
 	<!-- -->
@@ -182,7 +188,7 @@ function byName(a, b) {
 </if>
 <!-- ============ FIELD DETAIL END ========== -->
 
-<if test="!data.isStatic">
+<if test="!thisClass.isStatic">
 <!-- ========= CONSTRUCTOR DETAIL START ======== -->
 <a name="constructor_detail"> </a>
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
@@ -194,33 +200,34 @@ function byName(a, b) {
 
 </table>
 
-<a name="{+data.name+}"> </a>
-<h3>{+data.alias+}</h3>
-<pre><b>{+data.alias+}</b>({+data.signature()+})</pre>
-<ul>
-   {+data.desc+}
-</ul>
-
-<!-- PARAMETERS START -->
-<if test="data.params.length">
-<ul>
-	<b>Parameters:</b>
-	<for each="param" in="data.params">
+<a name="{+thisClass.name+}"> </a>
+<h3>{+thisClass.alias+}</h3>
+<for each="cn" in="data">
+	<pre><b>{+cn.alias+}</b>({+cn.signature()+})</pre>
 	<ul>
-		<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+}</code><if test="param.desc"> - {+param.desc+}</if> 
+	   {+cn.desc+}
 	</ul>
-	</for>
-</ul>
-</if>
-<!-- PARAMETERS END -->
-
+	
+	<!-- PARAMETERS START -->
+	<if test="cn.params.length">
+	<ul>
+		<b>Parameters:</b>
+		<for each="param" in="cn.params">
+		<ul>
+			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+}</code><if test="param.desc"> - {+param.desc+}</if> 
+		</ul>
+		</for>
+	</ul>
+	</if>
+	<!-- PARAMETERS END -->
+</for>
 <hr/>
 <!-- END ADDITIONAL ATTRIBUTES  -->
 <!-- ========= CONSTRUCTOR DETAIL END ======== -->
 </if>
 
 <!-- ============ METHOD DETAIL START ======= -->
-<if test="data.methods.length">
+<if test="thisClass.methods.length">
 <a name="method_detail"> </a> 
 <table border="1" cellpadding="3" cellspacing="0" width="100%">
 	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
@@ -230,7 +237,7 @@ function byName(a, b) {
 	</tr>
 </table>
 
-<for each="method" in="data.methods.sort(byName)">
+<for each="method" in="thisClass.methods.sort(byName)">
 	<a name="{+method.name+}"> </a> <h3>{+method.name+}</h3>
 		<pre><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt;&nbsp;</if><if test="method.returns.length"><for each="ret" in="method.returns">{+ret.type+}&nbsp;</for></if><b>{+method.name+}</b>({+method.signature()+})</pre> 
 	<ul>

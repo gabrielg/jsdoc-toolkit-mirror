@@ -102,5 +102,18 @@ var IO = {
 		}
 
 		return allFiles;
+	},
+	
+	/**
+	 * Create an open filehandle.
+	 * @param {string} path Path to file to open.
+	 * @param {boolean} append Open in append mode?
+	 * @return {FileWriter} A filehandle that can write(string) and close().
+	 */
+	open: function(path, append) {
+		var append = true;
+		var outFile = new File(path);
+		var out = FileWriter(path, append);
+		return out;
 	}
 };

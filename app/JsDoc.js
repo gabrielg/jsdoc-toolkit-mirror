@@ -12,11 +12,16 @@
 LOG = {
 	warn: function(msg, e) {
 		if (e) msg = e.fileName+", line "+e.lineNumber+": "+msg;
-		print(">> WARNING: "+msg);
+		
+		msg = ">> WARNING: "+msg;
+		if (LOG.out) LOG.out.write(msg+"\n");
+		else print(msg);
 	},
 
 	inform: function(msg) {
-		print(" > "+msg);
+		msg = " > "+msg;
+		if (LOG.out) LOG.out.write(msg+"\n");
+		else print(msg);
 	}
 };
 
@@ -41,6 +46,7 @@ JsDoc = {
 		print("  -a or --allfunctions\n          Include all functions, even undocumented ones.\n");
 		print("  -A or --Allfunctions\n          Include all functions, even undocumented, underscored ones.\n");
 		print("  -p or --private\n          Include symbols tagged as private.\n");
+		print("  -o=<PATH> or --out=<PATH>\n          Print log messages to a file (defaults to stdout).\n");
 		print("  -h or --help\n          Show this message and exit.\n");
 		
 		java.lang.System.exit(0);

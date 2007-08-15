@@ -47,12 +47,14 @@ require("app/JsPlate.js");
 
 /** The main function. Called automatically. */
 function Main() {
+	if (JsDoc.opt.o) LOG.out = IO.open(JsDoc.opt.o, true);
+	
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
 	
 	var ext = ["js"];
 	if (JsDoc.opt.x) ext = JsDoc.opt.x.split(",").map(function(x) {return x.toLowerCase()});
 
-	if (typeof(JsDoc.opt.r) == "boolean") JsDoc.opt.r=10;
+	if (typeof(JsDoc.opt.r) == "boolean") JsDoc.opt.r = 10;
 	else if (!isNaN(parseInt(JsDoc.opt.r))) JsDoc.opt.r = parseInt(JsDoc.opt.r);
 	else JsDoc.opt.r = 1;
 		
@@ -93,7 +95,9 @@ function Main() {
 		publish(files, JsDoc.opt);
 		LOG.inform("Finished.");
 	}
+	
+	if (LOG.out) LOG.out.close();
 }
 
-JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", x:"ext", p:"private", a:"allfunctions", A:"Allfunctions", h:"help"});
+JsDoc.opt = Util.getOptions(arguments, {d:"directory", t:"template", r:"recurse", x:"ext", p:"private", a:"allfunctions", A:"Allfunctions", o:"out", h:"help"});
 Main();

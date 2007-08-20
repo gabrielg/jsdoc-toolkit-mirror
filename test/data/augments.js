@@ -1,4 +1,7 @@
-/** @constructor */
+/**
+@ class
+@constructor
+*/
 function Layout(p) {
 	this.init = function(p) {
 	}

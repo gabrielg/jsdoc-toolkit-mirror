@@ -69,8 +69,8 @@ thisClass = data[0];
 
 <h2><if test="thisClass.isStatic">Static </if>Class {+thisClass.alias+}</h2>
 
-<if test="thisClass.inherits && thisClass.inherits.length">Extends
-	<for each="inherit" in="thisClass.inherits"><a href="{+inherit+}.html">{+inherit+}</a></for>.<br/>
+<if test="thisClass.augments && thisClass.augments.length">
+	Extends<for each="augment" in="thisClass.augments"> <a href="{+augment+}.html">{+augment+}</a></for>.<br/>
 </if>
 <if test="thisClass.source"><i>Defined in <a href="{+thisClass.source+}">{+thisClass.filename+}</a></i></if>
 <if test="thisClass.classDesc"><p>{+thisClass.classDesc+}</p></if>
@@ -163,30 +163,29 @@ thisClass = data[0];
 </if>
 <!-- ========== END METHOD SUMMARY =========== -->
 
-<!-- ========== IHERITED METHODS SUMMARY =========== -->
-<if test="thisClass.inherits && thisClass.inherits.length">
-	<for each="inherit" in="thisClass.inherits">
-		<table border="1" cellpadding="3" cellspacing="0" width="100%">
+<!-- ========== INHERITED METHODS SUMMARY =========== -->
+<if test="thisClass.inherited">
+	<table border="1" cellpadding="3" cellspacing="0" width="100%">
+		<for each="className" in="keys(thisClass.inherited)">
+		<tr bgcolor="#EEEEFF" class="TableSubHeadingColor">
+			<td>
+				<b>Methods inherited from class <a href="{+className+}.html">{+className+}</a></b>
+			</td>
+		</tr>
+		<for each="method" in="thisClass.inherited[className]">
 			<tr bgcolor="#EEEEFF" class="TableSubHeadingColor">
 				<td>
-					<b>Methods inherited from class <a href="{+inherit+}.html">{+inherit+}</a></b>
+				<a href="{+method.memberof+}.html#{+method.name+}">{+method.name+}</a>({+method.signature()+})
 				</td>
 			</tr>
-			<tr bgcolor="white" class="TableRowColor">
-				<td>
-					<for each="method" in="thisClass.getInheritedMethods().sort(byName)">
-						<if test="method.memberof == inherit">
-							<a href="{+inherit+}.html#{+method.name+}">{+method.name+}</a>&nbsp;
-						</if>
-					</for>
-				</td>
-			</tr>
-		</table>
-		<br/>
-	</for>
+		</for>
+		</for>
+	</table>
 	<br/>
 </if>
-<!-- ========== END IHERITED METHODS SUMMARY =========== -->
+<br/>
+
+<!-- ========== END INHERITED METHODS SUMMARY =========== -->
 
 <!-- ============ FIELD DETAIL START ========= -->
 <if test="thisClass.properties.length">

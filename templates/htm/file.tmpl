@@ -92,9 +92,7 @@
 				<if test="symbol.inherits.length || symbol.augments.length">
 					<div class="detailHead">inherits</div>
 					<for each="method" in="symbol.getInheritedMethods()">
-						<if test="!symbol.hasMethod(method.name)">
 						<div>{+method.name+}(<span class="signature">{+method.signature()+}</span>) from {+method.memberof+}</div>
-						</if>
 					</for>
 				</if>
 				

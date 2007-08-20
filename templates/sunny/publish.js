@@ -5,7 +5,7 @@ function basename(filename) {
 	return RegExp.$1;
 }
 
-function publish(files, context) {
+function publish(fileGroup, context) {
 	var classTemplate = new JsPlate(context.t+"class.tmpl");
 	var indexTemplate = new JsPlate(context.t+"index.tmpl");
 	
@@ -13,37 +13,48 @@ function publish(files, context) {
 	var allClasses = {};
 	var globals = {methods:[], properties:[], alias:"GLOBALS", isStatic:true};
 	
-	for (var i = 0; i < files.length; i++) {
-		var file_basename = basename(files[i].filename);
+	for (var i = 0; i < fileGroup.files.length; i++) {
+		var file_basename = basename(fileGroup.files[i].filename);
 		var file_srcname = file_basename+".src.html";
 		
-		for (var s = 0; s < files[i].symbols.length; s++) {
-			if (files[i].symbols[s].isa == "CONSTRUCTOR") {
-				var thisClass = files[i].symbols[s];;
-				thisClass.name = files[i].symbols[s].alias;
+		for (var s = 0; s < fileGroup.files[i].symbols.length; s++) {
+			if (fileGroup.files[i].symbols[s].isa == "CONSTRUCTOR") {
+				var thisClass = fileGroup.files[i].symbols[s];
+				
+				// sort inherited methods by class
+				var inheritedMethods = fileGroup.files[i].symbols[s].getInheritedMethods();
+				if (inheritedMethods.length > 0) {
+					thisClass.inherited = {};
+					for (var n = 0; n < inheritedMethods.length; n++) {
+						if (! thisClass.inherited[inheritedMethods[n].memberof]) thisClass.inherited[inheritedMethods[n].memberof] = [];
+						thisClass.inherited[inheritedMethods[n].memberof].push(inheritedMethods[n]);
+					}
+				}
+				
+				thisClass.name = fileGroup.files[i].symbols[s].alias;
 				thisClass.source = file_srcname;
-				thisClass.filename = files[i].filename;
+				thisClass.filename = fileGroup.files[i].filename;
 				thisClass.docs = thisClass.name+".html";
 				
 				if (!allClasses[thisClass.name]) allClasses[thisClass.name] = [];
 				allClasses[thisClass.name].push(thisClass);
 			}
-			else if (files[i].symbols[s].alias == files[i].symbols[s].name) {
-				if (files[i].symbols[s].isa == "FUNCTION") {
-					globals.methods.push(files[i].symbols[s]);
+			else if (fileGroup.files[i].symbols[s].alias == fileGroup.files[i].symbols[s].name) {
+				if (fileGroup.files[i].symbols[s].isa == "FUNCTION") {
+					globals.methods.push(fileGroup.files[i].symbols[s]);
 				}
 				else {
-					globals.properties.push(files[i].symbols[s]);
+					globals.properties.push(fileGroup.files[i].symbols[s]);
 				}
 			}
 		}
 		
-		if (!allFiles[files[i].path]) {
-			var hiliter = new JsHilite(IO.readFile(files[i].path));
+		if (!allFiles[fileGroup.files[i].path]) {
+			var hiliter = new JsHilite(IO.readFile(fileGroup.files[i].path));
 			IO.saveFile(context.d, file_srcname, hiliter.hilite());
 		}
-		files[i].source = file_srcname;
-		allFiles[files[i].path] = true;
+		fileGroup.files[i].source = file_srcname;
+		allFiles[fileGroup.files[i].path] = true;
 	}
 	
 	for (var c in allClasses) {

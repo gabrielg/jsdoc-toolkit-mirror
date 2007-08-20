@@ -187,7 +187,7 @@ Symbol.prototype.hasProperty = function(name) {
     return false;
 }
 
-Symbol.prototype.getInheritedMethods = function() {
+Symbol.prototype.getInheritedMethods = function(r) {
 	var inherited = [];
 	for(var i = 0; i < this.inherits.length; i++) {
 		inherited.push(this.file.fileGroup.getSymbol(this.inherits[i]));
@@ -196,7 +196,7 @@ Symbol.prototype.getInheritedMethods = function() {
 	for(var i = 0; i < this.augments.length; i++) {
 		var contributer = this.file.fileGroup.getSymbol(this.augments[i]);
 		if (contributer) {
-			result = result.concat(contributer.getInheritedMethods());
+			result = result.concat(contributer.getInheritedMethods(true));
 		}
 	}
 	// remove overridden
@@ -205,6 +205,14 @@ Symbol.prototype.getInheritedMethods = function() {
 		while (++j < result.length) {
 			if (result[j].name == result[i].name) result.splice(j, 1);
 		}
+	}
+	
+	if (!r) { // not recursing
+		var s = this;
+		function notLocal(element, index, array) {
+			return (!s.hasMethod(element.name));
+		}
+		result = result.filter(notLocal);
 	}
 	return result;
 }

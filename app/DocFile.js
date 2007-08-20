@@ -5,7 +5,28 @@
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
  */
- 
+
+function DocFileGroup() {
+	this.files = [];
+}
+
+DocFileGroup.prototype.addDocFile = function(docFile) {
+	docFile.fileGroup = this;
+	docFile.fileGroup.circularReference = 1; // keeps dumper from getting dizzy
+	this.files.push(docFile);
+}
+
+/**
+ * @param {string} alias The full alias name of the symbol.
+ * @return {Symbol}
+ */
+DocFileGroup.prototype.getSymbol = function(alias) {
+	for (var f = 0; f < this.files.length; f++) {
+		var symbol = this.files[f].getSymbol(alias);
+		if (symbol) return symbol;
+	}
+}
+
 /**
  * @class Represents a collection of doclets associated with a file.
  * @constructor
@@ -17,6 +38,7 @@ function DocFile(path) {
 	this.filename = Util.fileName(this.path);
 	this.overview = new Symbol(this.filename, [], "FILE", "/** @overview No overview provided. */");
 	this.symbols = [];
+	fileGroup = null;
 }
 
 /**
@@ -31,6 +53,9 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			
 		if (symbols[s].isPrivate && !opt.p)
 			continue;
+			
+		symbols[s].file = this;
+		symbols[s].file.circularReference = 1; // keeps dumper from getting dizzy
 		
 		var parents;
 		if ((parents = symbols[s].doc.getTag("memberof")) && parents.length) {
@@ -55,6 +80,7 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 		}
 		
 		// is this a member of another object?
+		// TODO this relationship may span files, so should move into DocFileGroup?
 		var parts = null;
 		if (
 			symbols[s].name.indexOf("/") > -1
@@ -81,19 +107,6 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			}
 		}
 		
-		// does this inherit methods or properties?
-		for (var i = 0; i < symbols[s].inherits.length; i++) {
-			var base = this.getSymbol(symbols[s].inherits[i]);
-			if (!base) {
-				LOG.warn("Can't determine inherited methods or properties from unfound '"+symbols[s].inherits[i]+"' symbol.");
-			}
-			else {
-				symbols[s].inheritedMethods =
-					symbols[s].inheritedMethods.concat(base.methods);
-				symbols[s].inheritedProperties =
-					symbols[s].inheritedProperties.concat(base.properties);
-			}
-		}
 		this.symbols.push(symbols[s]);
 	}
 }

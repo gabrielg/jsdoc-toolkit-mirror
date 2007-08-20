@@ -64,6 +64,8 @@ JsDoc = {
 		
 		srcFiles = srcFiles.sort();
 		
+		var docs = new DocFileGroup();
+		
 		// handle setting up relationships between symbols here
 		for (var f = 0; f < srcFiles.length; f++) {
 			var srcFile = srcFiles[f];
@@ -82,9 +84,9 @@ JsDoc = {
 			file.addSymbols(parser.symbols, JsDoc.opt);
 			if (parser.overview) file.overview = parser.overview;
 			
-			files.push(file);
+			docs.addDocFile(file);
 		}
-		return files;
+		return docs;
 	}
 };
 

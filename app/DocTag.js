@@ -98,9 +98,7 @@ DocTag.synonyms = {
 	"=returns":            "return",
 	"=classdescription":   "class",
 	"=fileoverview":       "overview",
-	"=projectdescription": "overview",
-	"=extends":            "inherits",
-	"=base":               "inherits"
+	"=extends":            "augments"
 }
 
 DocTag.prototype.toString = function() {

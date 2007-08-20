@@ -48,11 +48,6 @@
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
 				
-				<if test="symbol.inherits.length">
-				<div class="detailHead">inherits</div>
-				<for each="inherit" in="symbol.inherits"><div><a href="#{+inherit+}">{+inherit+}</a></div></for>
-				</if>
-				
 				<for each="example" in="symbol.doc.getTag('example')">
 					<pre class="code">{+example.desc+}</pre>
 				</for>
@@ -92,6 +87,15 @@
 						<li><if test="property.type"><span class="type">{+property.type+}</span> </if><a href="#{+property.alias+}">{+property.name+}</a></li>
 					</ul>
 				</for>
+				</if>
+				
+				<if test="symbol.inherits.length || symbol.augments.length">
+					<div class="detailHead">inherits</div>
+					<for each="method" in="symbol.getInheritedMethods()">
+						<if test="!symbol.hasMethod(method.name)">
+						<div>{+method.name+}(<span class="signature">{+method.signature()+}</span>) from {+method.memberof+}</div>
+						</if>
+					</for>
 				</if>
 				
 				<if test="symbol.exceptions.length">

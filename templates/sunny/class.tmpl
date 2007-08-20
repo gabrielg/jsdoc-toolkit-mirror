@@ -163,6 +163,31 @@ thisClass = data[0];
 </if>
 <!-- ========== END METHOD SUMMARY =========== -->
 
+<!-- ========== IHERITED METHODS SUMMARY =========== -->
+<if test="thisClass.inherits && thisClass.inherits.length">
+	<for each="inherit" in="thisClass.inherits">
+		<table border="1" cellpadding="3" cellspacing="0" width="100%">
+			<tr bgcolor="#EEEEFF" class="TableSubHeadingColor">
+				<td>
+					<b>Methods inherited from class <a href="{+inherit+}.html">{+inherit+}</a></b>
+				</td>
+			</tr>
+			<tr bgcolor="white" class="TableRowColor">
+				<td>
+					<for each="method" in="thisClass.getInheritedMethods().sort(byName)">
+						<if test="method.memberof == inherit">
+							<a href="{+inherit+}.html#{+method.name+}">{+method.name+}</a>&nbsp;
+						</if>
+					</for>
+				</td>
+			</tr>
+		</table>
+		<br/>
+	</for>
+	<br/>
+</if>
+<!-- ========== END IHERITED METHODS SUMMARY =========== -->
+
 <!-- ============ FIELD DETAIL START ========= -->
 <if test="thisClass.properties.length">
 <a name="field_detail"> </a> 

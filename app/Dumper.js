@@ -36,13 +36,18 @@ Dumper = {
 	
 	_dump: function (obj) {
 		var out;
-		switch (this._typeof(obj)) {
+		var type = this._typeof(obj);
+		if (obj.circularReference) obj.circularReference++;
+		switch (type) {
+			case 'circular':
+				out = '{/*circularReference*/}';
+				break;
 			case 'object':
 				var pairs = new Array;
 				
 				for (var prop in obj) {
-					if (obj.hasOwnProperty(prop)) { //hide inherited properties
-				pairs.push(prop + ': ' + this._dump(obj[prop]));
+					if (prop != "circularReference" && obj.hasOwnProperty(prop)) { //hide inherited properties
+						pairs.push(prop + ': ' + this._dump(obj[prop]));
 					}
 				}
 	
@@ -103,6 +108,7 @@ Dumper = {
     },
     
     _typeof: function (obj) {
+    	if (obj && obj.circularReference && obj.circularReference > 1) return 'circular';
 		if (Array.prototype.isPrototypeOf(obj)) return 'array';
 		if (Date.prototype.isPrototypeOf(obj)) return 'date';
 		if (typeof(obj.nodeType) != 'undefined') return 'element';

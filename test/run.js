@@ -38,14 +38,14 @@ jsdoc = null;
 
 function testFile(path) {
 	var srcFiles = JsDoc.opt._ = path;
-	jsdoc = JsDoc.parse(srcFiles, JsDoc.opt);
+	jsdoc = JsDoc.parse(srcFiles, JsDoc.opt).files;
 }
 
 
 //// set up some tests cases, order matters
 
 var testCases = [
-	function() {
+	/*function() {
 		testFile(__DIR__+"test/data/functions.js");
 		ok('typeof(jsdoc) != "undefined"', 'jsdoc must be defined.');
 		is('jsdoc[0].symbols[0].alias', "Layout", 'Nested commented method name can be found.');
@@ -262,12 +262,12 @@ var testCases = [
 		is('jsdoc[0].symbols[1].exceptions[0].type', "OutOfMemory", 'Exception is a synonym for throws.');
 		is('jsdoc[0].symbols[2].exceptions[0].type', "IOException", 'Multiple exception tags allowed, first.');
 		is('jsdoc[0].symbols[2].exceptions[1].type', "PermissionDenied", 'Multiple exception tags allowed, second.');
-	},
+	},*/
 	function() {
-		JsDoc.opt = {};
-		testFile(__DIR__+"test/data/inherits.js");
-		is('jsdoc[0].symbols[2].inherits[0]', "foo", 'An inherited class can be found.');
-		is('jsdoc[0].symbols[4].inherits[0]', "bar", 'The extends tag is a synonym for inherits.');
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"test/data/augments.js");
+		is('jsdoc[0].symbols[4].augments[0]', "Layout", 'An inherited class can be found.');
+		is('jsdoc[0].symbols[6].augments[0]', "Page", 'The extends tag is a synonym for inherits.');
 		is('jsdoc[0].symbols[5].inherits.length', 2, 'Multiple inherits are supported.');
 		is('jsdoc[0].symbols[5].inheritedMethods.length', 2, 'Multiple inherited methods are supported.');
 		is('jsdoc[0].symbols[5].inheritedMethods[0].alias', "foo.processFoo", 'First inherited method alias found.');

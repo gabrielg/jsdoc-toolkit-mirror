@@ -83,7 +83,7 @@ function Main() {
 	}
 	
 	LOG.inform(srcFiles.length+" source file"+((srcFiles ==1)?"":"s")+" found:\n\t"+srcFiles.join("\n\t"));
-	var files = JsDoc.parse(srcFiles, JsDoc.opt);
+	var fileGroup = JsDoc.parse(srcFiles, JsDoc.opt);
 	
 	if (JsDoc.opt.t) {
 		JsDoc.opt.t += (JsDoc.opt.t.indexOf(IO.FileSeparator)==JsDoc.opt.t.length-1)?
@@ -92,7 +92,7 @@ function Main() {
 		require(JsDoc.opt.t+"publish.js");
 		
 		LOG.inform("Publishing all files...");
-		publish(files, JsDoc.opt);
+		publish(fileGroup, JsDoc.opt);
 		LOG.inform("Finished.");
 	}
 	

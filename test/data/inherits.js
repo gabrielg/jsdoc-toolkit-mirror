@@ -1,31 +1,31 @@
 /** @constructor */
-function foo() {
-	/** process the foo */
-	this.processFoo = function(f) {
+function Layout(p) {
+	this.init = function(p) {
 	}
+	/**
+	 The id.
+	 @type number
+	*/
+	this.id = p.id;
+	
+	/** @type string */
+	this.orientation = "landscape";
 }
 
 /**
 @constructor
-@inherits foo
+@inherits Layout
 */
-function bar() {
-	/** do the bar */
-	this.doBar = function(b){
+function Page() {
+	this.reset = function(b) {
 	}
 }
 
 /**
-@extends bar
+@extends Page
 @constructor
 */
-function faz() {
-}
-
-/**
-	@inherits foo
-	@inherits bar
-	@constructor
-*/
-function zop() {
+function ThreeColumnPage() {
+	this.init = function(p) {
+	}
 }

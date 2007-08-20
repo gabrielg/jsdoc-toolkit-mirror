@@ -1,32 +1,32 @@
 require("app/JsHilite.js");
 
-function publish(files, context) {
+function publish(fileGroup, context) {
 	var file_template = new JsPlate(context.t+"file.tmpl");
 	
 	var index = {};
-	for (var i = 0; i < files.length; i++) {
+	for (var i = 0; i < fileGroup.files.length; i++) {
 		
 		
 		if (context.d) {
 			var our_name = "_"+((i+1<10)?"0"+(i+1):(i+1))+".htm";
-			index[our_name] = { name: (files[i].filename), classes:[]};
+			index[our_name] = { name: (fileGroup.files[i].filename), classes:[]};
 		
-			for (var s = 0; s < files[i].symbols.length; s++) {
-				if (files[i].symbols[s].isa == "CONSTRUCTOR") {
-					index[our_name].classes.push(files[i].symbols[s].alias);
+			for (var s = 0; s < fileGroup.files[i].symbols.length; s++) {
+				if (fileGroup.files[i].symbols[s].isa == "CONSTRUCTOR") {
+					index[our_name].classes.push(fileGroup.files[i].symbols[s].alias);
 				}
 			}	
 			
 			// make copy original source code with syntax hiliting
-			var sourceFile = files[i].path;
+			var sourceFile = fileGroup.files[i].path;
 			if (sourceFile) {
 				var hiliter = new JsHilite(IO.readFile(sourceFile));
 				IO.saveFile(context.d, "src"+our_name, hiliter.hilite());
 				
-				files[i].source = "src"+our_name;
+				fileGroup.files[i].source = "src"+our_name;
 			}
 			
-			var output = file_template.process(files[i]);
+			var output = file_template.process(fileGroup.files[i]);
 			IO.saveFile(context.d, our_name, output);
 		}
 	}

@@ -18,11 +18,11 @@ function Symbol(name, params, isa, comment) {
 	this.desc = "";
 	this.classDesc = "";
 	this.memberof = "";
+	this.augments = [];
 	this.inherits = [];
 	this.properties = [];
 	this.methods = [];
-	this.inheritedMethods = [];
-	this.inheritedProperties = [];
+	this.file = {};
 	this.returns = [];
 	this.exceptions = [];
 	this.doc = new Doclet(comment);
@@ -145,6 +145,14 @@ function Symbol(name, params, isa, comment) {
 			this.doc._dropTag("inherits");
 		}
 		
+		var augments;
+		if ((augments = this.doc.getTag("augments")) && augments.length) {
+			for (var i = 0; i < augments.length; i++) {
+				this.augments.push(augments[i].desc);
+			}
+			this.doc._dropTag("augments");
+		}
+		
 		Symbol.index[this.alias] = this;
 	}
 }
@@ -163,4 +171,40 @@ Symbol.prototype.signature = function() {
     		result.push(this.params[i].name);
     }
     return result.join(", ");
+}
+
+Symbol.prototype.hasMethod = function(name) {
+    for (var i = 0; i < this.methods.length; i++) {
+    	if (this.methods[i].name == name) return true
+    }
+    return false;
+}
+
+Symbol.prototype.hasProperty = function(name) {
+    for (var i = 0; i < this.properties.length; i++) {
+    	if (this.properties[i].name == name) return true
+    }
+    return false;
+}
+
+Symbol.prototype.getInheritedMethods = function() {
+	var inherited = [];
+	for(var i = 0; i < this.inherits.length; i++) {
+		inherited.push(this.file.fileGroup.getSymbol(this.inherits[i]));
+	}
+	var result = this.methods.concat(inherited);
+	for(var i = 0; i < this.augments.length; i++) {
+		var contributer = this.file.fileGroup.getSymbol(this.augments[i]);
+		if (contributer) {
+			result = result.concat(contributer.getInheritedMethods());
+		}
+	}
+	// remove overridden
+	for (var i = 0; i < result.length; i++) {
+		var j = i; 
+		while (++j < result.length) {
+			if (result[j].name == result[i].name) result.splice(j, 1);
+		}
+	}
+	return result;
 }

@@ -25,16 +25,13 @@ function Doclet(comment) {
 		tagTexts.filter(function(el){return el.match(/^\w/)})
 		.map(function(el){return new DocTag(el)});
 	
+	var paramParent = "config"; // default
 	for(var i = 0; i < this.tags.length; i++) {
+		if (this.tags[i].title == "param") paramParent = this.tags[i].name;
 		if (this.tags[i].title == "config") {
-			var paramParent = "config";
-			if (i > 0 && this.tags[i-1].title == "param") paramParent = this.tags[i-1].name;
 			this.tags[i].name = paramParent+"."+this.tags[i].name;
+			this.tags[i].title = "param"
 		}
-	}
-	
-	for(var i = 0; i < this.tags.length; i++) {
-		if (this.tags[i].title == "config") this.tags[i].title = "param"
 	}
 }
 

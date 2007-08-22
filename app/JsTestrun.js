@@ -1,9 +1,11 @@
 /**
+ * @fileOverview
  * @name JsTestrun
- * @overview
- * @version 0.2
- * @author Michael Mathews, micmath@gmail.com
- * @license LGPL version 2, http://www.gnu.org/licenses/lgpl.html
+ * @author Michael Mathews micmath@gmail.com
+ * @url $HeadURL$
+ * @revision $Id$
+ * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
+ *          (See the accompanying README file for full details.)
  */
  
 /**

@@ -1,6 +1,9 @@
 /**
  * @fileOverview
- * @revision $Id: JsPlate.js 27 2007-06-15 22:29:53Z micmath $
+ * @name JsPlate
+ * @author Michael Mathews micmath@gmail.com
+ * @url $HeadURL$
+ * @revision $Id$
  * @license <a href="http://en.wikipedia.org/wiki/MIT_License">X11/MIT License</a>
  *          (See the accompanying README file for full details.)
 

@@ -38,6 +38,7 @@ jsdoc = null;
 
 function testFile(path) {
 	var srcFiles = JsDoc.opt._ = path;
+print("~~~> srcFiles are: "+srcFiles);
 	jsdoc = JsDoc.parse(srcFiles, JsDoc.opt).files;
 }
 
@@ -45,7 +46,7 @@ function testFile(path) {
 //// set up some tests cases, order matters
 
 var testCases = [
-	/*function() {
+	function() {
 		testFile(__DIR__+"test/data/functions.js");
 		ok('typeof(jsdoc) != "undefined"', 'jsdoc must be defined.');
 		is('jsdoc[0].symbols[0].alias', "Layout", 'Nested commented method name can be found.');
@@ -262,16 +263,17 @@ var testCases = [
 		is('jsdoc[0].symbols[1].exceptions[0].type', "OutOfMemory", 'Exception is a synonym for throws.');
 		is('jsdoc[0].symbols[2].exceptions[0].type', "IOException", 'Multiple exception tags allowed, first.');
 		is('jsdoc[0].symbols[2].exceptions[1].type', "PermissionDenied", 'Multiple exception tags allowed, second.');
-	},*/
+	},
 	function() {
 		JsDoc.opt = {a: true};
-		testFile(__DIR__+"test/data/augments.js");
-		is('jsdoc[0].symbols[4].augments[0]', "Layout", 'An inherited class can be found.');
-		is('jsdoc[0].symbols[6].augments[0]', "Page", 'The extends tag is a synonym for inherits.');
-		is('jsdoc[0].symbols[5].inherits.length', 2, 'Multiple inherits are supported.');
-		is('jsdoc[0].symbols[5].inheritedMethods.length', 2, 'Multiple inherited methods are supported.');
-		is('jsdoc[0].symbols[5].inheritedMethods[0].alias', "foo.processFoo", 'First inherited method alias found.');
-		is('jsdoc[0].symbols[5].inheritedMethods[1].name', "doBar", 'Second inherited method name found.');
+		testFile([__DIR__+"test/data/augments.js", __DIR__+"test/data/augments2.js"]);
+		
+		is('jsdoc[0].symbols[4].augments[0]', "Layout", 'An augmented class can be found.');
+		is('jsdoc[0].symbols[6].augments[0]', "Page", 'The extends tag is a synonym for augments.');
+		is('jsdoc[1].symbols[4].augments[0]', "ThreeColumnPage", 'Can augment across file boundaries.');
+		is('jsdoc[1].symbols[4].augments.length', 2, 'Multiple augments are supported.');
+		is('jsdoc[1].symbols[4].inherits[0]', "Junkmail.annoy", 'Inherited method with augments.');
+		is('jsdoc[1].symbols[4].getInheritedMethods().length', 5, 'getInheritedMethods() returns all.');
 	}
 ];
 

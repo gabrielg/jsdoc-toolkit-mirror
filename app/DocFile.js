@@ -8,10 +8,18 @@
  *          (See the accompanying README file for full details.)
  */
 
+/**
+ * @class Represents a collection of docFiles.
+ * @constructor
+ * @author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
+ */
 function DocFileGroup() {
 	this.files = [];
 }
 
+/**
+ * @param {DocFile} docFile Add this docFile to this group.
+ */
 DocFileGroup.prototype.addDocFile = function(docFile) {
 	docFile.fileGroup = this;
 	docFile.fileGroup.circularReference = 1; // keeps dumper from getting dizzy
@@ -19,6 +27,7 @@ DocFileGroup.prototype.addDocFile = function(docFile) {
 }
 
 /**
+ * Search the entire dofFileGroup for a certain symbol.
  * @param {string} alias The full alias name of the symbol.
  * @return {Symbol}
  */

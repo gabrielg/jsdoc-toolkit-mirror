@@ -33,6 +33,8 @@ LOG = {
 	@author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
 */
 JsDoc = {
+	VERSION: "1.3b",
+	
 	/**
 	 * Print out the expected usage syntax for this script on the command
 	 * line. This is called automatically by using the -h/--help option.

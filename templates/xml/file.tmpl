@@ -1,13 +1,13 @@
 <jsdoc>
-	<file>
+	<for each="file" in="data.files">
+	<file path="{+file.path+}">
 		<overview>
-			<name>{+data.overview.name+}</name>
-			<alias>{+data.overview.alias+}</alias>
-			<desc>{+(data.overview.desc)+}</desc>
+			<name>{+file.overview.name+}</name>
+			<desc>{+(file.overview.desc)+}</desc>
 		</overview>
-		<if test="data.symbols">
+		<if test="file.symbols">
 		<symbols>
-			<for each="symbol" in="data.symbols">
+			<for each="symbol" in="file.symbols">
 			<symbol isa="{+symbol.isa+}">
 				<name>{+symbol.name+}</name>
 				<alias>{+symbol.alias+}</alias>
@@ -59,4 +59,5 @@
 		</symbols>
 		</if>
 	</file>
+	</for>
 </jsdoc>

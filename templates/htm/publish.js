@@ -7,7 +7,7 @@ function publish(fileGroup, context) {
 	for (var i = 0; i < fileGroup.files.length; i++) {
 		if (context.d) {
 			var our_name = "_"+((i+1<10)?"0"+(i+1):(i+1))+".htm";
-			index[our_name] = { name: (fileGroup.files[i].filename), classes:[]};
+			index[our_name] = {name: (fileGroup.files[i].filename), classes: []};
 		
 			for (var s = 0; s < fileGroup.files[i].symbols.length; s++) {
 				if (fileGroup.files[i].symbols[s].isa == "CONSTRUCTOR") {

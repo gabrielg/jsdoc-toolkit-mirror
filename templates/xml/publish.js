@@ -1,14 +1,15 @@
-function publish(files, context) {
+function publish(fileGroup, context) {
 	var file_template = new JsPlate(context.t+"file.tmpl");
 	
 	var file_map = {};
-	for (var i = 0; i < files.length; i++) {
-		var output = file_template.process(files[i]);
+	
+	for (var i = 0; i < fileGroup.files.length; i++) {
+		var output = file_template.process(fileGroup.files[i]);
 	
 		if (context.d) {
 			var our_name = "_"+(i+1)+".xml";
 			IO.saveFile(context.d, our_name, output);
-			file_map[our_name] = (files[i].overview.name || files[i].overview.alias);
+			file_map[our_name] = (fileGroup.files[i].overview.name || fileGroup.files[i].overview.alias);
 		}
 	}
 	

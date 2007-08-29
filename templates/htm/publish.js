@@ -5,8 +5,6 @@ function publish(fileGroup, context) {
 	
 	var index = {};
 	for (var i = 0; i < fileGroup.files.length; i++) {
-		
-		
 		if (context.d) {
 			var our_name = "_"+((i+1<10)?"0"+(i+1):(i+1))+".htm";
 			index[our_name] = { name: (fileGroup.files[i].filename), classes:[]};

@@ -349,8 +349,9 @@ JsParse.prototype._onFnBody = function(nspace, fs) {
 					}
 				}
 			}
-			else if (this._findFunction(fs)) {
-		
+			// like <thisfunction>.prototype.foo =
+			else if (name.indexOf(nspace+".prototype.") == 0) {
+				this._findFunction(fs);
 			}
 		}
 		if (!fs.next()) break;

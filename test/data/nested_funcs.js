@@ -14,13 +14,11 @@ Foo = function(id) {
 	  alert(bar2);
 	};
 	
-	// but this is just inaccessible from outside the enclosing function
+	// and these are only executed if the enclosing function is actually called
+	// and who knows if that will ever happen?
 	Bar = function(pez) {
 	  alert(pez);
 	};
-	
-	// and this only executed if the enclosing function is actually called
-	// and who knows if that will ever happen?
 	Zop.prototype.zap = function(p){
 		alert(p);
 	}

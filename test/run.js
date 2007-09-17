@@ -273,6 +273,15 @@ var testCases = [
 		is('jsdoc[1].symbols[4].augments.length', 2, 'Multiple augments are supported.');
 		is('jsdoc[1].symbols[4].inherits[0]', "Junkmail.annoy", 'Inherited method with augments.');
 		is('jsdoc[1].symbols[4].getInheritedMethods().length', 5, 'getInheritedMethods() returns all.');
+	},
+	function() {
+		JsDoc.opt = {A: true};
+		testFile(__DIR__+"test/data/nested_funcs.js");
+		
+		is('jsdoc[0].symbols[0].alias', "Foo", 'An enclosing function is seen.');
+		is('jsdoc[0].symbols[1].alias', "Foo.methodOne", 'A nested function attached to the enclosing prototype is seen.');
+		is('jsdoc[0].symbols[2].alias', "Foo.methodTwo", 'A second nested method is seen.');
+		is('jsdoc[0].symbols.length', 3, 'Nested functions unattached to the enclosing prototype is not seen.');
 	}
 ];
 

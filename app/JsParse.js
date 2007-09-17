@@ -349,6 +349,9 @@ JsParse.prototype._onFnBody = function(nspace, fs) {
 					}
 				}
 			}
+			else if (this._findFunction(fs)) {
+		
+			}
 		}
 		if (!fs.next()) break;
 	}

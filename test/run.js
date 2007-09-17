@@ -38,7 +38,6 @@ jsdoc = null;
 
 function testFile(path) {
 	var srcFiles = JsDoc.opt._ = path;
-print("~~~> srcFiles are: "+srcFiles);
 	jsdoc = JsDoc.parse(srcFiles, JsDoc.opt).files;
 }
 

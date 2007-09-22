@@ -101,7 +101,7 @@ thisClass = data[0];
 			<td>
 				<code><b><a href="#{+property.name+}">{+property.name+}</a></b></code> 
 				<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+property.desc+}
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{+property.desc.replace(/(\w*\.) .*/,"$1")+}
 			</td>
 		</tr>
 	</for>
@@ -126,7 +126,7 @@ thisClass = data[0];
 		</code>
 		  <br>
 		  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		  {+cn.desc+}
+		  {+cn.desc.replace(/(\w*\.) .*/,"$1")+}
 		  </td>
 	</tr>
 </for>
@@ -154,7 +154,8 @@ thisClass = data[0];
 			<td>
 				<code> <b> <a href="#{+method.name+}">{+method.name+}</a></b>({+method.signature()+}) </code> 
 				<br>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {+method.desc+} 
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {+method.desc.replace(/(\w*\.) .*/,"$1")+}
+ 
 			</td>
 		</tr>
 	</for>

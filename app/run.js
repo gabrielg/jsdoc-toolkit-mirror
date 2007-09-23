@@ -85,12 +85,13 @@ function Main() {
 	LOG.inform(srcFiles.length+" source file"+((srcFiles ==1)?"":"s")+" found:\n\t"+srcFiles.join("\n\t"));
 	var fileGroup = JsDoc.parse(srcFiles, JsDoc.opt);
 	
-	JsDoc.DEFINE = {};
 	if (JsDoc.opt.D) {
+		var defines = {};
 		for (var i = 0; i < JsDoc.opt.D.length; i++) {
 			var defineParts = JsDoc.opt.D[i].split(":", 2);
-			JsDoc.DEFINE[defineParts[0]] = defineParts[1];
+			defines[defineParts[0]] = defineParts[1];
 		}
+		JsDoc.opt.D = defines;
 	}
 	
 	if (JsDoc.opt.t) {

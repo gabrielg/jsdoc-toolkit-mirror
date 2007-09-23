@@ -94,7 +94,7 @@ function Main() {
 		JsDoc.opt.D = defines;
 	}
 	
-	if (JsDoc.opt.t) {
+	if (JsDoc.opt.t && IO.exists(JsDoc.opt.t)) {
 		JsDoc.opt.t += (JsDoc.opt.t.indexOf(IO.FileSeparator)==JsDoc.opt.t.length-1)?
 			"" : IO.FileSeparator;
 		LOG.inform("Loading template: "+JsDoc.opt.t+"publish.js");

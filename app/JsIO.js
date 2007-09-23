@@ -107,6 +107,27 @@ var IO = {
 	},
 	
 	/**
+	 * Check if a filepath exists.
+	 * @author vinces1979
+	 */
+	exists: function(path) {
+		file = new File(path);
+
+		if (file.isDirectory()){
+			return true;
+		}
+		if (!file.exists()){
+			LOG.inform('Path not found: ' + path);
+			return false;
+		}
+		if (!file.canRead()){
+			LOG.inform('Path not readable: ' + path);
+			return false;
+		}
+		return true;
+	},
+	
+	/**
 	 * Create an open filehandle.
 	 * @param {string} path Path to file to open.
 	 * @param {boolean} append Open in append mode?

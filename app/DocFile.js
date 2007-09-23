@@ -47,7 +47,7 @@ DocFileGroup.prototype.getSymbol = function(alias) {
 function DocFile(path) {
 	this.path = path;
 	this.filename = Util.fileName(this.path);
-	this.overview = new Symbol(this.filename, [], "FILE", "/** @overview No overview provided. */");
+	this.overview = new Symbol(this.filename, [], "FILE", "/** @overview */");
 	this.symbols = [];
 	fileGroup = null;
 }

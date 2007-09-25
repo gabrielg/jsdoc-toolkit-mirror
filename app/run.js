@@ -48,7 +48,12 @@ require("app/JsPlate.js");
 /** The main function. Called automatically. */
 function Main() {
 	if (JsDoc.opt.o) LOG.out = IO.open(JsDoc.opt.o, true);
-	
+	if (JsDoc.opt.c) {
+		eval('conf = '+IO.readFile(JsDoc.opt.c));
+		for (var c in conf) {
+			JsDoc.opt[c] = conf[c];
+		}
+	}
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
 	
 	var ext = ["js"];
@@ -65,6 +70,7 @@ function Main() {
 	else if (!JsDoc.opt.d) {
 		JsDoc.opt.d = "js_docs_out";
 	}
+
 	JsDoc.opt.d += (JsDoc.opt.d.indexOf(IO.FileSeparator) == JsDoc.opt.d.length-1)?
 		"" : IO.FileSeparator;
 	LOG.inform("Creating output directory: "+JsDoc.opt.d);

@@ -115,6 +115,9 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 				if (symbols[s].is("FUNCTION")) {
 					parent.methods.push(symbols[s]);
 				}
+                if (symbols[s].is("EVENT")) {
+					parent.events.push(symbols[s]);
+				}
 			}
 		}
 		

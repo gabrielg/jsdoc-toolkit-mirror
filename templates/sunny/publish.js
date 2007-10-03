@@ -20,7 +20,6 @@ function publish(fileGroup, context) {
 		for (var s = 0; s < fileGroup.files[i].symbols.length; s++) {
 			if (fileGroup.files[i].symbols[s].isa == "CONSTRUCTOR") {
 				var thisClass = fileGroup.files[i].symbols[s];
-				
 				// sort inherited methods by class
 				var inheritedMethods = fileGroup.files[i].symbols[s].getInheritedMethods();
 				if (inheritedMethods.length > 0) {

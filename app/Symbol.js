@@ -13,6 +13,7 @@ SYM = {
 	FUNCTION:		"FUNCTION",
 	CONSTRUCTOR:	"CONSTRUCTOR",
 	VIRTUAL:		"VIRTUAL",
+    EVENT:          "EVENT"
 };
 
 /**
@@ -35,6 +36,7 @@ function Symbol(name, params, isa, comment) {
 	this.file = {};
 	this.returns = [];
 	this.exceptions = [];
+    this.events= [];
 	this.doc = new Doclet(comment);
 	
 	// move certain data out of the tags and into the Symbol
@@ -80,6 +82,12 @@ function Symbol(name, params, isa, comment) {
 		if ((functions = this.doc.getTag("function")) && functions.length) {
 			this.isa = SYM.FUNCTION;
 			this.doc._dropTag("function");
+		}
+        
+        var events;
+		if ((events = this.doc.getTag("event")) && events.length) {
+			this.isa = SYM.EVENT;
+			this.doc._dropTag("event");
 		}
 		
 		var methods;
@@ -187,6 +195,13 @@ Symbol.prototype.signature = function() {
 Symbol.prototype.hasMethod = function(name) {
     for (var i = 0; i < this.methods.length; i++) {
     	if (this.methods[i].name == name) return true
+    }
+    return false;
+}
+
+Symbol.prototype.hasEvent = function(name) {
+    for (var i = 0; i < this.events.length; i++) {
+    	if (this.events[i].name == name) return true
     }
     return false;
 }

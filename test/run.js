@@ -257,7 +257,6 @@ var testCases = [
 	function() {
 		JsDoc.opt = {a: true};
 		testFile(__DIR__+"test/data/throws.js");
-		//print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[0].exceptions[0]', "This is the label text.", 'Throws can be found.');
 		is('jsdoc[0].symbols[1].exceptions[0].type', "OutOfMemory", 'Exception is a synonym for throws.');
 		is('jsdoc[0].symbols[2].exceptions[0].type', "IOException", 'Multiple exception tags allowed, first.');
@@ -266,7 +265,6 @@ var testCases = [
 	function() {
 		JsDoc.opt = {a: true};
 		testFile([__DIR__+"test/data/augments.js", __DIR__+"test/data/augments2.js"]);
-		
 		is('jsdoc[0].symbols[4].augments[0]', "Layout", 'An augmented class can be found.');
 		is('jsdoc[0].symbols[6].augments[0]', "Page", 'The extends tag is a synonym for augments.');
 		is('jsdoc[1].symbols[4].augments[0]', "ThreeColumnPage", 'Can augment across file boundaries.');
@@ -277,11 +275,19 @@ var testCases = [
 	function() {
 		JsDoc.opt = {A: true};
 		testFile(__DIR__+"test/data/nested_funcs.js");
-		
 		is('jsdoc[0].symbols[0].alias', "Foo", 'An enclosing function is seen.');
 		is('jsdoc[0].symbols[1].alias', "Foo.methodOne", 'A nested function attached to the enclosing prototype is seen.');
 		is('jsdoc[0].symbols[2].alias', "Foo.methodTwo", 'A second nested method is seen.');
 		is('jsdoc[0].symbols.length', 3, 'Nested functions unattached to the enclosing prototype is not seen.');
+	},
+	function() {
+		JsDoc.opt = {};
+		testFile(__DIR__+"test/data/events.js");
+		//print(Dumper.dump(jsdoc));
+		is('jsdoc[0].symbols[0].events.length', 1, 'An event appears in th eevents array.');
+		is('jsdoc[0].symbols[0].events[0].isa', 'EVENT', 'The event isa EVENT.');
+		is('jsdoc[0].symbols[0].events[0].alias', 'Header.changeHeaderEvent', 'The name of the event can be is seen.');
+
 	}
 ];
 

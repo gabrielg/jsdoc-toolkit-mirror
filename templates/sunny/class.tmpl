@@ -10,7 +10,8 @@ function byName(a, b) {
 }
 
 function summarize(desc) {
-	return desc.split(/\. /, 1)+".";
+	if (typeof desc != "undefined")
+		return desc.match(/([\w\W]+?\.)[^a-z0-9]/i)? RegExp.$1 : desc;
 }
 
 thisClass = data[0];

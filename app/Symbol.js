@@ -29,6 +29,8 @@ function Symbol(name, params, isa, comment) {
 	this.desc = "";
 	this.classDesc = "";
 	this.memberof = "";
+	this.since = "";
+	this.version = "";
 	this.augments = [];
 	this.inherits = [];
 	this.properties = [];
@@ -36,7 +38,7 @@ function Symbol(name, params, isa, comment) {
 	this.file = {};
 	this.returns = [];
 	this.exceptions = [];
-    this.events= [];
+    this.events = [];
 	this.doc = new Doclet(comment);
 	
 	// move certain data out of the tags and into the Symbol
@@ -55,6 +57,18 @@ function Symbol(name, params, isa, comment) {
 		this.doc._dropTag("overview");
 	}
 	else {
+		var since;
+		if ((since = this.doc.getTag("since")) && since.length) {
+			this.since = since[0].desc;
+			this.doc._dropTag("since");
+		}
+		
+		var version;
+		if ((version = this.doc.getTag("version")) && version.length) {
+			this.version = version[0].desc;
+			this.doc._dropTag("version");
+		}
+		
 		var descs;
 		if ((descs = this.doc.getTag("desc")) && descs.length) {
 			this.desc = descs[0].desc;

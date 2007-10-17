@@ -78,10 +78,11 @@ function DocTag(src) {
 				}
 			}
 			else if (this.title == "config") {
-				m = this.desc.match(/^\s*([a-zA-Z0-9.$_]+)(?:\s+([\S\s]*\S))?/);
+				m = this.desc.match(/^\s*(\[?)([a-zA-Z0-9.$_]+)(\]?)(?:\s+([\S\s]*\S))?/);
 				if (m) {
-					this.name = (m[1] || "");
-					this.desc = (m[2] || "");
+					this.isOptional = (!!m[1] && !!m[3]); // bracketed name means optional
+					this.name = (m[2] || "");
+					this.desc = (m[4] || "");
 				}
 			}
 		}

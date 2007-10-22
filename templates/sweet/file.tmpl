@@ -132,6 +132,10 @@
 				<if test="symbol.desc != 'undocumented'">
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
+
+				<if test="symbol.doc.getTag('since').length">
+				<div>Since: {+ symbol.doc.getTag('since').shift(); +}</div>
+				</if>
 				
 				<for each="example" in="symbol.doc.getTag('example')">
 					<pre class="code">{+example.desc+}</pre>

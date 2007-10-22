@@ -15,6 +15,10 @@ function summarize(desc) {
 }
 
 thisClass = data[0];
+if (thisClass.methods) thisClass.methods.sort(byName);
+if (thisClass.properties) thisClass.properties.sort(byName);
+if (thisClass.events) thisClass.events.sort(byName);
+
 !}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 	"http://www.w3.org/TR/html4/loose.dtd">
@@ -98,7 +102,7 @@ thisClass = data[0];
 			<font size="+2"> <b>Field Summary</b></font>
 		</td>
 	</tr>
-	<for each="property" in="thisClass.properties.sort(byName)">
+	<for each="property" in="thisClass.properties">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
 				<font size="-1"><code><if test="property.isPrivate">&lt;private&gt;&nbsp;</if><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+}</code></font>
@@ -149,7 +153,7 @@ thisClass = data[0];
 			<font size="+2"> <b>Method Summary</b></font>
 		</td>
 	</tr>
-	<for each="method" in="thisClass.methods.sort(byName)">
+	<for each="method" in="thisClass.methods">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
 				<font size="-1"><code><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt; </if><if test="method.returns.length">
@@ -177,7 +181,7 @@ thisClass = data[0];
 			<font size="+2"> <b>Event Summary</b></font>
 		</td>
 	</tr>
-	<for each="event" in="thisClass.events.sort(byName)">
+	<for each="event" in="thisClass.events">
 		<tr bgcolor="white" class="TableRowColor">
 			<td align="right" valign="top" width="1%">
 				<font size="-1"><code><if test="event.isPrivate">&lt;private&gt;&nbsp;</if>
@@ -236,7 +240,7 @@ thisClass = data[0];
 	</tr>
 </table>
 
-<for each="property" in="thisClass.properties.sort(byName)">
+<for each="property" in="thisClass.properties">
 	<!-- One single method detail entry -->
 	<a name="{+property.name+}">
 	<!-- -->
@@ -299,7 +303,7 @@ thisClass = data[0];
 	</tr>
 </table>
 
-<for each="method" in="thisClass.methods.sort(byName)">
+<for each="method" in="thisClass.methods">
 	<a name="{+method.name+}"> </a> <h3>{+method.name+}</h3>
 		<pre><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt;&nbsp;</if><if test="method.returns.length"><for each="ret" in="method.returns">{+ret.type+}&nbsp;</for></if><b>{+method.name+}</b>({+method.signature()+})</pre> 
 	<ul>
@@ -346,7 +350,7 @@ thisClass = data[0];
 	</tr>
 </table>
 
-<for each="event" in="thisClass.events.sort(byName)">
+<for each="event" in="thisClass.events">
 	<a name="{+event.name+}"> </a> <h3>{+event.name+}</h3>
 		<pre><if test="event.isPrivate">&lt;private&gt;&nbsp;</if><if test="event.isStatic||!event.memberof">&lt;static&gt;&nbsp;</if><if test="event.returns.length"><for each="ret" in="event.returns">{+ret.type+}&nbsp;</for></if><b>{+event.name+}</b>({+event.signature()+})</pre> 
 	<ul>

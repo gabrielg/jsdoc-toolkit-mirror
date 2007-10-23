@@ -246,7 +246,23 @@ JsParse.prototype._onObLiteral = function(nspace, ts) {
 				}
 				
 				var body = ts.balance("LEFT_CURLY");
-
+				
+				// like foo: function(n) {return n}(42)
+				if (ts.look(1).is("LEFT_PAREN")) {
+					isa = SYM.OBJECT;
+					
+					ts.balance("LEFT_PAREN");
+					//if (doc) { // we only keep these if they're documented
+						//name = name.replace(/\.prototype\.?/, "/");
+							
+						//if (!/\/$/.test(name)) { // assigning to prototype of already existing symbol
+						//	this.symbols.push(new Symbol(name, [], isa, doc));
+						//}
+					//}
+					//this._onFnBody(name, new TokenStream(body));
+					//return true;
+				}
+			
 				this.symbols.push(new Symbol(name, params, isa, doc));
 				
 				// find methods in the body of this function

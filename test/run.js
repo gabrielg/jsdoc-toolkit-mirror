@@ -288,7 +288,17 @@ var testCases = [
 		is('jsdoc[0].symbols[0].events[0].isa', 'EVENT', 'The event isa EVENT.');
 		is('jsdoc[0].symbols[0].events[0].alias', 'Header.changeHeaderEvent', 'The name of the event can be is seen.');
 
+	},
+	function() {
+		JsDoc.opt = {A: true};
+		testFile(__DIR__+"test/data/function_property.js");
+		is('jsdoc[0].symbols[0].isa', 'OBJECT', 'Inline functions that are evaluated are objects.');
+		is('jsdoc[0].symbols[1].isa', 'FUNCTION', 'Inline functions that are not evaluated are functions.');
+		is('jsdoc[0].symbols[1].alias', 'WH.FLAG.w3c.getLevel', 'Nested functions inside inline functions that are evaluated are objects are found.');
+		is('jsdoc[0].symbols[2].isa', 'FUNCTION', 'Inline functions that are not evaluated are functions.');
+
 	}
+	
 ];
 
 

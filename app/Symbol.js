@@ -164,7 +164,7 @@ function Symbol(name, params, isa, comment) {
 			this.isa = "CONSTRUCTOR"; // a class tag implies a conctuctor doclet
 			
 			this.classDesc += "\n"+classes[0].desc; // multiple class tags are concatenated
-			this.doc._dropTag("class");
+			//this.doc._dropTag("class");
 		}
 		
 		var inherits;

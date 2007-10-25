@@ -8,7 +8,7 @@
  *          (See the accompanying README file for full details.)
  */
 
-/** @class Handle reporting messages to the user
+/** @class Handle reporting messages to the user.
 	@static
 */
 LOG = {
@@ -33,7 +33,8 @@ LOG = {
 	@author Michael Mathews <a href="mailto:micmath@gmail.com">micmath@gmail.com</a>
 */
 JsDoc = {
-	VERSION: "1.3.3",
+	/** The version number of this release. */
+	VERSION: "1.3.4",
 	
 	/**
 	 * Print out the expected usage syntax for this script on the command

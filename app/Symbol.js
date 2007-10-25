@@ -60,13 +60,11 @@ function Symbol(name, params, isa, comment) {
 		var since;
 		if ((since = this.doc.getTag("since")) && since.length) {
 			this.since = since[0].desc;
-			this.doc._dropTag("since");
 		}
 		
 		var version;
 		if ((version = this.doc.getTag("version")) && version.length) {
 			this.version = version[0].desc;
-			this.doc._dropTag("version");
 		}
 		
 		var descs;

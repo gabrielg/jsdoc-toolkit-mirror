@@ -48,6 +48,10 @@
 					<div class="desc">{+symbol.desc+}</div>
 				</if>
 				
+				<for each="version" in="symbol.doc.getTag('version')">
+					<div><b>Version:</b> {+version+}</div>
+				</for>
+				
 				<for each="example" in="symbol.doc.getTag('example')">
 					<pre class="code">{+example.desc+}</pre>
 				</for>
@@ -134,7 +138,7 @@
 				</if>
 
 				<if test="symbol.doc.getTag('since').length">
-				<div>Since: {+ symbol.doc.getTag('since').shift(); +}</div>
+				<div><b>Since:</b> {+ symbol.doc.getTag('since').shift(); +}</div>
 				</if>
 				
 				<for each="example" in="symbol.doc.getTag('example')">
@@ -194,6 +198,7 @@
 			</div>
 			</if>
 			</for>
+			</div>
 			
 			<div class="sectionHead">Objects</div>
 			<for each="symbol" in="data.symbols">
@@ -214,6 +219,10 @@
 				
 				<if test="symbol.desc != 'undocumented'">
 					<div class="desc">{+symbol.desc+}</div>
+				</if>
+				
+				<if test="symbol.doc.getTag('since').length">
+				<div><b>Since:</b> {+ symbol.doc.getTag('since').shift(); +}</div>
 				</if>
 				
 				<for each="example" in="symbol.doc.getTag('example')">

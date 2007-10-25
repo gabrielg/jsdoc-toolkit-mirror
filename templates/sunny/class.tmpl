@@ -171,6 +171,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 </table>
 &nbsp;
 </if>
+
 <!-- ========== EVENT SUMMARY =========== -->
 <if test="thisClass.events">
 <if test="thisClass.events.length">
@@ -205,6 +206,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 &nbsp;
 </if>
 </if>
+
 <!-- ========== INHERITED METHODS SUMMARY =========== -->
 <if test="thisClass.inherited">
 	<table border="1" cellpadding="3" cellspacing="0" width="100%">
@@ -248,6 +250,9 @@ if (thisClass.events) thisClass.events.sort(byName);
 		<pre><if test="property.isPrivate">&lt;private&gt;&nbsp;</if><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+} <b>{+property.name+}</b></pre> 
 	<ul>
 		{+property.desc+}
+		<for each="since" in="property.doc.getTag('since')">
+			<br><b>Since:</b> {+since+}<br/>
+		</for>
 	</ul>
 	<hr>
 </for>
@@ -271,7 +276,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 <for each="cn" in="data">
 	<pre><b>{+cn.alias+}</b>({+cn.signature()+})</pre>
 	<ul>
-	   {+cn.desc+}
+		{+cn.desc+}
 	</ul>
 	
 	<!-- PARAMETERS START -->
@@ -308,6 +313,9 @@ if (thisClass.events) thisClass.events.sort(byName);
 		<pre><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt;&nbsp;</if><if test="method.returns.length"><for each="ret" in="method.returns">{+ret.type+}&nbsp;</for></if><b>{+method.name+}</b>({+method.signature()+})</pre> 
 	<ul>
 		{+method.desc+}
+		<for each="since" in="method.doc.getTag('since')">
+			<br><b>Since:</b> {+since+}<br/>
+		</for>
 	</ul>
 	<!-- METHOD PARAMETERS START -->
 	<if test="method.params.length"><ul>
@@ -336,8 +344,6 @@ if (thisClass.events) thisClass.events.sort(byName);
 </if>
 <!-- ============ METHOD DETAIL END ========== -->
 
-
-
 <!-- ============ EVENT DETAIL START ======= -->
 <if test="thisClass.events">
 <if test="thisClass.events.length">
@@ -355,6 +361,9 @@ if (thisClass.events) thisClass.events.sort(byName);
 		<pre><if test="event.isPrivate">&lt;private&gt;&nbsp;</if><if test="event.isStatic||!event.memberof">&lt;static&gt;&nbsp;</if><if test="event.returns.length"><for each="ret" in="event.returns">{+ret.type+}&nbsp;</for></if><b>{+event.name+}</b>({+event.signature()+})</pre> 
 	<ul>
 		{+event.desc+}
+		<for each="since" in="event.doc.getTag('since')">
+			<br><b>Since:</b> {+since+}<br/>
+		</for>
 	</ul>
 	<!-- EVENT PARAMETERS START -->
 	<if test="event.params.length"><ul>

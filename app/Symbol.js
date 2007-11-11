@@ -21,6 +21,17 @@ SYM = {
 	@constructor
 */
 function Symbol(name, params, isa, comment) {
+	if (isa == "META") {
+		if (comment.indexOf("/**#@+") == 0) { // start of shared doclet
+			Symbol.shared = Doclet.unwrapComment(comment.replace("/**#@+", "/**"));
+		}
+		else if (comment.indexOf("/**#@-") == 0) { // end of shared doclet
+			Symbol.shared = "";
+		}
+		return;
+	}
+	comment = Symbol.shared+"\n"+Doclet.unwrapComment(comment);
+	
 	this.name = name;
 	this.params = (params || []);
 	this.isa = (isa || SYM.OBJECT);
@@ -69,7 +80,7 @@ function Symbol(name, params, isa, comment) {
 		
 		var descs;
 		if ((descs = this.doc.getTag("desc")) && descs.length) {
-			this.desc = descs[0].desc;
+			this.desc = descs.join("\n"); // multiple descriptions are concatenated into one
 			this.doc._dropTag("desc");
 		}
 		
@@ -186,7 +197,7 @@ function Symbol(name, params, isa, comment) {
 		Symbol.index[this.alias] = this;
 	}
 }
-
+Symbol.shared = ""; // holds shared doclets
 Symbol.index = {};
 
 Symbol.prototype.is = function(what) {

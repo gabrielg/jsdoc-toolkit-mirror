@@ -16,11 +16,7 @@
  * closing star-slash are optional. An untagged string at the start automatically gets a "desc" tag.
  */
 function Doclet(comment) {
-	if (!comment) comment = "/** @desc undocumented */";
-
-	var src = comment.replace(/(^\/\*\*|\*\/$)/g, "").replace(/^\s*\* ?/gm, "");
-	if (src.match(/^\s*[^@\s]/)) src = "@desc "+src;
-	
+	var src = Doclet.unwrapComment(comment);
 	var tagTexts = src.split(/(^|[\r\f\n])\s*@/);
 	
 	this.tags =
@@ -35,6 +31,17 @@ function Doclet(comment) {
 			this.tags[i].title = "param"
 		}
 	}
+}
+
+/**
+ * Remove the slashes and stars from a doc comment.
+ */
+Doclet.unwrapComment = function(comment) {
+	if (!comment) comment = "/** @desc undocumented */";
+
+	var unwrapped = comment.replace(/(^\/\*\*|\*\/$)/g, "").replace(/^\s*\* ?/gm, "");
+	if (unwrapped.match(/^\s*[^@\s]/)) unwrapped = "@desc "+unwrapped;
+	return unwrapped;
 }
 
 /**

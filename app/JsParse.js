@@ -48,7 +48,13 @@ JsParse.prototype.parse = function(tokenStream) {
 JsParse.prototype._findDocComment = function(ts) {
 	if (ts.look().is("JSDOC")) {
 		var doc = ts.look().data;
-		if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
+
+		if (doc.indexOf("/**#") == 0) {
+			new Symbol("", [], "META", doc);
+			delete ts.tokens[ts.cursor];
+			return true;
+		}
+		else if (/@(projectdescription|(file)?overview)\b/i.test(doc)) {
 			this.overview = new Symbol("", [], "FILE", doc);
 			delete ts.tokens[ts.cursor];
 			return true;

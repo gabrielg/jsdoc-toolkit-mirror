@@ -48,6 +48,9 @@ require("app/JsPlate.js");
 /** The main function. Called automatically. */
 function Main() {
 	if (JsDoc.opt.o) LOG.out = IO.open(JsDoc.opt.o, true);
+	if (!JsDoc.opt.e) JsDoc.opt.e = "utf-8";
+	IO.setEncoding(JsDoc.opt.e);
+
 	if (JsDoc.opt.c) {
 		eval('conf = '+IO.readFile(JsDoc.opt.c));
 		for (var c in conf) {
@@ -117,5 +120,5 @@ function Main() {
 	if (LOG.out) LOG.out.close();
 }
 
-JsDoc.opt = Util.getOptions(arguments, {d:'directory', t:'template', r:'recurse', x:'ext', p:'private', a:'allfunctions', A:'Allfunctions', o:'out', h:'help', 'D[]':'define'});
+JsDoc.opt = Util.getOptions(arguments, {d:'directory', t:'template', r:'recurse', x:'ext', p:'private', a:'allfunctions', A:'Allfunctions', e:'encoding', o:'out', h:'help', 'D[]':'define'});
 Main();

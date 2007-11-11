@@ -26,11 +26,16 @@ var IO = {
 	 * @param {string} content To write to the new file.
 	 */
 	saveFile: function(outDir, fileName, content) {
-		var out = new FileWriter(outDir+IO.FileSeparator+fileName);
-		out.write(content);
-		out.flush();
-		out.close();
-	},
+        var out = new Packages.java.io.PrintWriter(
+			new Packages.java.io.OutputStreamWriter(
+				new Packages.java.io.FileOutputStream(outDir+IO.FileSeparator+fileName),
+				IO.encoding
+			)
+		);
+        out.write(content);
+        out.flush();
+        out.close();
+    },
 	
 	/**
 	 * Gets the contents of a file.
@@ -38,8 +43,8 @@ var IO = {
 	 * @return {string} The contents of the file at the given location.
 	 */
 	readFile: function(path) {
-		return readFile(path);
-	},
+        return readFile(path, IO.encoding);
+    },
 	
 	/**
 	 * Use to copy a file from one directory to another. Can take binary files too.
@@ -134,9 +139,25 @@ var IO = {
 	 * @return {FileWriter} A filehandle that can write(string) and close().
 	 */
 	open: function(path, append) {
-		var append = true;
-		var outFile = new File(path);
-		var out = FileWriter(path, append);
-		return out;
-	}
+        var append = true;
+        var outFile = new Packages.java.io.File(path);
+        var out = new Packages.java.io.PrintWriter(
+			new Packages.java.io.OutputStreamWriter(
+				new Packages.java.io.FileOutputStream(outFile, append),
+				IO.encoding
+			)
+		);
+        return out;
+    },
+    
+    setEncoding: function(encoding) {
+    	if (/ISO-8859-([0-9]+)/i.test(encoding)) {
+    		IO.encoding = "ISO8859_"+RegExp.$1;
+    	}
+    	else {
+    		IO.encoding = encoding
+    	}
+    }
 };
+
+IO.encoding = "utf-8";

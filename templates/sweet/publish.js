@@ -18,7 +18,7 @@ function publish(fileGroup, context) {
 			// make copy original source code with syntax hiliting
 			var sourceFile = fileGroup.files[i].path;
 			if (sourceFile) {
-				var hiliter = new JsHilite(IO.readFile(sourceFile), JsDoc.opt.D.charset);
+				var hiliter = new JsHilite(IO.readFile(sourceFile), JsDoc.opt.e);
 				IO.saveFile(context.d, "src"+our_name, hiliter.hilite());
 				
 				fileGroup.files[i].source = "src"+our_name;

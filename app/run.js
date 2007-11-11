@@ -99,6 +99,9 @@ function Main() {
 		}
 		JsDoc.opt.D = defines;
 	}
+	else {
+		JsDoc.opt.D = {};
+	}
 	
 	if (JsDoc.opt.t && IO.exists(JsDoc.opt.t)) {
 		JsDoc.opt.t += (JsDoc.opt.t.indexOf(IO.FileSeparator)==JsDoc.opt.t.length-1)?

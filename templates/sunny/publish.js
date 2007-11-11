@@ -49,7 +49,7 @@ function publish(fileGroup, context) {
 		}
 		
 		if (!allFiles[fileGroup.files[i].path]) {
-			var hiliter = new JsHilite(IO.readFile(fileGroup.files[i].path));
+			var hiliter = new JsHilite(IO.readFile(fileGroup.files[i].path), JsDoc.opt.D.charset);
 			IO.saveFile(context.d, file_srcname, hiliter.hilite());
 		}
 		fileGroup.files[i].source = file_srcname;

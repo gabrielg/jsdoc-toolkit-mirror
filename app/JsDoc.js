@@ -34,7 +34,7 @@ LOG = {
 */
 JsDoc = {
 	/** The version number of this release. */
-	VERSION: "1.3.4",
+	VERSION: "1.4.0b",
 	
 	/**
 	 * Print out the expected usage syntax for this script on the command

@@ -44,6 +44,7 @@ function Symbol(name, params, isa, comment) {
 	this.version = "";
 	this.augments = [];
 	this.inherits = [];
+	this._inheritsFrom = [];
 	this.properties = [];
 	this.methods = [];
 	this.file = {};
@@ -235,6 +236,14 @@ Symbol.prototype.hasProperty = function(name) {
     return false;
 }
 
+Array.prototype.isUnique = function() {
+	var l = this.length;
+	for(var i = 0; i < l; i++ ) {
+		if (this.lastIndexOf(this[i]) > i) return false;
+	}
+	return true;
+};
+
 Symbol.prototype.getInheritedMethods = function(r) {
 	var inherited = [];
 	for(var i = 0; i < this.inherits.length; i++) {
@@ -244,7 +253,15 @@ Symbol.prototype.getInheritedMethods = function(r) {
 	for(var i = 0; i < this.augments.length; i++) {
 		var contributer = this.file.fileGroup.getSymbol(this.augments[i]);
 		if (contributer) {
-			result = result.concat(contributer.getInheritedMethods(true));
+			this._inheritsFrom.push(contributer.alias);
+			
+			if (!this._inheritsFrom.isUnique()) {
+				LOG.warn("Circular reference: "+this.alias+" inherits from the same symbol more than once.");
+			}
+			else {
+				result = result.concat(contributer.getInheritedMethods(true));
+				this._inheritsFrom = [];
+			}
 		}
 	}
 	// remove overridden

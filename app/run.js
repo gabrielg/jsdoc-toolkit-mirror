@@ -1,4 +1,4 @@
-
+var VERBOSE = false;
 try {
 	importClass(java.lang.System);
 }
@@ -19,7 +19,7 @@ function require(lib) {
 				libErrors.push('Could not find: ['+(libDirs[i]+lib)+']');
 			}
 			else {
-				print("Loading: ["+(libDirs[i]+lib)+"] ...");
+				if (VERBOSE) print("Loading: ["+(libDirs[i]+lib)+"] ...");
 				load(libDirs[i]+lib);
 				return;
 			}
@@ -36,6 +36,10 @@ function require(lib) {
 
 require("app/JsDoc.js");
 require("app/Util.js");
+
+JsDoc.opt = Util.getOptions(arguments, {d:'directory', t:'template', r:'recurse', x:'ext', p:'private', a:'allfunctions', A:'Allfunctions', e:'encoding', o:'out', h:'help', 'D[]':'define'});
+VERBOSE = JsDoc.opt.v;
+
 require("app/JsIO.js");
 require("app/Symbol.js");
 require("app/JsToke.js");
@@ -57,7 +61,7 @@ function Main() {
 			JsDoc.opt[c] = conf[c];
 		}
 	}
-	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t == "") JsDoc.usage();
+	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t === true) JsDoc.usage();
 	
 	var ext = ["js"];
 	if (JsDoc.opt.x) ext = JsDoc.opt.x.split(",").map(function(x) {return x.toLowerCase()});
@@ -116,9 +120,14 @@ function Main() {
 		publish(fileGroup, JsDoc.opt);
 		LOG.inform("Finished.");
 	}
+	else {
+		LOG.warn("Use the -t option to specify a template for formatting.");
+		LOG.warn("Dumping results to stdout.");
+		require("app/Dumper.js");
+		print(Dumper.dump(fileGroup));
+	}
 	
 	if (LOG.out) LOG.out.close();
 }
 
-JsDoc.opt = Util.getOptions(arguments, {d:'directory', t:'template', r:'recurse', x:'ext', p:'private', a:'allfunctions', A:'Allfunctions', e:'encoding', o:'out', h:'help', 'D[]':'define'});
 Main();

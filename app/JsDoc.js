@@ -23,7 +23,7 @@ LOG = {
 	inform: function(msg) {
 		msg = " > "+msg;
 		if (LOG.out) LOG.out.write(msg+"\n");
-		else print(msg);
+		else if (typeof VERBOSE != "undefined" && VERBOSE) print(msg);
 	}
 };
 
@@ -46,6 +46,8 @@ JsDoc = {
 		print("OPTIONS:");
 		print("  -t=<PATH> or --template=<PATH>\n          Required. Use this template to format the output.\n");
 		print("  -d=<PATH> or --directory=<PATH>\n          Output to this directory (defaults to js_docs_out).\n");
+		print("  -e=<ENCODING> or --encoding=<ENCODING>\n          Use this encoding to read and write files.\n");
+		
 		print("  -r=<DEPTH> or --recurse=<DEPTH>\n          Descend into src directories.\n");
 		print("  -x=<EXT>[,EXT]... or --ext=<EXT>[,EXT]...\n          Scan source files with the given extension/s (defaults to js).\n");
 		print("  -a or --allfunctions\n          Include all functions, even undocumented ones.\n");

@@ -128,6 +128,7 @@ function Main() {
 	}
 	
 	if (LOG.out) LOG.out.close();
+	if (LOG.warnings.length > 0) print(LOG.warnings.length+" warnings.");
 }
 
 Main();

@@ -16,6 +16,7 @@ LOG = {
 		if (e) msg = e.fileName+", line "+e.lineNumber+": "+msg;
 		
 		msg = ">> WARNING: "+msg;
+		LOG.warnings.push(msg);
 		if (LOG.out) LOG.out.write(msg+"\n");
 		else print(msg);
 	},
@@ -26,6 +27,7 @@ LOG = {
 		else if (typeof VERBOSE != "undefined" && VERBOSE) print(msg);
 	}
 };
+LOG.warnings = [];
 
 /**
 	@class An automated documentation publishing system for JavaScript.

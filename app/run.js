@@ -54,11 +54,14 @@ function Main() {
 	if (JsDoc.opt.o) LOG.out = IO.open(JsDoc.opt.o, true);
 	if (!JsDoc.opt.e) JsDoc.opt.e = "utf-8";
 	IO.setEncoding(JsDoc.opt.e);
-
+	
 	if (JsDoc.opt.c) {
 		eval('conf = '+IO.readFile(JsDoc.opt.c));
+		
 		for (var c in conf) {
-			JsDoc.opt[c] = conf[c];
+			if (c !== "D") {
+				JsDoc.opt[c] = conf[c];
+			}
 		}
 	}
 	if (JsDoc.opt.h || JsDoc.opt._.length == 0 || JsDoc.opt.t === true) JsDoc.usage();
@@ -98,16 +101,23 @@ function Main() {
 	LOG.inform(srcFiles.length+" source file"+((srcFiles ==1)?"":"s")+" found:\n\t"+srcFiles.join("\n\t"));
 	var fileGroup = JsDoc.parse(srcFiles, JsDoc.opt);
 	
+	var D = {};
 	if (JsDoc.opt.D) {
-		var defines = {};
 		for (var i = 0; i < JsDoc.opt.D.length; i++) {
 			var defineParts = JsDoc.opt.D[i].split(":", 2);
-			defines[defineParts[0]] = defineParts[1];
+			D[defineParts[0]] = defineParts[1];
 		}
-		JsDoc.opt.D = defines;
+		JsDoc.opt.D = D;
 	}
 	else {
 		JsDoc.opt.D = {};
+	}
+
+	// combine any conf file D options with the commandline D options
+	if (typeof conf != "undefined") for (var c in conf.D) {
+		if (typeof JsDoc.opt.D[c] == "undefined") {
+			JsDoc.opt.D[c] = conf.D[c];
+		}
 	}
 	
 	if (JsDoc.opt.t && IO.exists(JsDoc.opt.t)) {

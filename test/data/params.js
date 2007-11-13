@@ -12,3 +12,11 @@ function Document(id){
 	{}
 
 }
+
+
+/**
+ * @param tag {String} Specifies the id, if applicable.
+ */
+function Paragraph(id){
+
+}

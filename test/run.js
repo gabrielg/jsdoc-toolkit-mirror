@@ -229,9 +229,11 @@ var testCases = [
 		JsDoc.opt = {a: true};
 		testFile(__DIR__+"test/data/params.js");
 		is('jsdoc[0].symbols[0].params.length', 1, 'A param tag appears in the params array.');
-		is('jsdoc[0].symbols[0].params[0].type', "String, Array", 'A param type van contain multiple values and whitespaces.');
+		is('jsdoc[0].symbols[0].params[0].type', "String, Array", 'A param type can contain multiple values and whitespaces.');
 		is('jsdoc[0].symbols[1].params.length', 3, 'Undocumented param tags appear in the params array.');
 		is('jsdoc[0].symbols[1].signature()', "source, format, target", 'Can get params as a signature.');
+		is('jsdoc[0].symbols[2].params[0].type', "String", 'A param type can come after the name.');
+		is('jsdoc[0].symbols[2].params[0].name', "tag", 'A param name can come before the type.');
 	},
 	function() {
 		JsDoc.opt = {a: true};

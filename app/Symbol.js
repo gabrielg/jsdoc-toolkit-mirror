@@ -69,6 +69,7 @@ function Symbol(name, params, isa, comment) {
 		this.doc._dropTag("overview");
 	}
 	else {
+		
 		var since;
 		if ((since = this.doc.getTag("since")) && since.length) {
 			this.since = since[0].desc;

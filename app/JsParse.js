@@ -47,8 +47,12 @@ JsParse.prototype.parse = function(tokenStream) {
  */
 JsParse.prototype._findDocComment = function(ts) {
 	if (ts.look().is("JSDOC")) {
-		var doc = ts.look().data;
+		
+		ts.look().data = ts.look().data.replace(/@namespace\b/, "@static\n@class");
 
+		var doc = ts.look().data;
+		
+		
 		if (doc.indexOf("/**#") == 0) {
 			new Symbol("", [], "META", doc);
 			delete ts.tokens[ts.cursor];

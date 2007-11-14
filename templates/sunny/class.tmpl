@@ -82,6 +82,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	Extends<for each="augment" in="thisClass.augments"> <a href="{+augment+}.html">{+augment+}</a></for>.<br/>
 </if>
 <if test="thisClass.source"><i>Defined in <a href="{+thisClass.source+}">{+thisClass.filename+}</a></i></if>
+<if test="thisClass.deprecated"><br/><b>Deprecated {+thisClass.deprecated.desc+}</b><br/></if>
 <if test="thisClass.classDesc"><p>{+thisClass.classDesc+}</p></if>
 <if test="thisClass.doc">
 <for each="author" in="thisClass.doc.getTag('author')">
@@ -249,6 +250,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	</a> <h3>{+property.name+}</h3>
 		<pre><if test="property.isPrivate">&lt;private&gt;&nbsp;</if><if test="property.isStatic||!property.memberof">&lt;static&gt;&nbsp;</if>{+(property.type||"object")+} <b>{+property.name+}</b></pre> 
 	<ul>
+		<if test="property.deprecated"><br/><b>Deprecated {+property.deprecated.desc+}</b><br/></if>
 		{+property.desc+}
 		<for each="since" in="property.doc.getTag('since')">
 			<br><b>Since:</b> {+since+}<br/>
@@ -276,6 +278,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 <for each="cn" in="data">
 	<pre><b>{+cn.alias+}</b>({+cn.signature()+})</pre>
 	<ul>
+		<if test="cn.deprecated"><br/><b>Deprecated {+cn.deprecated.desc+}</b><br/></if>
 		{+cn.desc+}
 	</ul>
 	
@@ -312,6 +315,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<a name="{+method.name+}"> </a> <h3>{+method.name+}</h3>
 		<pre><if test="method.isPrivate">&lt;private&gt;&nbsp;</if><if test="method.isStatic||!method.memberof">&lt;static&gt;&nbsp;</if><if test="method.returns.length"><for each="ret" in="method.returns">{+ret.type+}&nbsp;</for></if><b>{+method.name+}</b>({+method.signature()+})</pre> 
 	<ul>
+		<if test="method.deprecated"><br/><b>Deprecated {+method.deprecated.desc+}</b><br/></if>
 		{+method.desc+}
 		<for each="since" in="method.doc.getTag('since')">
 			<br><b>Since:</b> {+since+}<br/>
@@ -360,6 +364,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<a name="{+event.name+}"> </a> <h3>{+event.name+}</h3>
 		<pre><if test="event.isPrivate">&lt;private&gt;&nbsp;</if><if test="event.isStatic||!event.memberof">&lt;static&gt;&nbsp;</if><if test="event.returns.length"><for each="ret" in="event.returns">{+ret.type+}&nbsp;</for></if><b>{+event.name+}</b>({+event.signature()+})</pre> 
 	<ul>
+		<if test="event.deprecated"><br/><b>Deprecated {+event.deprecated.desc+}</b><br/></if>
 		{+event.desc+}
 		<for each="since" in="event.doc.getTag('since')">
 			<br><b>Since:</b> {+since+}<br/>

@@ -42,6 +42,7 @@ function Symbol(name, params, isa, comment) {
 	this.memberof = "";
 	this.since = "";
 	this.version = "";
+	this.deprecated = "";
 	this.augments = [];
 	this.inherits = [];
 	this._inheritsFrom = [];
@@ -52,6 +53,7 @@ function Symbol(name, params, isa, comment) {
 	this.exceptions = [];
     this.events = [];
 	this.doc = new Doclet(comment);
+	this.see = [];
 	
 	// move certain data out of the tags and into the Symbol
 	var overviews;
@@ -78,6 +80,18 @@ function Symbol(name, params, isa, comment) {
 		var version;
 		if ((version = this.doc.getTag("version")) && version.length) {
 			this.version = version[0].desc;
+		}
+		
+		var deprecated;
+		if ((deprecated = this.doc.getTag("deprecated")) && deprecated.length) {
+			this.deprecated = deprecated[0];
+			this.doc._dropTag("deprecated");
+		}
+		
+		var see;
+		if ((see = this.doc.getTag("see")) && version.length) {
+			this.see = see;
+			this.doc._dropTag("see");
 		}
 		
 		var descs;

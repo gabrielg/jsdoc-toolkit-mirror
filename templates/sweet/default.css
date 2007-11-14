@@ -114,3 +114,14 @@ ul
 }
 
 .params td { padding-right: 10px; }
+
+.deprecated
+{
+	color: #666;
+	font-weight: normal;
+}
+
+.deprecated del
+{
+	color: #000;
+}

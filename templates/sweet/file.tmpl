@@ -36,12 +36,14 @@
 			<div class="section constructor">
 				<div class="itemTitle">
 					<a name="{+symbol.alias+}"></a>
+					<if test="symbol.deprecated"><span class="deprecated"><del></if>
 					<if test="symbol.memberof">
 						<i><a href="#{+symbol.memberof+}" class="type">{+symbol.memberof+}.</a></i>{+symbol.name+}({+symbol.signature()+})
 					</if>
 					<if test="!symbol.memberof">
 					{+symbol.alias+}(<span class="signature">{+symbol.signature()+}</span>)
 					</if>
+					<if test="symbol.deprecated"></del> deprecated {+symbol.deprecated.desc+}</span></if>
 				</div>
 				
 				<if test="symbol.desc != 'undocumented'">
@@ -128,12 +130,14 @@
 			<div class="section object">
 				<div class="itemTitle">
 					<a name="{+symbol.alias+}"></a>
+					<if test="symbol.deprecated"><span class="deprecated"><del></if>
 					<if test="symbol.memberof">
 						<i><a href="#{+symbol.memberof+}" class="type">{+symbol.memberof+}.</a></i>{+symbol.name+}({+symbol.signature()+})
 					</if>
 					<if test="!symbol.memberof">
 					{+symbol.alias+}
 					</if>
+					<if test="symbol.deprecated"></del> deprecated {+symbol.deprecated.desc+}</span></if>
 				</div>
 				
 				<if test="symbol.desc != 'undocumented'">
@@ -220,12 +224,14 @@
 			<div class="section function">
 				<div class="itemTitle">
 					<a name="{+symbol.alias+}"></a>
+					<if test="symbol.deprecated"><span class="deprecated"><del></if>
 					<if test="symbol.memberof">
 						<i><a href="#{+symbol.memberof+}" class="type">{+symbol.memberof+}.</a></i>{+symbol.name+}(<span class="signature">{+symbol.signature()+}</span>)
 					</if>
 					<if test="!symbol.memberof">
 					{+symbol.alias+}(<span class="signature">{+symbol.signature()+}</span>)
 					</if>
+					<if test="symbol.deprecated"></del> deprecated {+symbol.deprecated.desc+}</span></if>
 				</div>
 				
 				<if test="symbol.desc != 'undocumented'">
@@ -304,12 +310,14 @@
 					<if test="symbol.type">
 					<span class="type">{+symbol.type+}</span>
 					</if>
+					<if test="symbol.deprecated"><span class="deprecated"><del></if>
 					<if test="symbol.memberof">
 						<i><a href="#{+symbol.memberof+}" class="type">{+symbol.memberof+}.</a></i>{+symbol.name+}
 					</if>
 					<if test="!symbol.memberof">
 						{+symbol.alias+}
 					</if>
+					<if test="symbol.deprecated"></del> deprecated {+symbol.deprecated.desc+}</span></if>
 				</div>
 				
 				<if test="symbol.desc != 'undocumented'">

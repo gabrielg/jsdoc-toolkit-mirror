@@ -99,7 +99,7 @@ var testCases = [
 		testFile(__DIR__+"test/data/tags.js");
 		is('jsdoc[0].symbols[0].doc.tags[0].title', "status", 'User-defined tag title can be found.');
 		is('jsdoc[0].symbols[0].doc.tags[0].desc', "experimental", 'User-defined tag with desc, desc can be found.');
-		is('jsdoc[0].symbols[0].doc.tags[1].title', "deprecated", 'User-defined tag with no desc, title can be found.');
+		is('jsdoc[0].symbols[0].doc.tags[1].title', "beta", 'User-defined tag with no desc, title can be found.');
 		is('jsdoc[0].symbols[0].doc.tags[1].desc', "", 'User-defined tag with no desc, desc can be found and is empty.');
 	},
 	function() {

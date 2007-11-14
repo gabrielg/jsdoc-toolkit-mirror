@@ -12,7 +12,7 @@
 /** 
  * Gets the current bar. 
  * @Status experimental
- * @deprecated
+ * @beta
  * @param {String} barID	The unique identifier for the foo.
  * @return {Object}	Returns the current foo.
  * @rating 4 stars

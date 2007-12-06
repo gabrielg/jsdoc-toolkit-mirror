@@ -10,12 +10,12 @@
 <body>
 <div class="sectionHead">File Index</div>
 <ul>
-	<for each="file" in="data" sortby="keys">
+	<for each="file" in="keys(data).sort()">
 	<li style="margin-bottom: 16px;">
-		<a href="{+$file_key+}" target="main" class="fileHead">{+file.name+}</a>
+		<a href="{+file+}" target="main" class="fileHead">{+data[file].name+}</a>
 		<ul>
-			<for each="c" in="file.classes.sort()">
-			<li><a href="{+$file_key+}#{+c+}" target="main">{+c+}</a></li>
+			<for each="c" in="data[file].classes.sort()">
+			<li><a href="{+file+}#{+c+}" target="main">{+c+}</a></li>
 			</for>
 		</ul>
 	</li>

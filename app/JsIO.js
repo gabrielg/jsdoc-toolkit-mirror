@@ -50,7 +50,7 @@ var IO = {
 	 * Use to copy a file from one directory to another. Can take binary files too.
 	 * @param {string} inFile Path to the source file.
 	 * @param {string} outDir Path to directory to save into.
-	 * @param {string} fileName Name to use for the new file.
+	 * @param {string} [fileName] Name to use for the new file.
 	 */
 	copyFile: function(inFile, outDir, fileName) {
 		if (fileName == null) fileName = Util.fileName(inFile);

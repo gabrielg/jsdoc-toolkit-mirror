@@ -49,6 +49,7 @@ function DocFile(path) {
 	this.filename = Util.fileName(this.path);
 	this.overview = new Symbol(this.filename, [], "FILE", "/** @overview */");
 	this.symbols = [];
+	this.namespaces = [];
 	fileGroup = null;
 }
 
@@ -64,6 +65,21 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			
 		if (symbols[s].isPrivate && !opt.p)
 			continue;
+			
+		if (symbols[s].isStatic && symbols[s].isa == "CONSTRUCTOR") {
+			this.namespaces.push(symbols[s].alias);
+		}
+		else {
+			for (var n = 0; n < this.namespaces.length; n++) {
+				if (symbols[s].alias.indexOf(this.namespaces[n]) == 0) {
+					var membername = symbols[s].alias.substr(this.namespaces[n].length);
+					if (membername && membername.indexOf(".") == 0) { // not "/" which is handled later
+						symbols[s].name = this.namespaces[n]+"/"+membername.substr(1);
+						break;
+					}
+				}
+			}
+		}
 			
 		symbols[s].file = this;
 		symbols[s].file.circularReference = 1; // keeps dumper from getting dizzy

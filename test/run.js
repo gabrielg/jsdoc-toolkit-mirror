@@ -285,7 +285,6 @@ var testCases = [
 	function() {
 		JsDoc.opt = {};
 		testFile(__DIR__+"test/data/events.js");
-		//print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[0].events.length', 1, 'An event appears in th eevents array.');
 		is('jsdoc[0].symbols[0].events[0].isa', 'EVENT', 'The event isa EVENT.');
 		is('jsdoc[0].symbols[0].events[0].alias', 'Header.changeHeaderEvent', 'The name of the event can be is seen.');
@@ -298,6 +297,16 @@ var testCases = [
 		is('jsdoc[0].symbols[1].isa', 'FUNCTION', 'Inline functions that are not evaluated are functions.');
 		is('jsdoc[0].symbols[1].alias', 'WH.FLAG.w3c.getLevel', 'Nested functions inside inline functions that are evaluated are objects are found.');
 		is('jsdoc[0].symbols[2].isa', 'FUNCTION', 'Inline functions that are not evaluated are functions.');
+
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"test/data/namespace.js");
+		print(Dumper.dump(jsdoc));
+		is('jsdoc[0].symbols[0].name', 'Filebox.View', 'The name of a namespace is found.');
+		is('jsdoc[0].symbols[0].methods.length', 3, 'All methods of the namespace are found.');
+		is('jsdoc[0].symbols[0].methods[0].name', 'lookup', 'The name of the method found.');
+		is('jsdoc[0].symbols[0].methods[2].memberof', 'Filebox.View', 'The parent of the method is recognized.');
 
 	}
 	

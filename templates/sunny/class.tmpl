@@ -62,6 +62,15 @@ if (thisClass.events) thisClass.events.sort(byName);
 			font-size: 9pt;
 			text-align: right;
 		}
+		
+		.optional
+		{
+			font-variant: normal;
+			color: #AAAFD1;
+			font-size: 75%;
+			font-style: italic;
+			vertical-align: super;
+		}
 	</style>
 </head>
 
@@ -288,7 +297,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 		<b>Parameters:</b>
 		<for each="param" in="cn.params">
 		<ul>
-			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+}</code><if test="param.desc"> - {+param.desc+}</if> 
+			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if><if test="param.desc"> - {+param.desc+}</if> 
 		</ul>
 		</for>
 	</ul>
@@ -325,7 +334,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<if test="method.params.length"><ul>
 		<b>Parameters:</b><for each="param" in="method.params">
 		<ul>
-			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+} </code><if test="param.desc"> - {+param.desc+}</if> 
+			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if><if test="param.desc"> - {+param.desc+}</if> 
 		</ul></for>
 	</ul></if>
 	<!-- METHOD PARAMETERS END -->
@@ -333,7 +342,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<if test="method.returns.length"><ul>
 		<b>Returns:</b><for each="ret" in="method.returns">
 		<ul>
-			<code><if test="ret.type"><i>{+ret.type+}</i>&nbsp;</if></code>{+ret.desc+} 
+			<code><if test="ret.type"><i><if test="data.classfiles[ret.type]"><a href="{+data.classfiles[ret.type]+}"></if>{+ret.type+}<if test="data.classfiles[ret.type]"></a></if></i>&nbsp;</if></code>{+ret.desc+} 
 		</ul></for>
 	</ul></if>
 	<if test="method.exceptions.length"><ul>
@@ -374,7 +383,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<if test="event.params.length"><ul>
 		<b>Parameters:</b><for each="param" in="event.params">
 		<ul>
-			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+} </code><if test="param.desc"> - {+param.desc+}</if> 
+			<code><if test="param.type"><i>{+param.type+}</i>&nbsp;</if>{+param.name+}</code><if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if><if test="param.desc"> - {+param.desc+}</if> 
 		</ul></for>
 	</ul></if>
 	<!-- EVENT PARAMETERS END -->
@@ -382,7 +391,7 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<if test="event.returns.length"><ul>
 		<b>Returns:</b><for each="ret" in="event.returns">
 		<ul>
-			<code><if test="ret.type"><i>{+ret.type+}</i>&nbsp;</if></code>{+ret.desc+} 
+			<code><if test="ret.type"><i><if test="data.classfiles[ret.type]"><a href="{+data.classfiles[ret.type]+}"></if>{+ret.type+}<if test="data.classfiles[ret.type]"></a></if></i>&nbsp;</if></code>{+ret.desc+} 
 		</ul></for>
 	</ul></if>
 	<if test="event.exceptions.length"><ul>

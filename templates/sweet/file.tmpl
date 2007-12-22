@@ -70,7 +70,7 @@
 							<if test="data.fileGroup.classfiles[param.type]"><a href="{+data.fileGroup.classfiles[param.type]+}#{+param.type+}"></if>{+param.type+}<if test="data.fileGroup.classfiles[param.type]"></a></if>
 						</td>
 						<td>
-							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="type">?</a></if>
+							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
 						</td>
 						<td>
 							{+param.desc+}
@@ -164,7 +164,7 @@
 							<if test="data.fileGroup.classfiles[param.type]"><a href="{+data.fileGroup.classfiles[param.type]+}#{+param.type+}"></if>{+param.type+}<if test="data.fileGroup.classfiles[param.type]"></a></if>
 						</td>
 						<td>
-							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="type">?</a></if>
+							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
 						</td>
 						<td>
 							{+param.desc+}
@@ -255,7 +255,7 @@
 							<if test="data.fileGroup.classfiles[param.type]"><a href="{+data.fileGroup.classfiles[param.type]+}#{+param.type+}"></if>{+param.type+}<if test="data.fileGroup.classfiles[param.type]"></a></if>
 						</td>
 						<td>
-							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="type">?</a></if>
+							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
 						</td>
 						<td>
 							{+param.desc+}
@@ -299,7 +299,6 @@
 			</div>
 			</if>
 			</for>
-			</div>
 			
 			<div class="sectionHead">Objects</div>
 			<for each="symbol" in="data.symbols">
@@ -354,7 +353,6 @@
 				</if>
 			</div>
 			</if>
-			
 			</for>
 		</div>
 	</div>

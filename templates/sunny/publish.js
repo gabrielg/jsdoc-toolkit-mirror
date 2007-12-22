@@ -56,11 +56,15 @@ function publish(fileGroup, context) {
 		allFiles[fileGroup.files[i].path] = true;
 	}
 	
+	classfiles = {};
 	for (var c in allClasses) {
-		outfile = c+".html";
-		allClasses[c].outfile = outfile;
+		classfiles[c] = c+".html";
+	}
+	
+	for (var c in allClasses) {
+		allClasses[c].classfiles = classfiles;
 		var output = classTemplate.process(allClasses[c]);
-		IO.saveFile(context.d, outfile, output);
+		IO.saveFile(context.d, classfiles[c], output);
 	}
 	
 	output = classTemplate.process([globals]);

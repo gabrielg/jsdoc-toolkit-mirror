@@ -103,6 +103,15 @@ ul
 	font-weight: normal;
 }
 
+.optional
+{
+	font-variant: normal;
+	color: #999;
+	font-size: 75%;
+	font-style: italic;
+	vertical-align: super;
+}
+
 .itemTitle a.type { font-weight: bold; }
 
 .finePrint

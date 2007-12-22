@@ -93,50 +93,59 @@ function Main() {
 	}
 	var srcFiles = [];
 	for (var d = 0; d < JsDoc.opt._.length; d++) {
-		srcFiles = srcFiles.concat(
-			IO.ls(JsDoc.opt._[d], JsDoc.opt.r).filter(isJs)
-		);
+		if (!IO.exists(JsDoc.opt._[d])) {
+			LOG.warn("src file doesn't exist, skipping: "+JsDoc.opt._[d]);
+		}
+		else {
+			srcFiles = srcFiles.concat(
+				IO.ls(JsDoc.opt._[d], JsDoc.opt.r).filter(isJs)
+			);
+		}
 	}
 	
-	LOG.inform(srcFiles.length+" source file"+((srcFiles ==1)?"":"s")+" found:\n\t"+srcFiles.join("\n\t"));
-	var fileGroup = JsDoc.parse(srcFiles, JsDoc.opt);
-	
-	var D = {};
-	if (JsDoc.opt.D) {
-		for (var i = 0; i < JsDoc.opt.D.length; i++) {
-			var defineParts = JsDoc.opt.D[i].split(":", 2);
-			D[defineParts[0]] = defineParts[1];
-		}
-		JsDoc.opt.D = D;
+	if (srcFiles.length == 0 ) {
+		LOG.warn("No valid files found to parse. Nothing to do.");
 	}
 	else {
-		JsDoc.opt.D = {};
-	}
-
-	// combine any conf file D options with the commandline D options
-	if (typeof conf != "undefined") for (var c in conf.D) {
-		if (typeof JsDoc.opt.D[c] == "undefined") {
-			JsDoc.opt.D[c] = conf.D[c];
-		}
-	}
-	
-	if (JsDoc.opt.t && IO.exists(JsDoc.opt.t)) {
-		JsDoc.opt.t += (JsDoc.opt.t.indexOf(IO.FileSeparator)==JsDoc.opt.t.length-1)?
-			"" : IO.FileSeparator;
-		LOG.inform("Loading template: "+JsDoc.opt.t+"publish.js");
-		require(JsDoc.opt.t+"publish.js");
+		LOG.inform(srcFiles.length+" source file"+((srcFiles ==1)?"":"s")+" found:\n\t"+srcFiles.join("\n\t"));
+		var fileGroup = JsDoc.parse(srcFiles, JsDoc.opt);
 		
-		LOG.inform("Publishing all files...");
-		publish(fileGroup, JsDoc.opt);
-		LOG.inform("Finished.");
-	}
-	else {
-		LOG.warn("Use the -t option to specify a template for formatting.");
-		LOG.warn("Dumping results to stdout.");
-		require("app/Dumper.js");
-		print(Dumper.dump(fileGroup));
-	}
+		var D = {};
+		if (JsDoc.opt.D) {
+			for (var i = 0; i < JsDoc.opt.D.length; i++) {
+				var defineParts = JsDoc.opt.D[i].split(":", 2);
+				D[defineParts[0]] = defineParts[1];
+			}
+			JsDoc.opt.D = D;
+		}
+		else {
+			JsDoc.opt.D = {};
+		}
 	
+		// combine any conf file D options with the commandline D options
+		if (typeof conf != "undefined") for (var c in conf.D) {
+			if (typeof JsDoc.opt.D[c] == "undefined") {
+				JsDoc.opt.D[c] = conf.D[c];
+			}
+		}
+		
+		if (JsDoc.opt.t && IO.exists(JsDoc.opt.t)) {
+			JsDoc.opt.t += (JsDoc.opt.t.indexOf(IO.FileSeparator)==JsDoc.opt.t.length-1)?
+				"" : IO.FileSeparator;
+			LOG.inform("Loading template: "+JsDoc.opt.t+"publish.js");
+			require(JsDoc.opt.t+"publish.js");
+			
+			LOG.inform("Publishing all files...");
+			publish(fileGroup, JsDoc.opt);
+			LOG.inform("Finished.");
+		}
+		else {
+			LOG.warn("Use the -t option to specify a template for formatting.");
+			LOG.warn("Dumping results to stdout.");
+			require("app/Dumper.js");
+			print(Dumper.dump(fileGroup));
+		}
+	}
 	if (LOG.out) LOG.out.close();
 	if (LOG.warnings.length > 0) print(LOG.warnings.length+" warnings.");
 }

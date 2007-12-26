@@ -67,7 +67,7 @@
 				<for each="param" in="symbol.params">
 					<tr>
 						<td class="type">
-							<if test="data.fileGroup.classfiles[param.type]"><a href="{+data.fileGroup.classfiles[param.type]+}#{+param.type+}"></if>{+param.type+}<if test="data.fileGroup.classfiles[param.type]"></a></if>
+							{+linkToType(param.type)+}
 						</td>
 						<td>
 							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
@@ -111,7 +111,7 @@
 				<for each="ex" in="symbol.exceptions">
 					<tr>
 						<td class="type">
-						<if test="data.fileGroup.classfiles[ex.type]"><a href="{+data.fileGroup.classfiles[ex.type]+}#{+ex.type+}"></if>{+ex.type+}<if test="data.fileGroup.classfiles[ex.type]"></a></if>
+						{+linkToType(ex.type)+}
 						</td>
 						<td>
 							{+ex.desc+}
@@ -161,7 +161,7 @@
 				<for each="param" in="symbol.params">
 					<tr>
 						<td class="type">
-							<if test="data.fileGroup.classfiles[param.type]"><a href="{+data.fileGroup.classfiles[param.type]+}#{+param.type+}"></if>{+param.type+}<if test="data.fileGroup.classfiles[param.type]"></a></if>
+							{+linkToType(param.type)+}
 						</td>
 						<td>
 							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
@@ -205,7 +205,7 @@
 				<for each="ex" in="symbol.exceptions">
 					<tr>
 						<td class="type">
-							<if test="data.fileGroup.classfiles[ex.type]"><a href="{+data.fileGroup.classfiles[ex.type]+}#{+ex.type+}"></if>{+ex.type+}<if test="data.fileGroup.classfiles[ex.type]"></a></if>
+							{+linkToType(ex.type)+}
 						</td>
 						<td>
 							{+ex.desc+}
@@ -252,7 +252,7 @@
 				<for each="param" in="symbol.params">
 					<tr>
 						<td class="type">
-							<if test="data.fileGroup.classfiles[param.type]"><a href="{+data.fileGroup.classfiles[param.type]+}#{+param.type+}"></if>{+param.type+}<if test="data.fileGroup.classfiles[param.type]"></a></if>
+							{+linkToType(param.type)+}
 						</td>
 						<td>
 							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
@@ -271,7 +271,7 @@
 				<for each="ret" in="symbol.returns">
 					<tr>
 						<td class="type">
-							<if test="data.fileGroup.classfiles[ret.type]"><a href="{+data.fileGroup.classfiles[ret.type]+}#{+ret.type+}"></if>{+ret.type+}<if test="data.fileGroup.classfiles[ret.type]"></a></if>
+							{+linkToType(ret.type)+}
 						</td>
 						<td>
 							{+ret.desc+}
@@ -287,7 +287,7 @@
 				<for each="ex" in="symbol.exceptions">
 					<tr>
 						<td class="type">
-							<if test="data.fileGroup.classfiles[ex.type]"><a href="{+data.fileGroup.classfiles[ex.type]+}#{+ex.type+}"></if>{+ex.type+}<if test="data.fileGroup.classfiles[ex.type]"></a></if>
+							{+linkToType(ex.type)+}
 						</td>
 						<td>
 							{+ex.desc+}
@@ -337,9 +337,7 @@
 				<for each="property" in="symbol.properties">
 					<tr>
 						<td class="type">
-							<if test="data.fileGroup.classfiles[property.type]"><a href="{+data.fileGroup.classfiles[property.type]+}#{+property.type+}"></if>{+property.type+}<if test="data.fileGroup.classfiles[property.type]"></a></if>
-
-							{+property.type+}
+							{+linkToType(property.type)+}
 						</td>
 						<td>
 							{+property.name+}

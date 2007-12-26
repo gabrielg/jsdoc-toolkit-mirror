@@ -136,6 +136,10 @@ var List = function() {
     return that;
 }
 
+List.prototype.last = function() {
+	return this[this.length-1];
+}
+
 /** 
  * @class A single element of the source code.
  * @constructor

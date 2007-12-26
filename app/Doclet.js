@@ -35,6 +35,8 @@ function Doclet(comment) {
 
 /**
  * Remove the slashes and stars from a doc comment.
+ * @static
+ * @memberOf Doclet
  */
 Doclet.unwrapComment = function(comment) {
 	if (!comment) comment = "/** @desc undocumented */";

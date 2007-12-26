@@ -5,7 +5,7 @@ function publish(fileGroup, context) {
 	
 	// build up classname to file mapping
 	var index = {};
-	fileGroup.classfiles = {};
+	linkToType.classfiles = {};
 	for (var i = 0; i < fileGroup.files.length; i++) {
 		if (context.d) {
 			var our_name = generateFilename(i);
@@ -14,7 +14,8 @@ function publish(fileGroup, context) {
 			for (var s = 0; s < fileGroup.files[i].symbols.length; s++) {
 				if (fileGroup.files[i].symbols[s].isa == "CONSTRUCTOR") {
 					index[our_name].classes.push(fileGroup.files[i].symbols[s].alias);
-					fileGroup.classfiles[fileGroup.files[i].symbols[s].alias] = our_name;
+					if (our_name) linkToType.classfiles[fileGroup.files[i].symbols[s].alias] = our_name;
+//					//fileGroup.classfiles[fileGroup.files[i].symbols[s].alias] = our_name;
 				}
 			}	
 	
@@ -55,4 +56,24 @@ function publish(fileGroup, context) {
 
 function generateFilename(i) {
 	return "_"+((i+1<10)?"0"+(i+1):(i+1))+".html"
+}
+
+/**
+	Takes a string of object types and adds links if there exists
+	any documentation files in the output for that type.
+	@param typeString Like "Foo" or "Foo[] | Bar".
+ */
+function linkToType(typeString) {
+	var sep = /[^a-zA-Z0-9._$]+/;
+	var types = typeString.split(sep);
+	
+	for (var i = 0; i < types.length; i++) {
+		var link = linkToType.classfiles[types[i]];
+		if (link) {
+			var re = new RegExp('(^|[^a-zA-Z0-9._$])'+types[i]+'($|[^a-zA-Z0-9._$])');
+			typeString = typeString.replace(re, "$1<a href=\""+link+"#"+types[i]+"\">"+types[i]+"</a>$2", "g");
+		}
+	}
+	
+	return typeString;
 }

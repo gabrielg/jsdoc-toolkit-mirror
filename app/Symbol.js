@@ -71,7 +71,6 @@ function Symbol(name, params, isa, comment) {
 		this.doc._dropTag("overview");
 	}
 	else {
-		
 		var since;
 		if ((since = this.doc.getTag("since")) && since.length) {
 			this.since = since[0].desc;
@@ -191,7 +190,6 @@ function Symbol(name, params, isa, comment) {
 			this.isa = "CONSTRUCTOR"; // a class tag implies a conctuctor doclet
 			
 			this.classDesc += "\n"+classes[0].desc; // multiple class tags are concatenated
-			//this.doc._dropTag("class");
 		}
 		
 		var inherits;
@@ -251,13 +249,13 @@ Symbol.prototype.hasProperty = function(name) {
     return false;
 }
 
-Array.prototype.isUnique = function() {
-	var l = this.length;
+function isUnique(arr) {
+	var l = arr.length;
 	for(var i = 0; i < l; i++ ) {
-		if (this.lastIndexOf(this[i]) > i) return false;
+		if (arr.lastIndexOf(arr[i]) > i) return false;
 	}
 	return true;
-};
+}
 
 Symbol.prototype.getInheritedMethods = function(r) {
 	var inherited = [];
@@ -270,7 +268,7 @@ Symbol.prototype.getInheritedMethods = function(r) {
 		if (contributer) {
 			this._inheritsFrom.push(contributer.alias);
 			
-			if (!this._inheritsFrom.isUnique()) {
+			if (!isUnique(this._inheritsFrom)) {
 				LOG.warn("Circular reference: "+this.alias+" inherits from the same symbol more than once.");
 			}
 			else {

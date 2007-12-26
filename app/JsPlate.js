@@ -75,7 +75,7 @@ JsPlate.prototype.toCode = function() {
  */
 JsPlate.keys = function(obj) {
 	var keys = [];
-	delete(keys.isUnique);
+	// TODO: Confirm that arrays are not treated as objects
 	if (obj.constructor.toString().indexOf("Array") > -1) {
 		for (var i = 0; i < obj.length; i++) {
 			keys.push(i);
@@ -96,6 +96,7 @@ JsPlate.keys = function(obj) {
  */
 JsPlate.values = function(obj) {
 	var values = [];
+	// TODO: Confirm that arrays are not treated as objects
 	if (obj.constructor.toString().indexOf("Array") > -1) {
 		for (var i = 0; i < obj.length; i++) {
 			values.push(obj[i]);

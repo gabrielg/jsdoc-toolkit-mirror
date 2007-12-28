@@ -71,6 +71,7 @@
 						</td>
 						<td>
 							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
+							<if test="param.defaultValue != ''"><span class="optional">= {+param.defaultValue+}</span></if>
 						</td>
 						<td>
 							{+param.desc+}
@@ -165,6 +166,7 @@
 						</td>
 						<td>
 							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
+							<if test="param.defaultValue != ''"><span class="optional">= {+param.defaultValue+}</span></if>
 						</td>
 						<td>
 							{+param.desc+}
@@ -256,6 +258,7 @@
 						</td>
 						<td>
 							{+param.name+}<if test="param.isOptional"><a title="optional parameter" class="optional">?</a></if>
+							<if test="param.defaultValue != ''"><span class="optional">= {+param.defaultValue+}</span></if>
 						</td>
 						<td>
 							{+param.desc+}

@@ -16,6 +16,10 @@ SYM = {
     EVENT:          "EVENT"
 };
 
+RegExp.escapeMeta = function(str) {
+	return str.replace(/([$^\\\/()|?+*\[\]{}.-])/g, "\\$1");
+}
+
 /**
 	@class Represents an atomic unit of code.
 	@constructor
@@ -25,12 +29,24 @@ function Symbol(name, params, isa, comment) {
 		if (comment.indexOf("/**#@+") == 0) { // start of shared doclet
 			Symbol.shared = Doclet.unwrapComment(comment.replace("/**#@+", "/**"));
 		}
+		else if (comment.indexOf("/**#=+") == 0) { // start of shortcut doclet
+			eval('Symbol.shortcuts = '+Doclet.unwrapComment(comment).replace('#=+', '').replace(/[\n\r\f]/g, ' '));
+		}
+		else if (comment.indexOf("/**#=-") == 0) { // end of shortcut doclet
+			Symbol.shortcuts = {};
+		}
 		else if (comment.indexOf("/**#@-") == 0) { // end of shared doclet
 			Symbol.shared = "";
 		}
 		return;
 	}
 	comment = Symbol.shared+"\n"+Doclet.unwrapComment(comment);
+	for (var n in Symbol.shortcuts) {
+		var pat = RegExp.escapeMeta(n);
+		var re = new RegExp("^"+pat+"\\b");
+		name = name.replace(re, Symbol.shortcuts[n]);
+	}
+	name = name.replace(/\.prototype\.?/, '/');
 	
 	this.name = name;
 	this.params = (params || []);
@@ -212,7 +228,9 @@ function Symbol(name, params, isa, comment) {
 	}
 }
 Symbol.shared = ""; // holds shared doclets
+Symbol.shortcuts = {}; // holds map of shortcut names to full names
 Symbol.index = {};
+Symbol.builtins = ['Array', 'Boolean', 'Date', 'Function', 'Math', 'Number', 'Object', 'RegExp', 'String'];
 
 Symbol.prototype.is = function(what) {
     return this.isa === SYM[what];

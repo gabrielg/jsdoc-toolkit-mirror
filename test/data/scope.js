@@ -51,8 +51,15 @@ dojo.declare(
 	}
 );
 
+/** extra widgets */
+extra.widget = {
+}
+
 dojo.extend("dojo.widget.Widget",
-	/** @scope dojo.widget.Widget.prototype */
+	/**
+		@scope dojo.widget.Widget.prototype
+		@scope extra.widget
+	*/
 	{
 	    /**
 	     * Does something.
@@ -61,6 +68,8 @@ dojo.extend("dojo.widget.Widget",
 	    }
 	}
 );
+
+
 
 
 Record.getRecord();

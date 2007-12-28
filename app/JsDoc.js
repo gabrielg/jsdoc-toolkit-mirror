@@ -36,7 +36,7 @@ LOG.warnings = [];
 */
 JsDoc = {
 	/** The version number of this release. */
-	VERSION: "1.4.0",
+	VERSION: "1.4.1a",
 	
 	/**
 	 * Print out the expected usage syntax for this script on the command

@@ -116,14 +116,26 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			var parentName = parts[1].replace(/\//g, ".");
 			var childName = parts[2];
 			
+			
+				
 			symbols[s].alias = symbols[s].name.replace(/\//g, ".");
 			symbols[s].name = childName;
 			symbols[s].memberof = parentName;
 
 			// is the parent defined?
 			var parent = this.getSymbol(parentName);
-
-			if (!parent) LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
+			
+			if (!parent) {
+				if (Symbol.builtins.indexOf(parentName) > -1) {
+					LOG.warn("Adding reference to builtin object '"+parentName+"'.");
+					this.addSymbols([new Symbol(parentName, [], "CONSTRUCTOR", "/** [built-in] */")]);
+				}
+				parent = this.getSymbol(parentName);
+			}
+			
+			if (!parent) {
+				LOG.warn("Member '"+childName+"' documented but no documentation exists for parent object '"+parentName+"'.");
+			}
 			else {
 				if (symbols[s].is("OBJECT")) {
 					parent.properties.push(symbols[s]);

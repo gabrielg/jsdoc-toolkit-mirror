@@ -42,7 +42,7 @@ Doclet.unwrapComment = function(comment) {
 	if (!comment) comment = "/** @desc undocumented */";
 
 	var unwrapped = comment.replace(/(^\/\*\*|\*\/$)/g, "").replace(/^\s*\* ?/gm, "");
-	if (unwrapped.match(/^\s*[^@\s]/)) unwrapped = "@desc "+unwrapped;
+	if (unwrapped.match(/^\s*[^@#\s]/)) unwrapped = "@desc "+unwrapped;
 	return unwrapped;
 }
 

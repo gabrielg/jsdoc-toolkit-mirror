@@ -3,9 +3,10 @@
  * @param person The person.
  * @config {string} name The person's name.
  * @config {integer} age The person's age.
- * @param [id] Optional id number to use.
+ * @config [id] Optional id number to use.
+ * @param connection
  */
-function Contact(person, id) {
+function Contact(person, connection) {
 
 }
 

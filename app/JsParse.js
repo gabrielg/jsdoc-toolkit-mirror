@@ -52,7 +52,6 @@ JsParse.prototype._findDocComment = function(ts) {
 
 		var doc = ts.look().data;
 		
-		
 		if (doc.indexOf("/**#") == 0) {
 			new Symbol("", [], "META", doc);
 			delete ts.tokens[ts.cursor];
@@ -69,15 +68,28 @@ JsParse.prototype._findDocComment = function(ts) {
 			return true;
 		}
 		else if (/@scope\s+([a-z0-9_$.]+)\s*/i.test(doc)) {
-			var scope = RegExp.$1;
-			if (scope) {
-				scope = scope.replace(/\.prototype\b/, "/");
-				this._onObLiteral(scope, new TokenStream(ts.balance("LEFT_CURLY")));
-				return true;
+			var scope = null;
+			var block = null;
+			while (/@scope\s+([a-z0-9_$.]+)\s*/gi.test(doc)) {
+				if (block == null) block = new TokenStream(ts.balance("LEFT_CURLY"));
+				var stream = copy(block);
+				scope = RegExp.$1;
+				if (scope) {
+					scope = scope.replace(/\.prototype\b/, "/");
+					this._onObLiteral(scope, stream);
+				}
 			}
+			if (scope != null) return true;
 		}
 	}
 	return false;
+}
+
+function copy(o) { // todo check for recursion
+	if (o == null || typeof(o) != 'object') return o;
+	var t = new o.constructor();
+	for(var p in o)	t[p] = copy(o[p]);
+	return t;
 }
 
 /**

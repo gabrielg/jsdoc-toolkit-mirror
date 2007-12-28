@@ -244,9 +244,10 @@ var testCases = [
 		is('jsdoc[0].symbols[2].alias', "File.getId", 'Scope recognized as part of name with function(){}() syntax.');
 		is('jsdoc[0].symbols[3].alias', "Entry.getSubject", 'Scope recognized as part of method name with function(){}() syntax.');
 		is('jsdoc[0].symbols[4].alias', "dojo.widget.Widget.initializer", 'Scope within argument list is recognized.');
-		is('jsdoc[0].symbols[6].alias', "dojo.widget.Widget.doIt", 'Scope set to prototype is recognized.');
-		is('jsdoc[0].symbols[6].memberof', "dojo.widget.Widget", 'Scope set to prototype is a method, not static function.');
-	
+		is('jsdoc[0].symbols[7].alias', "dojo.widget.Widget.doIt", 'Scope set to prototype is recognized.');
+		is('jsdoc[0].symbols[7].memberof', "dojo.widget.Widget", 'Scope set to prototype is a method, not static function.');
+		is('jsdoc[0].symbols[8].alias', "extra.widget.doIt", 'Scope set to more than one container is recognized.');
+		
 	},
 	function() {
 		JsDoc.opt = {a: true};
@@ -302,14 +303,55 @@ var testCases = [
 	function() {
 		JsDoc.opt = {a: true};
 		testFile(__DIR__+"test/data/namespace.js");
-		print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[0].name', 'Filebox.View', 'The name of a namespace is found.');
 		is('jsdoc[0].symbols[0].methods.length', 3, 'All methods of the namespace are found.');
 		is('jsdoc[0].symbols[0].methods[0].name', 'lookup', 'The name of the method found.');
 		is('jsdoc[0].symbols[0].methods[2].memberof', 'Filebox.View', 'The parent of the method is recognized.');
 
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"test/data/config.js");
+		is('jsdoc[0].symbols[0].params[0].name', 'person', 'The name of a configuration parameter can be found.');
+		is('jsdoc[0].symbols[0].params[1].name', 'person.name', 'The name of a property of a configuration parameter is found.');
+		is('jsdoc[0].symbols[0].params[2].type', 'integer', 'The type of a non-optional property of a configuration parameter is found.');
+		is('jsdoc[0].symbols[0].params[2].isOptional', false, 'A non-optional property of a configuration parameter is not marked as optional.');
+		is('jsdoc[0].symbols[0].params[3].name', 'person.id', 'The name of an optional property of a configuration parameter is found.');
+		is('jsdoc[0].symbols[0].params[3].isOptional', true, 'An optional property of a configuration parameter is marked as optional.');
+		is('jsdoc[0].symbols[0].params[4].name', 'connection', 'The name of a regular parameter after a config parameter can be found.');
+		
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"test/data/params_optional.js");
+		is('jsdoc[0].symbols[0].params[0].name', 'pages', 'The name of a non-optional parameter can be found.');
+		is('jsdoc[0].symbols[0].params[0].defaultValue', '', 'The default value of a non-optional parameter is "".');
+		is('jsdoc[0].symbols[0].params[1].name', 'id', 'The name of an optional parameter is found.');
+		is('jsdoc[0].symbols[0].params[1].isOptional', true, 'An optional parameter is marked as optional.');
+		is('jsdoc[0].symbols[0].params[1].defaultValue', '', 'The default value of an optional parameter with no default is "".');
+		is('jsdoc[0].symbols[0].params[2].name', 'title', 'The name of an optional parameter with a default is found.');
+		is('jsdoc[0].symbols[0].params[2].defaultValue', "This is untitled.", 'The default value of an optional parameter with a default is found.');
+
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"test/data/shared.js");
+		is('jsdoc[0].symbols[1].name', 'some', 'The name of a symbol in a shared section is found.');
+		is('jsdoc[0].symbols[1].alias', 'Array.some', 'The alias of a symbol in a shared section is found.');
+		is('jsdoc[0].symbols[1].desc', "Extension to builtin array.", 'A description can be shared.');
+		is('jsdoc[0].symbols[2].desc', "Extension to builtin array.\nChange every element of an array.", 'A shared description is appended.');
+		is('jsdoc[0].symbols[3].desc', "A first in, first out data structure.", 'A description is not shared when outside a shared section.');
+	},
+	function() {
+		JsDoc.opt = {a: true};
+		testFile(__DIR__+"test/data/shortcuts.js");
+		print(Dumper.dump(jsdoc));
+		is('jsdoc[0].symbols[1].alias', 'Date.locale', 'Shortcut with prototype is applied.');
+		is('jsdoc[0].symbols[1].memberof', 'Date', 'memberOf of shortcut with prototype is applied.');
+		is('jsdoc[0].symbols[2].alias', 'Number.nth', 'Shortcut can contain regex meta characters.');
+		is('jsdoc[0].symbols[3].alias', 'LOAD.file', 'Shortcut pattern is only applied to beginning of names.');
+
 	}
-	
 ];
 
 

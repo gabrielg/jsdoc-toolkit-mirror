@@ -1,40 +1,31 @@
-framework.addTo(
-	"FileWatcher.Widget",
-	/** @scope FileWatcher.Widget */
-	{
-		/** Set up the widget. */
-		initialize: function(container, args) {
-		}
+/**
+	@constructor
+*/
+function Filebox() {
+	this.add = function() {
 	}
-);
-
-Builder.make(
-	"Sorter",
-	/** @scope Sorter.prototype */
-	{
-		/** Register a sorting function. */
-		register: function(f) {
-		}
-	}
-);
-
-function Sorter() {
-	this.register = function(f) {
+	this.remove = function() {
 	}
 }
 
-var Record = function() {
-	return /** @scope Record */ {
-		getRecord: function() {}
-	};
-}();
+SecureFilebox.prototype = new Filebox();
+SecureFilebox.prototype.constructor = SecureFilebox;
+
+/**
+	@constructor 
+	@augments Filebox
+*/
+function SecureFilebox() {
+	this.shred = function() {
+	}
+}
 
 /*
 {
     files: [
         {
             overview: {
-                name: "scope.js",
+                name: "augments.js",
                 memberof: "",
                 since: "",
                 classDesc: "",
@@ -48,7 +39,7 @@ var Record = function() {
                 doc: { tags: [] },
                 see: [],
                 augments: [],
-                alias: "scope.js",
+                alias: "augments.js",
                 returns: [],
                 inherits: [],
                 properties: [],
@@ -57,78 +48,11 @@ var Record = function() {
                 isa: "FILE",
                 events: []
             },
-            path: "examples/data/scope.js",
+            path: "examples/data/augments.js",
             namespaces: [],
             symbols: [
                 {
-                    name: "FileWatcher.Widget.initialize",
-                    memberof: "",
-                    since: "",
-                    classDesc: "",
-                    _inheritsFrom: [],
-                    file: { //circularReference
-                    },
-                    methods: [],
-                    params: [
-                        {
-                            title: "param",
-                            desc: "",
-                            type: "",
-                            name: "container",
-                            isOptional: false
-                        },
-                        {
-                            title: "param",
-                            desc: "",
-                            type: "",
-                            name: "args",
-                            isOptional: false
-                        }
-                    ],
-                    deprecated: "",
-                    desc: "Set up the widget.",
-                    exceptions: [],
-                    doc: { tags: [] },
-                    see: [],
-                    augments: [],
-                    alias: "FileWatcher.Widget.initialize",
-                    returns: [],
-                    inherits: [],
-                    properties: [],
-                    version: "",
-                    type: "",
-                    isa: "FUNCTION",
-                    events: []
-                },
-                {
-                    name: "register",
-                    memberof: "Sorter",
-                    since: "",
-                    classDesc: "",
-                    _inheritsFrom: [],
-                    file: { //circularReference
-                    },
-                    methods: [],
-                    params: [
-                        { title: "param", desc: "", type: "", name: "f", isOptional: false }
-                    ],
-                    deprecated: "",
-                    desc: "Register a sorting function.",
-                    exceptions: [],
-                    doc: { tags: [] },
-                    see: [],
-                    augments: [],
-                    alias: "Sorter.register",
-                    returns: [],
-                    inherits: [],
-                    properties: [],
-                    version: "",
-                    type: "",
-                    isa: "FUNCTION",
-                    events: []
-                },
-                {
-                    name: "Sorter",
+                    name: "Filebox",
                     memberof: "",
                     since: "",
                     classDesc: "",
@@ -137,24 +61,47 @@ var Record = function() {
                     },
                     methods: [
                         {
-                            name: "register",
-                            memberof: "Sorter",
+                            name: "add",
+                            memberof: "Filebox",
                             since: "",
                             classDesc: "",
                             _inheritsFrom: [],
                             file: { //circularReference
                             },
                             methods: [],
-                            params: [
-                                { title: "param", desc: "", type: "", name: "f", isOptional: false }
-                            ],
+                            params: [],
                             deprecated: "",
                             desc: "undocumented",
                             exceptions: [],
                             doc: { tags: [] },
                             see: [],
                             augments: [],
-                            alias: "Sorter.register",
+                            alias: "Filebox.add",
+                            returns: [],
+                            inherits: [],
+                            properties: [],
+                            version: "",
+                            type: "",
+                            isa: "FUNCTION",
+                            events: []
+                        },
+                        {
+                            name: "remove",
+                            memberof: "Filebox",
+                            since: "",
+                            classDesc: "",
+                            _inheritsFrom: [],
+                            file: { //circularReference
+                            },
+                            methods: [],
+                            params: [],
+                            deprecated: "",
+                            desc: "undocumented",
+                            exceptions: [],
+                            doc: { tags: [] },
+                            see: [],
+                            augments: [],
+                            alias: "Filebox.remove",
                             returns: [],
                             inherits: [],
                             properties: [],
@@ -166,50 +113,23 @@ var Record = function() {
                     ],
                     params: [],
                     deprecated: "",
-                    desc: "undocumented",
+                    desc: "",
                     exceptions: [],
                     doc: { tags: [] },
                     see: [],
                     augments: [],
-                    alias: "Sorter",
+                    alias: "Filebox",
                     returns: [],
                     inherits: [],
                     properties: [],
                     version: "",
                     type: "",
-                    isa: "FUNCTION",
+                    isa: "CONSTRUCTOR",
                     events: []
                 },
                 {
-                    name: "register",
-                    memberof: "Sorter",
-                    since: "",
-                    classDesc: "",
-                    _inheritsFrom: [],
-                    file: { //circularReference
-                    },
-                    methods: [],
-                    params: [
-                        { title: "param", desc: "", type: "", name: "f", isOptional: false }
-                    ],
-                    deprecated: "",
-                    desc: "undocumented",
-                    exceptions: [],
-                    doc: { tags: [] },
-                    see: [],
-                    augments: [],
-                    alias: "Sorter.register",
-                    returns: [],
-                    inherits: [],
-                    properties: [],
-                    version: "",
-                    type: "",
-                    isa: "FUNCTION",
-                    events: []
-                },
-                {
-                    name: "Record.getRecord",
-                    memberof: "",
+                    name: "add",
+                    memberof: "Filebox",
                     since: "",
                     classDesc: "",
                     _inheritsFrom: [],
@@ -223,7 +143,108 @@ var Record = function() {
                     doc: { tags: [] },
                     see: [],
                     augments: [],
-                    alias: "Record.getRecord",
+                    alias: "Filebox.add",
+                    returns: [],
+                    inherits: [],
+                    properties: [],
+                    version: "",
+                    type: "",
+                    isa: "FUNCTION",
+                    events: []
+                },
+                {
+                    name: "remove",
+                    memberof: "Filebox",
+                    since: "",
+                    classDesc: "",
+                    _inheritsFrom: [],
+                    file: { //circularReference
+                    },
+                    methods: [],
+                    params: [],
+                    deprecated: "",
+                    desc: "undocumented",
+                    exceptions: [],
+                    doc: { tags: [] },
+                    see: [],
+                    augments: [],
+                    alias: "Filebox.remove",
+                    returns: [],
+                    inherits: [],
+                    properties: [],
+                    version: "",
+                    type: "",
+                    isa: "FUNCTION",
+                    events: []
+                },
+                {
+                    name: "SecureFilebox",
+                    memberof: "",
+                    since: "",
+                    classDesc: "",
+                    _inheritsFrom: [],
+                    file: { //circularReference
+                    },
+                    methods: [
+                        {
+                            name: "shred",
+                            memberof: "SecureFilebox",
+                            since: "",
+                            classDesc: "",
+                            _inheritsFrom: [],
+                            file: { //circularReference
+                            },
+                            methods: [],
+                            params: [],
+                            deprecated: "",
+                            desc: "undocumented",
+                            exceptions: [],
+                            doc: { tags: [] },
+                            see: [],
+                            augments: [],
+                            alias: "SecureFilebox.shred",
+                            returns: [],
+                            inherits: [],
+                            properties: [],
+                            version: "",
+                            type: "",
+                            isa: "FUNCTION",
+                            events: []
+                        }
+                    ],
+                    params: [],
+                    deprecated: "",
+                    desc: "",
+                    exceptions: [],
+                    doc: { tags: [] },
+                    see: [],
+                    augments: [ "Filebox" ],
+                    alias: "SecureFilebox",
+                    returns: [],
+                    inherits: [],
+                    properties: [],
+                    version: "",
+                    type: "",
+                    isa: "CONSTRUCTOR",
+                    events: []
+                },
+                {
+                    name: "shred",
+                    memberof: "SecureFilebox",
+                    since: "",
+                    classDesc: "",
+                    _inheritsFrom: [],
+                    file: { //circularReference
+                    },
+                    methods: [],
+                    params: [],
+                    deprecated: "",
+                    desc: "undocumented",
+                    exceptions: [],
+                    doc: { tags: [] },
+                    see: [],
+                    augments: [],
+                    alias: "SecureFilebox.shred",
                     returns: [],
                     inherits: [],
                     properties: [],
@@ -233,7 +254,7 @@ var Record = function() {
                     events: []
                 }
             ],
-            filename: "scope.js",
+            filename: "augments.js",
             fileGroup: { //circularReference
             }
         }

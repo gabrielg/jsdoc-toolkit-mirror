@@ -1,40 +1,26 @@
-framework.addTo(
-	"FileWatcher.Widget",
-	/** @scope FileWatcher.Widget */
-	{
-		/** Set up the widget. */
-		initialize: function(container, args) {
-		}
-	}
-);
-
-Builder.make(
-	"Sorter",
-	/** @scope Sorter.prototype */
-	{
-		/** Register a sorting function. */
-		register: function(f) {
-		}
-	}
-);
-
-function Sorter() {
-	this.register = function(f) {
-	}
+/**
+ * @constructor
+ */
+function SafeDispose() {
 }
+SafeDispose.prototype.burn = function() {};
+SafeDispose.prototype.smash = function() {};
 
-var Record = function() {
-	return /** @scope Record */ {
-		getRecord: function() {}
-	};
-}();
+/**
+ * @constructor 
+ * @inherits SafeDispose.burn
+ */
+function SecureFile() {
+}
+SecureFile.prototype.shred = function() {};
+SecureFile.prototype.burn = SafeDispose.prototype.burn;
 
 /*
 {
     files: [
         {
             overview: {
-                name: "scope.js",
+                name: "inherits.js",
                 memberof: "",
                 since: "",
                 classDesc: "",
@@ -48,7 +34,7 @@ var Record = function() {
                 doc: { tags: [] },
                 see: [],
                 augments: [],
-                alias: "scope.js",
+                alias: "inherits.js",
                 returns: [],
                 inherits: [],
                 properties: [],
@@ -57,78 +43,11 @@ var Record = function() {
                 isa: "FILE",
                 events: []
             },
-            path: "examples/data/scope.js",
+            path: "examples/data/inherits.js",
             namespaces: [],
             symbols: [
                 {
-                    name: "FileWatcher.Widget.initialize",
-                    memberof: "",
-                    since: "",
-                    classDesc: "",
-                    _inheritsFrom: [],
-                    file: { //circularReference
-                    },
-                    methods: [],
-                    params: [
-                        {
-                            title: "param",
-                            desc: "",
-                            type: "",
-                            name: "container",
-                            isOptional: false
-                        },
-                        {
-                            title: "param",
-                            desc: "",
-                            type: "",
-                            name: "args",
-                            isOptional: false
-                        }
-                    ],
-                    deprecated: "",
-                    desc: "Set up the widget.",
-                    exceptions: [],
-                    doc: { tags: [] },
-                    see: [],
-                    augments: [],
-                    alias: "FileWatcher.Widget.initialize",
-                    returns: [],
-                    inherits: [],
-                    properties: [],
-                    version: "",
-                    type: "",
-                    isa: "FUNCTION",
-                    events: []
-                },
-                {
-                    name: "register",
-                    memberof: "Sorter",
-                    since: "",
-                    classDesc: "",
-                    _inheritsFrom: [],
-                    file: { //circularReference
-                    },
-                    methods: [],
-                    params: [
-                        { title: "param", desc: "", type: "", name: "f", isOptional: false }
-                    ],
-                    deprecated: "",
-                    desc: "Register a sorting function.",
-                    exceptions: [],
-                    doc: { tags: [] },
-                    see: [],
-                    augments: [],
-                    alias: "Sorter.register",
-                    returns: [],
-                    inherits: [],
-                    properties: [],
-                    version: "",
-                    type: "",
-                    isa: "FUNCTION",
-                    events: []
-                },
-                {
-                    name: "Sorter",
+                    name: "SafeDispose",
                     memberof: "",
                     since: "",
                     classDesc: "",
@@ -137,24 +56,47 @@ var Record = function() {
                     },
                     methods: [
                         {
-                            name: "register",
-                            memberof: "Sorter",
+                            name: "burn",
+                            memberof: "SafeDispose",
                             since: "",
                             classDesc: "",
                             _inheritsFrom: [],
                             file: { //circularReference
                             },
                             methods: [],
-                            params: [
-                                { title: "param", desc: "", type: "", name: "f", isOptional: false }
-                            ],
+                            params: [],
                             deprecated: "",
                             desc: "undocumented",
                             exceptions: [],
                             doc: { tags: [] },
                             see: [],
                             augments: [],
-                            alias: "Sorter.register",
+                            alias: "SafeDispose.burn",
+                            returns: [],
+                            inherits: [],
+                            properties: [],
+                            version: "",
+                            type: "",
+                            isa: "FUNCTION",
+                            events: []
+                        },
+                        {
+                            name: "smash",
+                            memberof: "SafeDispose",
+                            since: "",
+                            classDesc: "",
+                            _inheritsFrom: [],
+                            file: { //circularReference
+                            },
+                            methods: [],
+                            params: [],
+                            deprecated: "",
+                            desc: "undocumented",
+                            exceptions: [],
+                            doc: { tags: [] },
+                            see: [],
+                            augments: [],
+                            alias: "SafeDispose.smash",
                             returns: [],
                             inherits: [],
                             properties: [],
@@ -166,50 +108,23 @@ var Record = function() {
                     ],
                     params: [],
                     deprecated: "",
-                    desc: "undocumented",
+                    desc: "",
                     exceptions: [],
                     doc: { tags: [] },
                     see: [],
                     augments: [],
-                    alias: "Sorter",
+                    alias: "SafeDispose",
                     returns: [],
                     inherits: [],
                     properties: [],
                     version: "",
                     type: "",
-                    isa: "FUNCTION",
+                    isa: "CONSTRUCTOR",
                     events: []
                 },
                 {
-                    name: "register",
-                    memberof: "Sorter",
-                    since: "",
-                    classDesc: "",
-                    _inheritsFrom: [],
-                    file: { //circularReference
-                    },
-                    methods: [],
-                    params: [
-                        { title: "param", desc: "", type: "", name: "f", isOptional: false }
-                    ],
-                    deprecated: "",
-                    desc: "undocumented",
-                    exceptions: [],
-                    doc: { tags: [] },
-                    see: [],
-                    augments: [],
-                    alias: "Sorter.register",
-                    returns: [],
-                    inherits: [],
-                    properties: [],
-                    version: "",
-                    type: "",
-                    isa: "FUNCTION",
-                    events: []
-                },
-                {
-                    name: "Record.getRecord",
-                    memberof: "",
+                    name: "burn",
+                    memberof: "SafeDispose",
                     since: "",
                     classDesc: "",
                     _inheritsFrom: [],
@@ -223,7 +138,108 @@ var Record = function() {
                     doc: { tags: [] },
                     see: [],
                     augments: [],
-                    alias: "Record.getRecord",
+                    alias: "SafeDispose.burn",
+                    returns: [],
+                    inherits: [],
+                    properties: [],
+                    version: "",
+                    type: "",
+                    isa: "FUNCTION",
+                    events: []
+                },
+                {
+                    name: "smash",
+                    memberof: "SafeDispose",
+                    since: "",
+                    classDesc: "",
+                    _inheritsFrom: [],
+                    file: { //circularReference
+                    },
+                    methods: [],
+                    params: [],
+                    deprecated: "",
+                    desc: "undocumented",
+                    exceptions: [],
+                    doc: { tags: [] },
+                    see: [],
+                    augments: [],
+                    alias: "SafeDispose.smash",
+                    returns: [],
+                    inherits: [],
+                    properties: [],
+                    version: "",
+                    type: "",
+                    isa: "FUNCTION",
+                    events: []
+                },
+                {
+                    name: "SecureFile",
+                    memberof: "",
+                    since: "",
+                    classDesc: "",
+                    _inheritsFrom: [],
+                    file: { //circularReference
+                    },
+                    methods: [
+                        {
+                            name: "shred",
+                            memberof: "SecureFile",
+                            since: "",
+                            classDesc: "",
+                            _inheritsFrom: [],
+                            file: { //circularReference
+                            },
+                            methods: [],
+                            params: [],
+                            deprecated: "",
+                            desc: "undocumented",
+                            exceptions: [],
+                            doc: { tags: [] },
+                            see: [],
+                            augments: [],
+                            alias: "SecureFile.shred",
+                            returns: [],
+                            inherits: [],
+                            properties: [],
+                            version: "",
+                            type: "",
+                            isa: "FUNCTION",
+                            events: []
+                        }
+                    ],
+                    params: [],
+                    deprecated: "",
+                    desc: "",
+                    exceptions: [],
+                    doc: { tags: [] },
+                    see: [],
+                    augments: [],
+                    alias: "SecureFile",
+                    returns: [],
+                    inherits: [ "SafeDispose.burn" ],
+                    properties: [],
+                    version: "",
+                    type: "",
+                    isa: "CONSTRUCTOR",
+                    events: []
+                },
+                {
+                    name: "shred",
+                    memberof: "SecureFile",
+                    since: "",
+                    classDesc: "",
+                    _inheritsFrom: [],
+                    file: { //circularReference
+                    },
+                    methods: [],
+                    params: [],
+                    deprecated: "",
+                    desc: "undocumented",
+                    exceptions: [],
+                    doc: { tags: [] },
+                    see: [],
+                    augments: [],
+                    alias: "SecureFile.shred",
                     returns: [],
                     inherits: [],
                     properties: [],
@@ -233,7 +249,7 @@ var Record = function() {
                     events: []
                 }
             ],
-            filename: "scope.js",
+            filename: "inherits.js",
             fileGroup: { //circularReference
             }
         }

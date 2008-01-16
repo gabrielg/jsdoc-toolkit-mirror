@@ -262,9 +262,11 @@ if (thisClass.events) thisClass.events.sort(byName);
 	<ul>
 		<if test="property.deprecated"><br/><b>Deprecated {+property.deprecated.desc+}</b><br/></if>
 		{+property.desc+}
+		<if test="property.doc">
 		<for each="since" in="property.doc.getTag('since')">
 			<br><b>Since:</b> {+since+}<br/>
 		</for>
+		</if>
 	</ul>
 	<hr>
 </for>

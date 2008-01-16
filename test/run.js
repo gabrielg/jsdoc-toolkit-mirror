@@ -151,6 +151,7 @@ var testCases = [
 		is('jsdoc[0].symbols[7].alias', "Document.title", 'Virtual object inside an object literal can be seen.');
 	},
 	function() {
+		JsDoc.opt = {A:true};
 		testFile(__DIR__+"test/data/properties.js");
 		is('jsdoc[0].symbols[1].properties[0].name', "methodId", 'Property in doc comment is added to parent.');
 		is('jsdoc[0].symbols[1].properties[0].type', "Number", 'Property in doc comment has type.');
@@ -194,9 +195,8 @@ var testCases = [
 	function() {
 		JsDoc.opt = {};
 		testFile(__DIR__+"test/data/allfuncs_option.js");
-		is('jsdoc[0].symbols.length', 1, 'Documented method of undocumented parent found without -a or -A.');
-		is('jsdoc[0].symbols[0].alias', "_Action.passTo", 'Documented method of undocumented parent alias includes parent.');
-
+		is('jsdoc[0].symbols.length', 0, 'Documented method of undocumented parent ignored without -a or -A.');
+		
 		JsDoc.opt = {A:true};
 		testFile(__DIR__+"test/data/allfuncs_option.js");
 		is('jsdoc[0].symbols.length', 5, 'All functions found with -A.');
@@ -272,8 +272,7 @@ var testCases = [
 		is('jsdoc[0].symbols[6].augments[0]', "Page", 'The extends tag is a synonym for augments.');
 		is('jsdoc[1].symbols[4].augments[0]', "ThreeColumnPage", 'Can augment across file boundaries.');
 		is('jsdoc[1].symbols[4].augments.length', 2, 'Multiple augments are supported.');
-		is('jsdoc[1].symbols[4].inherits[0]', "Junkmail.annoy", 'Inherited method with augments.');
-		is('jsdoc[1].symbols[4].getInheritedMethods().length', 5, 'getInheritedMethods() returns all.');
+		is('jsdoc[1].symbols[4].getInheritedMethods().length', 4, 'getInheritedMethods() returns all.');
 	},
 	function() {
 		JsDoc.opt = {A: true};
@@ -345,7 +344,7 @@ var testCases = [
 	function() {
 		JsDoc.opt = {a: true};
 		testFile(__DIR__+"test/data/shortcuts.js");
-		print(Dumper.dump(jsdoc));
+		//print(Dumper.dump(jsdoc));
 		is('jsdoc[0].symbols[1].alias', 'Date.locale', 'Shortcut with prototype is applied.');
 		is('jsdoc[0].symbols[1].memberof', 'Date', 'memberOf of shortcut with prototype is applied.');
 		is('jsdoc[0].symbols[2].alias', 'Number.nth', 'Shortcut can contain regex meta characters.');

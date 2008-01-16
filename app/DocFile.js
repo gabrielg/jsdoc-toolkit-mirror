@@ -59,13 +59,30 @@ function DocFile(path) {
  * @param {object} opt Passed in from the command line.
  */
 DocFile.prototype.addSymbols = function(symbols, opt) {
+
 	for (var s = 0; s < symbols.length; s++) {
 		if (symbols[s].doc.getTag("ignore").length)
 			continue;
 			
 		if (symbols[s].isPrivate && !opt.p)
 			continue;
-			
+		
+		
+		if (symbols[s].inherits.length) {
+			for (var i = 0; i < symbols[s].inherits.length; i++) {
+				var inherited = symbols.filter(function($){return $.alias == symbols[s].inherits[i].alias});
+				var inheritedAs = symbols[s].inherits[i].as;
+				if (inherited && inherited[0]) {
+					inherited = inherited[0];
+					inheritedAs = inheritedAs.replace(/\.prototype\.?/g, "/");
+					var copy = inherited.clone();
+					copy.name = copy.alias = inheritedAs;
+					symbols.push(copy);
+				}
+			}
+		}
+		
+		
 		if (symbols[s].isStatic && symbols[s].isa == "CONSTRUCTOR") {
 			this.namespaces.push(symbols[s].alias);
 		}
@@ -97,10 +114,10 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			symbols[s].doc._dropTag("memberof");
 		}
 		
+		if (/(^_|[.\/]_)/.test(symbols[s].name) && !opt.A) {
+			continue;
+		}
 		if (symbols[s].desc == "undocumented") {
-			if (/(^_|[.\/]_)/.test(symbols[s].name) && !opt.A) {
-				continue;
-			}
 			if (!opt.a && !opt.A) {
 				continue;
 			}

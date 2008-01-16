@@ -69,6 +69,7 @@ function Symbol(name, params, isa, comment) {
 	this.exceptions = [];
     this.events = [];
 	this.doc = new Doclet(comment);
+	this.comment = comment;
 	this.see = [];
 	
 	// move certain data out of the tags and into the Symbol
@@ -211,7 +212,16 @@ function Symbol(name, params, isa, comment) {
 		var inherits;
 		if ((inherits = this.doc.getTag("inherits")) && inherits.length) {
 			for (var i = 0; i < inherits.length; i++) {
-				this.inherits.push(inherits[i].desc);
+				if (/^\s*([a-z$0-9_.#]+)(?:\s+as\s+([a-z$0-9_.#]+))?/i.test(inherits[i].desc)) {
+					var inAlias = RegExp.$1;
+					var inAs = RegExp.$2 || inAlias;
+					if (inAs.indexOf(this.alias) != 0) {
+						inAs = this.alias+"."+inAs;
+					}
+					inAs = inAs.replace(/\.this\.?/, "/");
+				}
+
+				this.inherits.push({alias: inAlias, as: inAs});
 			}
 			this.doc._dropTag("inherits");
 		}
@@ -276,11 +286,11 @@ function isUnique(arr) {
 }
 
 Symbol.prototype.getInheritedMethods = function(r) {
-	var inherited = [];
-	for(var i = 0; i < this.inherits.length; i++) {
-		inherited.push(this.file.fileGroup.getSymbol(this.inherits[i]));
-	}
-	var result = this.methods.concat(inherited);
+	//var inherited = [];
+	//for(var i = 0; i < this.inherits.length; i++) {
+	//	inherited.push(this.file.fileGroup.getSymbol(this.inherits[i]));
+	//}
+	var result = this.methods;//.concat(inherited);
 	for(var i = 0; i < this.augments.length; i++) {
 		var contributer = this.file.fileGroup.getSymbol(this.augments[i]);
 		if (contributer) {
@@ -311,4 +321,16 @@ Symbol.prototype.getInheritedMethods = function(r) {
 		result = result.filter(notLocal);
 	}
 	return result;
+}
+
+Symbol.prototype.clone = function() {
+	var dop = new Symbol(this.name, [], this.isa, this.comment);
+	
+	for (var i in this.params) {
+		for (var j in this.params[i]) {
+			if (this.params[i][j].constructor == String)
+				dop.params[i][j] = this.params[i][j];
+		}
+	}
+	return dop;
 }

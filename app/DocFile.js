@@ -114,15 +114,6 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			symbols[s].doc._dropTag("memberof");
 		}
 		
-		if (/(^_|[.\/]_)/.test(symbols[s].name) && !opt.A) {
-			continue;
-		}
-		if (symbols[s].desc == "undocumented") {
-			if (!opt.a && !opt.A) {
-				continue;
-			}
-		}
-		
 		// is this a member of another object?
 		// TODO this relationship may span files, so should move into DocFileGroup?
 		var parts = null;
@@ -133,8 +124,6 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 			var parentName = parts[1].replace(/\//g, ".");
 			var childName = parts[2];
 			
-			
-				
 			symbols[s].alias = symbols[s].name.replace(/\//g, ".");
 			symbols[s].name = childName;
 			symbols[s].memberof = parentName;
@@ -168,6 +157,21 @@ DocFile.prototype.addSymbols = function(symbols, opt) {
 		
 		this.symbols.push(symbols[s]);
 	}
+	
+	this.symbols = this.symbols.filter(
+		function($) {
+			if (!opt) return true;
+			if (/(^_|[.\/]_)/.test($.name) && !opt.A) {
+				return false;
+			}
+			if ($.desc == "undocumented") {
+				if (!opt.a && !opt.A) {
+					return false;
+				}
+			}
+			return true;
+		}
+	);
 }
 
 /**

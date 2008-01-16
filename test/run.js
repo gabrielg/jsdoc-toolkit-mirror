@@ -195,7 +195,7 @@ var testCases = [
 	function() {
 		JsDoc.opt = {};
 		testFile(__DIR__+"test/data/allfuncs_option.js");
-		is('jsdoc[0].symbols.length', 0, 'Documented method of undocumented parent ignored without -a or -A.');
+		is('jsdoc[0].symbols.length', 1, 'Documented method of undocumented parent visible without -a or -A.');
 		
 		JsDoc.opt = {A:true};
 		testFile(__DIR__+"test/data/allfuncs_option.js");

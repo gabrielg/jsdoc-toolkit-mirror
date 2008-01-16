@@ -286,11 +286,7 @@ function isUnique(arr) {
 }
 
 Symbol.prototype.getInheritedMethods = function(r) {
-	//var inherited = [];
-	//for(var i = 0; i < this.inherits.length; i++) {
-	//	inherited.push(this.file.fileGroup.getSymbol(this.inherits[i]));
-	//}
-	var result = this.methods;//.concat(inherited);
+	var result = this.methods;
 	for(var i = 0; i < this.augments.length; i++) {
 		var contributer = this.file.fileGroup.getSymbol(this.augments[i]);
 		if (contributer) {
